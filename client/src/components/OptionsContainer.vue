@@ -1,8 +1,6 @@
 <template>
     <div class="options-container">
       <degree-selector />
-      <!--<network-db-selector />-->
-      <!--<pathway-db-selector />-->
       <select-new-pathways-button />
       <color-selector-container />
     </div>
@@ -10,9 +8,7 @@
 
 <script>
 import DegreeSelector from './OptionsContainer/DegreeSelector.vue';
-// import PathwayDbSelector from './OptionsContainer/PathwayDbSelector.vue';
 import ColorSelectorContainer from './OptionsContainer/ColorSelectorContainer.vue';
-// import NetworkDbSelector from "./OptionsContainer/NetworkDbSelector";
 import SelectNewPathwaysButton from './OptionsContainer/SelectNewPathwaysButton.vue';
 
 export default {
@@ -20,9 +16,7 @@ export default {
   components: {
     SelectNewPathwaysButton,
     DegreeSelector,
-    // NetworkDbSelector,
     ColorSelectorContainer,
-    // PathwayDbSelector,
   },
 };
 </script>

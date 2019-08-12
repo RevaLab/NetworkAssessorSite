@@ -1,6 +1,6 @@
 <template>
   <div class="network-db-selector">
-    <div class="form-input" v-for="network in networkDbs">
+    <div class="form-input" v-for="network in networkDbs" :key="network">
       <input type="radio" :id="network" :value="network" v-model="selectedNetworkDb">
       <label :for="network">{{ network }}</label>
     </div>
