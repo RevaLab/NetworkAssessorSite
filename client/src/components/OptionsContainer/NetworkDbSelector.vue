@@ -1,6 +1,6 @@
 <template>
   <div class="network-db-selector">
-    <div class="form-input" v-for="network in networkDbs">
+    <div class="form-input" v-for="network in networkDbs" :key="network">
       <input type="radio" :id="network" :value="network" v-model="selectedNetworkDb">
       <label :for="network">{{ network }}</label>
     </div>
@@ -8,22 +8,22 @@
 </template>
 
 <script>
-  export default {
-      name: "network-db-selector",
-      computed: {
-        selectedNetworkDb: {
-          set(networkDb) {
-            this.$store.dispatch('updateSelectedNetworkDb', networkDb)
-          },
-          get() {
-            return this.$store.state.selectedNetworkDb;
-          }
-        },
-        networkDbs() {
-          return this.$store.state.networkDbs;
-        }
+export default {
+  name: 'network-db-selector',
+  computed: {
+    selectedNetworkDb: {
+      set(networkDb) {
+        this.$store.dispatch('updateSelectedNetworkDb', networkDb);
       },
-  }
+      get() {
+        return this.$store.state.selectedNetworkDb;
+      },
+    },
+    networkDbs() {
+      return this.$store.state.networkDbs;
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">

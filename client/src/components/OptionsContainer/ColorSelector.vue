@@ -20,12 +20,12 @@
 </template>
 
 <script>
-import Swatches from 'vue-swatches'
+import Swatches from 'vue-swatches';
 
 export default {
   name: 'color-selector',
   props: {
-    'pathway': Number,
+    pathway: Number,
   },
   components: { Swatches },
   data() {
@@ -34,26 +34,26 @@ export default {
         width: '20px',
         height: '20px',
         margin: '5px',
-      }
-    }
+      },
+    };
   },
   computed: {
     color: {
       set(val) {
-        this.updateColor(val)
+        this.updateColor(val);
       },
       get() {
-        return this.$store.state.k_pathway_v_color[this.pathway]
+        return this.$store.state.k_pathway_v_color[this.pathway];
       },
     },
     pathways() {
       return this.$store.state.selectedPathways;
     },
     pathwayName() {
-      return this.$store.state.k_pathway_v_details[this.pathway].name
+      return this.$store.state.k_pathway_v_details[this.pathway].name;
     },
     modalName() {
-      return `${this.pathway}-color-modal`
+      return `${this.pathway}-color-modal`;
     },
   },
   methods: {
@@ -63,9 +63,10 @@ export default {
         {
           color,
           pathway: this.pathway,
-        })
+        },
+      );
     },
-    showSwatchModal () {
+    showSwatchModal() {
       this.$modal.show(this.modalName);
     },
   },

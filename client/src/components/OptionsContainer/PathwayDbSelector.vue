@@ -12,19 +12,19 @@
 </template>
 
 <script>
-    export default {
-        name: "pathway-db-selector",
-        computed: {
-          selectedPathwayDb: {
-            set(pathwayDb) {
-              this.$store.dispatch('updateSelectedPathwayDb', pathwayDb)
-            },
-            get() {
-              return this.$store.state.selectedPathwayDb;
-            }
-          }
-        },
-    }
+export default {
+  name: 'pathway-db-selector',
+  computed: {
+    selectedPathwayDb: {
+      set(pathwayDb) {
+        this.$store.dispatch('updateSelectedPathwayDb', pathwayDb);
+      },
+      get() {
+        return this.$store.state.selectedPathwayDb;
+      },
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">

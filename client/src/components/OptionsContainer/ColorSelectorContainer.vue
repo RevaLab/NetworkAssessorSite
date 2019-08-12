@@ -20,7 +20,7 @@ export default {
   computed: {
     pathways() {
       return [0, ...this.$store.state.selectedPathways];
-    }
+    },
   },
 };
 </script>
