@@ -22,8 +22,8 @@ export default new Vuex.Store({
       5: [],
     },
     k_graph_v_elements: {
-      // 1: network[1],
-      // 2: network[2],
+      1: network[1],
+      2: network[2],
     },
     k_networkDatabases_v_details: {
       1: { name: 'test', networks: [1, 2, 3] },
@@ -135,8 +135,8 @@ export default new Vuex.Store({
           {
             genes,
             selectedPathways,
-            // 'genes': ['A', 'B', 'C'],
-            // selectedPathways: [1],
+            'genes': ['A', 'B', 'C'],
+            selectedPathways: [1],
           },
         );
         store.commit('LOAD_NETWORK', response.data.network);
