@@ -8,12 +8,12 @@
 
 <script>
 
-import PathwaySelector from "./PathwaySelector";
+import PathwaySelector from './PathwaySelector.vue';
 
 export default {
   name: 'pathway-selector-container',
   components: {
-    PathwaySelector
+    PathwaySelector,
   },
   computed: {
     allPathways() {
@@ -21,8 +21,8 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('updateSelectedPathwaysPending', this.$store.state.selectedPathways)
-  }
+    this.$store.dispatch('updateSelectedPathwaysPending', this.$store.state.selectedPathways);
+  },
 };
 </script>
 

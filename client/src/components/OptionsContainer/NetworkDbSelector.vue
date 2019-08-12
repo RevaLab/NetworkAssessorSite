@@ -8,22 +8,22 @@
 </template>
 
 <script>
-  export default {
-      name: "network-db-selector",
-      computed: {
-        selectedNetworkDb: {
-          set(networkDb) {
-            this.$store.dispatch('updateSelectedNetworkDb', networkDb)
-          },
-          get() {
-            return this.$store.state.selectedNetworkDb;
-          }
-        },
-        networkDbs() {
-          return this.$store.state.networkDbs;
-        }
+export default {
+  name: 'network-db-selector',
+  computed: {
+    selectedNetworkDb: {
+      set(networkDb) {
+        this.$store.dispatch('updateSelectedNetworkDb', networkDb);
       },
-  }
+      get() {
+        return this.$store.state.selectedNetworkDb;
+      },
+    },
+    networkDbs() {
+      return this.$store.state.networkDbs;
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">

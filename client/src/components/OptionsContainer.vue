@@ -9,22 +9,22 @@
 </template>
 
 <script>
-  import DegreeSelector from './OptionsContainer/DegreeSelector.vue'
-  // import PathwayDbSelector from './OptionsContainer/PathwayDbSelector.vue';
-  import ColorSelectorContainer from "./OptionsContainer/ColorSelectorContainer";
-  // import NetworkDbSelector from "./OptionsContainer/NetworkDbSelector";
-  import SelectNewPathwaysButton from "./OptionsContainer/SelectNewPathwaysButton";
+import DegreeSelector from './OptionsContainer/DegreeSelector.vue';
+// import PathwayDbSelector from './OptionsContainer/PathwayDbSelector.vue';
+import ColorSelectorContainer from './OptionsContainer/ColorSelectorContainer.vue';
+// import NetworkDbSelector from "./OptionsContainer/NetworkDbSelector";
+import SelectNewPathwaysButton from './OptionsContainer/SelectNewPathwaysButton.vue';
 
-    export default {
-      name: "options-container",
-      components: {
-        SelectNewPathwaysButton,
-        DegreeSelector,
-        // NetworkDbSelector,
-        ColorSelectorContainer,
-        // PathwayDbSelector,
-      },
-    }
+export default {
+  name: 'options-container',
+  components: {
+    SelectNewPathwaysButton,
+    DegreeSelector,
+    // NetworkDbSelector,
+    ColorSelectorContainer,
+    // PathwayDbSelector,
+  },
+};
 </script>
 
 <style scoped>

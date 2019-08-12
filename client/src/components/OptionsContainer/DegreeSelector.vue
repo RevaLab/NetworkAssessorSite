@@ -12,19 +12,19 @@
 </template>
 
 <script>
-    export default {
-        name: "degree-selector",
-        computed: {
-          selectedDegree: {
-            set(selectedDegree) {
-              this.$store.dispatch('updateSelectedDegree', selectedDegree)
-            },
-            get() {
-              return this.$store.state.selectedDegree;
-            }
-          }
-        },
-    }
+export default {
+  name: 'degree-selector',
+  computed: {
+    selectedDegree: {
+      set(selectedDegree) {
+        this.$store.dispatch('updateSelectedDegree', selectedDegree);
+      },
+      get() {
+        return this.$store.state.selectedDegree;
+      },
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">

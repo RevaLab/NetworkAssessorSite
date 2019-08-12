@@ -4,11 +4,11 @@
 </template>
 
 <script>
-import graph from '@/testCytoscapeData.js'
 
 import cytoscape from 'cytoscape';
 import coseBilkent from 'cytoscape-cose-bilkent';
-import options from '@/cytoscapeOptions.js';
+// import graph from '@/testCytoscapeData';
+import options from '@/cytoscapeOptions';
 
 cytoscape.use(coseBilkent);
 let cy;
@@ -30,31 +30,31 @@ export default {
       return this.$store.state.selectedNetwork;
     },
     elements() {
-      console.log("ELEMENTS:", this.$store.state.k_graph_v_elements[this.selectedNetwork]);
+      console.log('ELEMENTS:', this.$store.state.k_graph_v_elements[this.selectedNetwork]);
       return this.$store.state.k_graph_v_elements[this.selectedNetwork];
     },
   },
   watch: {
     k_pathway_v_color: {
       handler(newColors) {
-        options.styleNodes(cy, this.k_gene_v_pathways, newColors, this.selectedPathways)
+        options.styleNodes(cy, this.k_gene_v_pathways, newColors, this.selectedPathways);
       },
-      deep: true
+      deep: true,
     },
     elements: {
       handler() {
         cy.destroy();
         this.runCytoscape();
-      }
+      },
     },
     selectedPathways: {
       handler() {
-        options.styleNodes(cy, this.k_gene_v_pathways, this.k_pathway_v_color, this.selectedPathways)
-      }
-    }
+        options.styleNodes(cy, this.k_gene_v_pathways, this.k_pathway_v_color, this.selectedPathways);
+      },
+    },
   },
   mounted() {
-    this.runCytoscape()
+    this.runCytoscape();
   },
   methods: {
     runCytoscape() {
@@ -65,7 +65,7 @@ export default {
         layout: {
           name: 'cose-bilkent',
           ...options.coseOptions,
-          condense: true
+          condense: true,
         },
         style: [
           {
@@ -80,9 +80,9 @@ export default {
       });
 
       // style network
-      options.styleNodes(cy, this.k_gene_v_pathways, this.k_pathway_v_color, this.selectedPathways)
-    }
-  }
+      options.styleNodes(cy, this.k_gene_v_pathways, this.k_pathway_v_color, this.selectedPathways);
+    },
+  },
 };
 
 </script>

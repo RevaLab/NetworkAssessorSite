@@ -11,25 +11,25 @@
 </template>
 
 <script>
-    // import PathwaySelector from "./PathwaySelector";
-    import PathwaySelectorContainer from "./PathwaySelectorContainer";
-    import RedrawNetworkButton from "./RedrawNetworkButton";
+// import PathwaySelector from "./PathwaySelector";
+import PathwaySelectorContainer from './PathwaySelectorContainer.vue';
+import RedrawNetworkButton from './RedrawNetworkButton.vue';
 
-    export default {
-      components: {
-        RedrawNetworkButton,
-        PathwaySelectorContainer,
-        // PathwaySelector
-      },
-      name: "select-new-pathways-button",
-        methods: {
-          showSelectPathwayModal() {
-            this.$modal.show('newPathwaysModal', {}, {
-              scrollable: true,
-            });
-          }
-        },
-    }
+export default {
+  components: {
+    RedrawNetworkButton,
+    PathwaySelectorContainer,
+    // PathwaySelector
+  },
+  name: 'select-new-pathways-button',
+  methods: {
+    showSelectPathwayModal() {
+      this.$modal.show('newPathwaysModal', {}, {
+        scrollable: true,
+      });
+    },
+  },
+};
 </script>
 
 <style>

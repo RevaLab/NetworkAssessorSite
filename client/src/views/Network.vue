@@ -22,7 +22,7 @@ export default {
     this.$store.dispatch('loadNetwork', {
       genes: ['A', 'B', 'C'],
       selectedPathways: [],
-    })
+    });
   },
 };
 </script>
