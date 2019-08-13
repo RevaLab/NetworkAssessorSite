@@ -88,7 +88,6 @@ class QueryList extends React.Component {
               <Columns.Column size="half">
                 <Field>
                   <Control>
-                    <Label for="filter-genes-toggle">
                     <Switch
                       id="filter-genes-toggle"
                       checked={this.props.filtering}
@@ -96,7 +95,6 @@ class QueryList extends React.Component {
                     >
                     {switchText}
                     </Switch>
-                    </Label>
                   </Control>
                 </Field>
               </Columns.Column>
