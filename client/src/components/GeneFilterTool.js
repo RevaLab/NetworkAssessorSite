@@ -12,6 +12,7 @@ const { Field, Control, Input } = Form;
 class GeneFilterTool extends React.Component {
   state = {
     search: '',
+    sortedGenes: this.props.queryGenes.sort(),
     visibleGenes: this.props.queryGenes,
   }
 
@@ -25,16 +26,22 @@ class GeneFilterTool extends React.Component {
       return gene.toLowerCase().includes(e.target.value.toLowerCase())
     });
 
+    const sortedGenes = this.props.queryGenes.sort(gene => {
+      return gene.toLowerCase().includes(e.target.value.toLowerCase()) ? -1 : 1;
+    });
+
     this.setState({
       search: e.target.value,
+      sortedGenes,
       visibleGenes,
     });
   }
 
   render() {
-    const genes = this.state.visibleGenes.map(gene => {
+    const genes = this.state.sortedGenes.map(gene => {
       const checked = this.props.filteredGenes[gene];
-      const colorHelper = checked ? '' : "has-text-grey-light";
+      const visible = this.state.visibleGenes.includes(gene);
+      const colorHelper = !checked || !visible ? "has-text-grey-light" : '';
 
       return (
         <Field key={gene}>
