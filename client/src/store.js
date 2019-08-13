@@ -2,8 +2,10 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers/rootReducer';
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const mockState = {
-  queryUI: {
+  queryUIReducer: {
     queryList: [
       "gene_1",
       "gene_2",
@@ -37,12 +39,14 @@ const mockState = {
   },
 };
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export default function configureStore(initialState = {}) {
  return createStore(
   rootReducer,
-  mockState,
+  {
+    ...initialState,
+    queryUIReducer: mockState.queryUIReducer,
+  },
   composeEnhancers(
     applyMiddleware(thunk),
   )
