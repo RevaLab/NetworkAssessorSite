@@ -16,14 +16,19 @@ import GeneFilterTool from './GeneFilterTool';
 class QueryUI extends React.Component {
   state = {
     queryGenes: [],
-    filteredGenes: [],
+    filteredGenes: {
+
+    },
     filtering: false,
   }
 
   updateQueryGenes = (queryGenes) => {
     this.setState({
       queryGenes,
-      filteredGenes: queryGenes,
+      filteredGenes: Object.fromEntries(queryGenes.map(gene => [
+        gene,
+        true,
+      ])),
     });
   }
 
@@ -39,23 +44,20 @@ class QueryUI extends React.Component {
     })
   }
 
-  removeGeneFromFiltered = (targetGene) => {
-    const filteredGenes = this.state.filteredGenes.filter(gene => gene !== targetGene);
+  toggleFiltered = (gene, value) => {
     this.setState({
-      filteredGenes,
-    })
-  }
-
-  addGeneToFiltered = (newGene) => {
-    this.setState({
-      filteredGenes: [
+      filteredGenes: {
         ...this.state.filteredGenes,
-        newGene,
-      ]
+        [gene]: value,
+      }
     })
   }
 
   render() {
+    const filteredGenesList =
+      Object.entries(this.state.filteredGenes).reduce((acc, [k, v]) => {
+        return v ? [...acc, k] : acc;
+      }, [])
     return (
       <div>
         <Section>
@@ -70,7 +72,8 @@ class QueryUI extends React.Component {
                 />
               </Columns.Column>
               <Columns.Column>
-                <FilteredGenes genes={this.state.filteredGenes} />
+                <FilteredGenes genes={filteredGenesList}
+                />
               </Columns.Column>
             </Columns>
           </Container>
@@ -80,8 +83,7 @@ class QueryUI extends React.Component {
             <GeneFilterTool
               queryGenes={this.state.queryGenes}
               filteredGenes={this.state.filteredGenes}
-              removeGeneFromFiltered={this.removeGeneFromFiltered}
-              addGeneToFiltered={this.addGeneToFiltered}
+              toggleFiltered={this.toggleFiltered}
             />
           </Section>
         }

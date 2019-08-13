@@ -13,12 +13,7 @@ class GeneFilterTool extends React.Component {
 
   handleToggle = (event, gene) => {
     const checked = event.target.checked;
-
-    if (checked) {
-      this.props.addGeneToFiltered(gene)
-    } else {
-      this.props.removeGeneFromFiltered(gene)
-    }
+    this.props.toggleFiltered(gene, checked);
   }
 
   render() {
@@ -30,7 +25,7 @@ class GeneFilterTool extends React.Component {
           </Form.Label>
           <Form.Control>
             <Form.Checkbox
-              checked={this.props.filteredGenes.indexOf(gene) > -1}
+              checked={this.props.filteredGenes[gene]}
               onChange={(event) => this.handleToggle(event, gene)}
             >
             </Form.Checkbox>
