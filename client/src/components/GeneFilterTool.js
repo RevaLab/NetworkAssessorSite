@@ -1,9 +1,12 @@
 import React from 'react';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import {
+  Box,
   Form,
 } from 'react-bulma-components';
+import Switch from 'react-bulma-switch/full';
 
+const { Field, Label, Control } = Form;
 
 
 class GeneFilterTool extends React.Component {
@@ -19,25 +22,27 @@ class GeneFilterTool extends React.Component {
   render() {
     const genes = this.props.queryGenes.map(gene => {
       return (
-        <Form.Field key={gene}>
-          <Form.Label>
-            {gene}
-          </Form.Label>
-          <Form.Control>
-            <Form.Checkbox
+        <Field key={gene}>
+          <Control>
+            <Label for={`filter-tool-${gene}`}>
+            <Switch
+              thin
+              id={`filter-tool-${gene}`}
               checked={this.props.filteredGenes[gene]}
               onChange={(event) => this.handleToggle(event, gene)}
             >
-            </Form.Checkbox>
-          </Form.Control>
-        </Form.Field>
+            {gene}
+            </Switch>
+            </Label>
+          </Control>
+        </Field>
       )
     })
 
     return (
-      <div>
+      <Box className="GeneFilterTool">
         {genes}
-      </div>
+      </Box>
     );
   }
 }

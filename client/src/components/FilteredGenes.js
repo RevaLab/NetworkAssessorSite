@@ -7,6 +7,7 @@ import {
   Form,
   Box,
 } from 'react-bulma-components';
+const { Field, Label } = Form;
 
 class FilteredGenes extends React.Component {
   render() {
@@ -17,10 +18,10 @@ class FilteredGenes extends React.Component {
     ));
 
     return (
-      <Form.Field className="FilteredGenes">
-        <Form.Label>
+      <Field className="FilteredGenes">
+        <Label>
           Filtered Genes
-        </Form.Label>
+        </Label>
         <span>Filtered List: {this.props.genes.length} Genes</span>
         <Box>
           {
@@ -34,7 +35,7 @@ class FilteredGenes extends React.Component {
             </span>
           }
         </Box>
-      </Form.Field>
+      </Field>
     );
   }
 }

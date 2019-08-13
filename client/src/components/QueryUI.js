@@ -39,6 +39,7 @@ class QueryUI extends React.Component {
   }
 
   toggleFiltering = () => {
+    if (!this.state.queryGenes.length) return;
     this.setState({
       filtering: !this.state.filtering,
     })
