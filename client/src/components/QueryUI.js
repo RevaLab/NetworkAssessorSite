@@ -63,20 +63,12 @@ class QueryUI extends React.Component {
       <div>
         <Section>
           <Container breakpoint="widescreen">
-            <Columns>
-              <Columns.Column>
-                <QueryList
-                  genes={this.state.queryGenes}
-                  updateGenes={this.updateQueryGenes}
-                  filtering={this.state.filtering}
-                  toggleFiltering={this.toggleFiltering}
-                />
-              </Columns.Column>
-              <Columns.Column>
-                <FilteredGenes genes={filteredGenesList}
-                />
-              </Columns.Column>
-            </Columns>
+            <QueryList
+              genes={this.state.queryGenes}
+              updateGenes={this.updateQueryGenes}
+              filtering={this.state.filtering}
+              toggleFiltering={this.toggleFiltering}
+            />
           </Container>
         </Section>
         { this.state.filtering &&

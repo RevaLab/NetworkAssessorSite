@@ -1,4 +1,4 @@
 .FilteredGenes .box {
   height: 400px;
-  overflow: scroll;
+  overflow: auto;
 }
