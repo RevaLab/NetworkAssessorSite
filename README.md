@@ -25,5 +25,5 @@ Install dependencies
 ```sh
 cd client/
 yarn install
-yarn serve
+yarn start
 ```
