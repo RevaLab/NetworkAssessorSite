@@ -26,13 +26,25 @@ export default class GeneFilterTable extends React.Component {
 
   render() {
     const { handleClick, onClose } = this;
-    const { goTermIds, goTermsById } = this.props;
+    const { goTermIds, goTermsById, selectedTerms } = this.props;
+
+    const selectedTermsSet = new Set(selectedTerms);
 
     goTermIds.sort((a, b) => goTermsById[b].genes.length - goTermsById[a].genes.length)
 
     // console.log(goTermIds, goTermsById);
     const rows = goTermIds.map(id => (
       <tr key={id}>
+        <td style={{textAlign: 'center', 'verticalAlign': 'middle' }}>
+        {
+          selectedTermsSet.has(id) ?
+          <Button remove onClick={this.props.removeSelectedTerm.bind(null, id)} />
+          :
+          <Button onClick={this.props.addSelectedTerm.bind(null, id)}>
+            Add
+          </Button>
+        }
+        </td>
         <td>
           {id}
         </td>
@@ -86,6 +98,9 @@ export default class GeneFilterTable extends React.Component {
           }
           <thead>
             <tr>
+              <th>
+
+              </th>
               <th>
                 <abbr title="GOTerm ID">ID</abbr>
               </th>

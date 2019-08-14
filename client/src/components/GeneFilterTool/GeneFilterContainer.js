@@ -74,6 +74,9 @@ class GeneFilterContainer extends React.Component {
             <GeneFilterTable
               goTermIds={filteredTerms}
               goTermsById={this.props.goTerms.byId}
+              addSelectedTerm={this.props.addSelectedTerm}
+              removeSelectedTerm={this.props.removeSelectedTerm}
+              selectedTerms={this.props.selectedTerms}
             />
           </div>
       </Box>

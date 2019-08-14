@@ -23,7 +23,7 @@ class GeneFilterTool extends React.Component {
       byId: {},
       allIds: [],
     },
-    selectedTerms: ['GO:0042803', 'GO:0043065'],
+    selectedTerms: [],
   }
 
   async componentDidMount() {
@@ -48,12 +48,24 @@ class GeneFilterTool extends React.Component {
         allIds: ['all', ...ontologies.allIds],
       },
       goTerms,
-    }, this.updateFilteredFromTerms)
+    });
   }
 
   updateFilteredFromTerms = () => {
     const geneSet = new Set(this.state.selectedTerms.flatMap(term => this.state.goTerms.byId[term].genes));
     this.props.updateFiltered(Array.from(geneSet));
+  }
+
+  addSelectedTerm = newTerm => {
+    this.setState({
+      selectedTerms: [...this.state.selectedTerms, newTerm],
+    }, this.updateFilteredFromTerms);
+  }
+
+  removeSelectedTerm = deleteTerm => {
+    this.setState({
+      selectedTerms: this.state.selectedTerms.filter(term => term !== deleteTerm),
+    }, this.updateFilteredFromTerms)
   }
 
   render() {
@@ -72,6 +84,9 @@ class GeneFilterTool extends React.Component {
           <GeneFilterContainer
             ontologies={ontologies}
             goTerms={filteredGoTerms}
+            addSelectedTerm={this.addSelectedTerm}
+            removeSelectedTerm={this.removeSelectedTerm}
+            selectedTerms={this.state.selectedTerms}
           />
         }
         {
@@ -79,6 +94,9 @@ class GeneFilterTool extends React.Component {
           <GeneFilterContainer
             ontologies={ontologies}
             goTerms={this.state.goTerms}
+            addSelectedTerm={this.addSelectedTerm}
+            removeSelectedTerm={this.removeSelectedTerm}
+            selectedTerms={this.state.selectedTerms}
           />
           :
           <Loader style={{
