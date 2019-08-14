@@ -13,6 +13,7 @@ import Switch from 'react-bulma-switch/full';
 
 // local components
 import QueryList from './QueryUI/QueryList';
+import FilteredList from './QueryUI/FilteredList';
 import GeneFilterTool from './GeneFilterTool';
 
 // css
@@ -78,67 +79,56 @@ class QueryUI extends React.Component {
     return (
       <Container className="QueryUI">
         <Section>
+          <Container>
             <Columns>
               <Columns.Column>
                 <Field>
                   <QueryList
                     filtering={filtering}
                     value={queryGenesValue}
-                    onChange={this.onQueryChange}
                     genes={queryGenes}
+                    onChange={this.onQueryChange}
                   />
                 </Field>
               </Columns.Column>
               {
-                filtering &&
-                <Columns.Column>
-                  <Field>
-                    <Label>
-                      Filtered Query List
-                    </Label>
-                    <span>Filtered List: {filteredGenes.length} Genes</span>
-                    <Control>
-                      <Textarea
-                        placeholder="Use GO Term selectors below, or modify here"
-                        name="filtered_list"
-                        onChange={this.onFilteredChange}
-                        value={filteredGenesValue}
-                      />
-                    </Control>
-                  </Field>
-                </Columns.Column>
+              filtering &&
+              <Columns.Column>
+                <FilteredList
+                  value={filteredGenesValue}
+                  genes={filteredGenes}
+                  onChange={this.onFilteredChange}
+                />
+              </Columns.Column>
               }
             </Columns>
-              <Field>
-                <Control>
-                  <Columns>
-                    <Columns.Column size="half">
-                      <Field>
-                        <Control>
-                          <Switch
-                            id="filter-genes-toggle"
-                            checked={filtering}
-                            onChange={this.toggleFiltering}
-                            disabled={!queryGenes.length}
-                          >
-                          {switchText}
-                          </Switch>
-                        </Control>
-                      </Field>
-                    </Columns.Column>
-                    <Columns.Column size="half">
-                      {
-                        queryGenes.length || filtering ? null :
-                        <Button color="info" fullwidth
-                          onClick={this.handleExample}
-                        >
-                          Try Example
-                        </Button>
-                      }
-                    </Columns.Column>
-                  </Columns>
-                </Control>
-              </Field>
+            <Columns>
+              <Columns.Column size="half">
+                <Field>
+                  <Control>
+                    <Switch
+                      id="filter-genes-toggle"
+                      checked={filtering}
+                      onChange={this.toggleFiltering}
+                      disabled={!queryGenes.length}
+                    >
+                    {switchText}
+                    </Switch>
+                  </Control>
+                </Field>
+              </Columns.Column>
+              <Columns.Column size="half">
+                {
+                  queryGenes.length || filtering ? null :
+                  <Button color="info" fullwidth
+                    onClick={this.handleExample}
+                  >
+                    Try Example
+                  </Button>
+                }
+              </Columns.Column>
+            </Columns>
+          </Container>
         </Section>
         { filtering &&
         <Section>
