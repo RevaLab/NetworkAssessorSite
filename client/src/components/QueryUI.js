@@ -14,7 +14,7 @@ import Switch from 'react-bulma-switch/full';
 // local components
 import QueryList from './QueryUI/QueryList';
 import FilteredList from './QueryUI/FilteredList';
-import GeneFilterTool from './GeneFilterTool';
+import GeneFilterTool from './QueryUI/GeneFilterTool';
 
 // css
 import './QueryUI.css';

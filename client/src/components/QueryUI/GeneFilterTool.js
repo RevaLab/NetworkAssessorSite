@@ -34,8 +34,8 @@ class GeneFilterTool extends React.Component {
 
     const delay = (t, v) => new Promise((res) => setTimeout(res.bind(null, v), t));
     const [ontologies, goTerms] = await Promise.all([
-      delay(2000, require('./goData').ontologies),
-      delay(2000, require('./goData').goTerms),
+      delay(2000, require('../goData').ontologies),
+      delay(2000, require('../goData').goTerms),
     ]);
 
     const allGoTerms = Object.values(ontologies.byId).reduce((acc, { goTerms }) => [...acc, ...goTerms], [])
