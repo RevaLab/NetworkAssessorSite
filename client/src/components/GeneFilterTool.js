@@ -3,6 +3,7 @@ import React from 'react';
 // component libraries
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import {
+  Columns,
   Container,
   Loader,
 } from 'react-bulma-components';
@@ -78,36 +79,44 @@ class GeneFilterTool extends React.Component {
 
     return (
       <Container className="GeneFilterTool">
-        {
-          !!ontologies.allIds.length &&
-          !!this.state.selectedTerms.length &&
-          <GeneFilterContainer
-            ontologies={ontologies}
-            goTerms={filteredGoTerms}
-            addSelectedTerm={this.addSelectedTerm}
-            removeSelectedTerm={this.removeSelectedTerm}
-            selectedTerms={this.state.selectedTerms}
-          />
-        }
+        <Columns>
+            {
+              !!ontologies.allIds.length &&
+              !!this.state.selectedTerms.length &&
+            <Columns.Column>
+              <GeneFilterContainer
+                ontologies={ontologies}
+                goTerms={filteredGoTerms}
+                addSelectedTerm={this.addSelectedTerm}
+                removeSelectedTerm={this.removeSelectedTerm}
+                selectedTerms={this.state.selectedTerms}
+              />
+            </Columns.Column>
+            }
         {
           ontologies.allIds.length ?
-          <GeneFilterContainer
-            ontologies={ontologies}
-            goTerms={this.state.goTerms}
-            addSelectedTerm={this.addSelectedTerm}
-            removeSelectedTerm={this.removeSelectedTerm}
-            selectedTerms={this.state.selectedTerms}
-          />
+            <Columns.Column>
+              <GeneFilterContainer
+                ontologies={ontologies}
+                goTerms={this.state.goTerms}
+                addSelectedTerm={this.addSelectedTerm}
+                removeSelectedTerm={this.removeSelectedTerm}
+                selectedTerms={this.state.selectedTerms}
+              />
+            </Columns.Column>
           :
-          <Loader style={{
-            width: 100,
-            height: 100,
-            border: '4px solid #209cee',
-            borderTopColor: 'transparent',
-            borderRightColor: 'transparent',
-            margin: '0 auto',
-          }}/>
+          <Columns.Column>
+            <Loader style={{
+              width: 100,
+              height: 100,
+              border: '4px solid #209cee',
+              borderTopColor: 'transparent',
+              borderRightColor: 'transparent',
+              margin: '0 auto',
+            }}/>
+          </Columns.Column>
         }
+        </Columns>
       </Container>
     );
   }

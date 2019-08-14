@@ -53,11 +53,8 @@ export default class GeneFilterTable extends React.Component {
         </td>
         <td>
           <Button text onClick={handleClick.bind(null, id)}>
-            {goTermsById[id].genes.slice(0, 1)}{goTermsById[id].genes.length > 1 && ' ...'}
+            {goTermsById[id].genes.length}
           </Button>
-        </td>
-        <td>
-          {goTermsById[id].genes.length}
         </td>
       </tr>
     ))
@@ -98,17 +95,12 @@ export default class GeneFilterTable extends React.Component {
           }
           <thead>
             <tr>
-              <th>
-
-              </th>
+              <th></th>
               <th>
                 <abbr title="GOTerm ID">ID</abbr>
               </th>
               <th>
                 Term
-              </th>
-              <th>
-                Genes
               </th>
               <th>
                 <abbr titile="Gene Overlap Count">Count</abbr>

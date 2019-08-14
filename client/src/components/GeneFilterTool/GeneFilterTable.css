@@ -1,5 +1,5 @@
 .GeneFilterTable {
-  table-layout: fixed;
+  /* table-layout: fixed; */
 }
 
 /* .GeneFilterTable td {
@@ -7,12 +7,3 @@
   overflow: hidden;
   text-overflow: ellipsis;
 } */
-
-/* Set column widths */
-.GeneFilterTable thead>tr>th:nth-child(1) {
-  width: 10%;
-}
-/* Set column widths */
-.GeneFilterTable thead>tr>th:nth-child(3) {
-  width: 40%;
-}
