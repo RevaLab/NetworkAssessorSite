@@ -88,6 +88,13 @@ class QueryUI extends React.Component {
     })
   }
 
+  updateFiltered = genes => {
+    this.setState({
+      filteredGenesValue: genes.join('\n'),
+      filteredGenes: genes,
+    })
+  }
+
   render() {
     const { filtering, queryGenes, filteredGenes, queryGenesValue, filteredGenesValue } = this.state;
     const switchText = filtering ? 'Update unfiltered query list' : 'Filter genes';
@@ -160,8 +167,7 @@ class QueryUI extends React.Component {
         { filtering &&
         <Section>
           <GeneFilterTool
-            queryGenes={queryGenes}
-            filteredGenes={filteredGenes}
+            updateFiltered={this.updateFiltered}
           />
         </Section>
         }

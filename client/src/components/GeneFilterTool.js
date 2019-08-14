@@ -23,7 +23,7 @@ class GeneFilterTool extends React.Component {
       byId: {},
       allIds: [],
     },
-    selectedTerms: ['GO:0005515'],
+    selectedTerms: ['GO:0042803', 'GO:0043065'],
   }
 
   async componentDidMount() {
@@ -48,7 +48,12 @@ class GeneFilterTool extends React.Component {
         allIds: ['all', ...ontologies.allIds],
       },
       goTerms,
-    })
+    }, this.updateFilteredFromTerms)
+  }
+
+  updateFilteredFromTerms = () => {
+    const geneSet = new Set(this.state.selectedTerms.flatMap(term => this.state.goTerms.byId[term].genes));
+    this.props.updateFiltered(Array.from(geneSet));
   }
 
   render() {
