@@ -9,7 +9,7 @@ import network from '../img/icons8-network-64.png'
 export default () => {
   return (
     <Hero renderAs="header">
-      <Hero.Body>
+      <Hero.Body style={{ padding: '1.5rem 1.5rem' }}>
         <img src={network} alt="Network Icon"></img>
         <Heading>
           Network Assessor
