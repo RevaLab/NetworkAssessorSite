@@ -23,7 +23,7 @@ class GeneFilterTool extends React.Component {
       byId: {},
       allIds: [],
     },
-    selectedTerms: [],
+    selectedTerms: ['GO:0005515'],
   }
 
   async componentDidMount() {
@@ -41,8 +41,21 @@ class GeneFilterTool extends React.Component {
 
   render() {
 
+   const filteredGoTerms = {
+     byId: this.state.goTerms.byId,
+     allIds: this.state.selectedTerms,
+   }
+
     return (
       <Container className="GeneFilterTool">
+        {
+          !!this.state.ontologies.allIds.length &&
+          !!this.state.selectedTerms.length &&
+          <GeneFilterContainer
+            ontologies={this.state.ontologies}
+            goTerms={filteredGoTerms}
+          />
+        }
         {
           this.state.ontologies.allIds.length ?
           <GeneFilterContainer

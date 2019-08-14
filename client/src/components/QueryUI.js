@@ -170,13 +170,4 @@ class QueryUI extends React.Component {
   }
 }
 
-// const mapStateToProps = state => ({
-//   queryUI: state.queryUIReducer,
-// });
-
-// const mapDispatchToProps = dispatch => ({
-//   simpleAction: () => dispatch(simpleAction())
-// });
-
-// export default connect(mapStateToProps, mapDispatchToProps)(QueryUI);
 export default QueryUI;

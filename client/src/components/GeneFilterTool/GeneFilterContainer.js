@@ -38,12 +38,15 @@ class GeneFilterContainer extends React.Component {
       name: this.props.ontologies.byId[id].name,
     }))
 
-    const filteredTerms =
-    this.props.ontologies.byId[this.state.activeTab].goTerms
+    const activeGoTermsSet = new Set(this.props.ontologies.byId[this.state.activeTab].goTerms);
+
+    const filteredTerms = this.props.goTerms.allIds
       .filter((term) => {
         const searches = this.state.search.toLowerCase().split(' ');
 
-        return searches.every(search => this.props.goTerms.byId[term].name.toLowerCase().includes(search))
+        // filter if matches both search and is preset in the correct ontology list
+        return activeGoTermsSet.has(term) &&
+          searches.every(search => this.props.goTerms.byId[term].name.toLowerCase().includes(search))
       })
 
     const tabs = ontologies.map(({ id, name }) =>

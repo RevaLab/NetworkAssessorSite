@@ -50,6 +50,8 @@ export default class GeneFilterTable extends React.Component {
       </tr>
     ))
 
+    const modalGenes = this.state.modal && goTermsById[this.state.modal].genes;
+
     return (
         <Table className="GeneFilterTable">
           {
@@ -67,14 +69,14 @@ export default class GeneFilterTable extends React.Component {
                         {goTermsById[this.state.modal].name}
                       </Heading>
                       <Heading subtitle size={6} renderAs="h2">
-                        {this.state.modal} | {goTermsById[this.state.modal].genes.length} Genes
+                        {this.state.modal} | {modalGenes.length} Gene{modalGenes.length > 1 ? 's' : ''}
                       </Heading>
                     </Modal.Card.Title>
                 </Modal.Card.Head>
                 <Modal.Card.Body>
                   <Content>
                     <ul style={{ listStyle: 'none' }}>
-                      {goTermsById[this.state.modal].genes.map(gene => <li key={gene}>{gene}</li>)}
+                      {modalGenes.map(gene => <li key={gene}>{gene}</li>)}
                     </ul>
                   </Content>
                 </Modal.Card.Body>
