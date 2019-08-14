@@ -43,7 +43,7 @@ class QueryUI extends React.Component {
 
   toggleFiltering = () => {
     this.setState({
-      filteredGenes: this.state.queryGenes.reduce((acc, gene) => ({...acc, [gene]: true }), {}),
+      filteredGenes: this.state.queryGenes.reduce((acc, gene) => ({...acc, [gene]: false }), {}),
       filtering: !this.state.filtering,
     });
   }
@@ -84,7 +84,7 @@ class QueryUI extends React.Component {
       value: exampleGenes.join('\n'),
       queryGenes: exampleGenes,
       filtering: true,
-      filteredGenes: exampleGenes.reduce((acc, gene) => ({...acc, [gene]: true }), {}),
+      filteredGenes: exampleGenes.reduce((acc, gene) => ({...acc, [gene]: false }), {}),
     })
   }
 
