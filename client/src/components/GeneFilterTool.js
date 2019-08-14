@@ -3,7 +3,6 @@ import React from 'react';
 // component libraries
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import {
-  Columns,
   Container,
   Loader,
 } from 'react-bulma-components';
@@ -16,6 +15,7 @@ import './GeneFilterTool.css'
 
 class GeneFilterTool extends React.Component {
   state = {
+    loadState: 'UNLOADED',
     ontologies: {
       byId: {},
       allIds: [],
@@ -28,6 +28,10 @@ class GeneFilterTool extends React.Component {
   }
 
   async componentDidMount() {
+    this.setState({
+      loadState: 'LOADING',
+    })
+
     const delay = (t, v) => new Promise((res) => setTimeout(res.bind(null, v), t));
     const [ontologies, goTerms] = await Promise.all([
       delay(2000, require('./goData').ontologies),
@@ -49,6 +53,7 @@ class GeneFilterTool extends React.Component {
         allIds: ['all', ...ontologies.allIds],
       },
       goTerms,
+      loadState: 'LOADED'
     });
   }
 
@@ -57,9 +62,9 @@ class GeneFilterTool extends React.Component {
     this.props.updateFiltered(Array.from(geneSet));
   }
 
-  addSelectedTerm = newTerm => {
+  addSelectedTerms = (...newTerms) => {
     this.setState({
-      selectedTerms: [...this.state.selectedTerms, newTerm],
+      selectedTerms: [...this.state.selectedTerms, ...newTerms],
     }, this.updateFilteredFromTerms);
   }
 
@@ -70,53 +75,29 @@ class GeneFilterTool extends React.Component {
   }
 
   render() {
-    const filteredGoTerms = {
-      byId: this.state.goTerms.byId,
-      allIds: this.state.selectedTerms,
-    }
-
     const ontologies = this.state.ontologies;
 
     return (
       <Container className="GeneFilterTool">
-        <Columns>
-            {
-              !!ontologies.allIds.length &&
-              !!this.state.selectedTerms.length &&
-            <Columns.Column>
-              <GeneFilterContainer
-                ontologies={ontologies}
-                goTerms={filteredGoTerms}
-                addSelectedTerm={this.addSelectedTerm}
-                removeSelectedTerm={this.removeSelectedTerm}
-                selectedTerms={this.state.selectedTerms}
-              />
-            </Columns.Column>
-            }
         {
-          ontologies.allIds.length ?
-            <Columns.Column>
-              <GeneFilterContainer
-                ontologies={ontologies}
-                goTerms={this.state.goTerms}
-                addSelectedTerm={this.addSelectedTerm}
-                removeSelectedTerm={this.removeSelectedTerm}
-                selectedTerms={this.state.selectedTerms}
-              />
-            </Columns.Column>
+          this.state.loadState === 'LOADED' ?
+          <GeneFilterContainer
+            ontologies={ontologies}
+            goTerms={this.state.goTerms}
+            addSelectedTerms={this.addSelectedTerms}
+            removeSelectedTerm={this.removeSelectedTerm}
+            selectedTerms={this.state.selectedTerms}
+          />
           :
-          <Columns.Column>
-            <Loader style={{
-              width: 100,
-              height: 100,
-              border: '4px solid #209cee',
-              borderTopColor: 'transparent',
-              borderRightColor: 'transparent',
-              margin: '0 auto',
-            }}/>
-          </Columns.Column>
+          <Loader style={{
+            width: 100,
+            height: 100,
+            border: '4px solid #209cee',
+            borderTopColor: 'transparent',
+            borderRightColor: 'transparent',
+            margin: '0 auto',
+          }}/>
         }
-        </Columns>
       </Container>
     );
   }

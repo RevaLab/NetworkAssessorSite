@@ -20,7 +20,7 @@ import GeneFilterTool from './GeneFilterTool';
 import './QueryUI.css';
 
 // destructure component definitions
-const { Field, Control, Label, Textarea } = Form;
+const { Field, Control } = Form;
 
 class QueryUI extends React.Component {
   state = {

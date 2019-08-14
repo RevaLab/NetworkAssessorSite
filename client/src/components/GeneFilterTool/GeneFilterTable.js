@@ -11,7 +11,6 @@ import {
 } from 'react-bulma-components';
 
 // css
-import './GeneFilterTable.css';
 
 export default class GeneFilterTable extends React.Component {
   state = {
@@ -30,17 +29,27 @@ export default class GeneFilterTable extends React.Component {
 
     const selectedTermsSet = new Set(selectedTerms);
 
-    goTermIds.sort((a, b) => goTermsById[b].genes.length - goTermsById[a].genes.length)
+    goTermIds.sort((a, b) => {
+        const difference = goTermsById[b].genes.length - goTermsById[a].genes.length
+        if (selectedTermsSet.has(a) && selectedTermsSet.has(b)) {
+          return difference;
+        } else if (selectedTermsSet.has(a)) {
+          return -1;
+        } else if (selectedTermsSet.has(b)) {
+          return 1;
+        } else {
+          return difference
+        }
+    })
 
-    // console.log(goTermIds, goTermsById);
     const rows = goTermIds.map(id => (
       <tr key={id}>
-        <td style={{textAlign: 'center', 'verticalAlign': 'middle' }}>
+        <td style={{textAlign: 'center', 'verticalAlign': 'middle', width: 100 }}>
         {
           selectedTermsSet.has(id) ?
-          <Button remove onClick={this.props.removeSelectedTerm.bind(null, id)} />
+          <Button remove onClick={() =>this.props.removeSelectedTerm(id)} />
           :
-          <Button onClick={this.props.addSelectedTerm.bind(null, id)}>
+          <Button onClick={() => this.props.addSelectedTerms(id)}>
             Add
           </Button>
         }
@@ -52,7 +61,7 @@ export default class GeneFilterTable extends React.Component {
           {goTermsById[id].name}
         </td>
         <td>
-          <Button text onClick={handleClick.bind(null, id)}>
+          <Button text onClick={() => handleClick(id)}>
             {goTermsById[id].genes.length}
           </Button>
         </td>
@@ -95,7 +104,11 @@ export default class GeneFilterTable extends React.Component {
           }
           <thead>
             <tr>
-              <th></th>
+              <th style={{textAlign: 'center', 'verticalAlign': 'middle', width: 100 }}>
+                <Button onClick={() => this.props.addSelectedTerms(...goTermIds)}>
+                  Add all
+                </Button>
+              </th>
               <th>
                 <abbr title="GOTerm ID">ID</abbr>
               </th>

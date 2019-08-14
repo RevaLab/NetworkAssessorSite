@@ -53,7 +53,7 @@ class GeneFilterContainer extends React.Component {
       <Tabs.Tab
         key={id}
         active={id===this.state.activeTab}
-        onClick={this.handleTabClick.bind(null, id)}
+        onClick={() => this.handleTabClick(id)}
       >
         {name}
       </Tabs.Tab>
@@ -67,6 +67,7 @@ class GeneFilterContainer extends React.Component {
               <Input
                 onChange={this.handleSearchChange}
                 value={this.state.search}
+                placeholder="search"
               ></Input>
             </Control>
           </Field>
@@ -74,7 +75,7 @@ class GeneFilterContainer extends React.Component {
             <GeneFilterTable
               goTermIds={filteredTerms}
               goTermsById={this.props.goTerms.byId}
-              addSelectedTerm={this.props.addSelectedTerm}
+              addSelectedTerms={this.props.addSelectedTerms}
               removeSelectedTerm={this.props.removeSelectedTerm}
               selectedTerms={this.props.selectedTerms}
             />
