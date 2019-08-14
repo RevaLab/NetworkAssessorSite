@@ -1,4 +1,4 @@
-# Network Asessor
+# NetworkAsessor
 
 ## Set up development environment
 
