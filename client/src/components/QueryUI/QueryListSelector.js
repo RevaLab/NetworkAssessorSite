@@ -1,17 +1,20 @@
 import React from 'react';
+
+// component libraries
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import {
   Box,
-  Container,
-  Form
+  Form,
 } from 'react-bulma-components';
+import Switch from 'react-bulma-switch/full';
 
-import GoTermRow from './GoTermRow';
+// css
+import './QueryListSelector.css';
 
+// component library assignments
 const { Field, Control, Input } = Form;
 
 export default class QueryListSelector extends React.Component {
-
   state = {
     search: '',
     queryGenes: this.props.queryGenes.sort(),
@@ -31,17 +34,27 @@ export default class QueryListSelector extends React.Component {
   render() {
     const genes = this.state.queryGenes.map((gene, idx) => {
       const checked = this.props.filteredGenes[gene];
+      const colorHelper = !checked ? "has-text-grey-light" : '';
+
       return (
-        <GoTermRow key={gene+idx}
-          gene={gene}
-          checked={checked}
-          handleToggle={this.props.handleToggle}
-        />
+        <Field key={gene+idx}>
+          <Control>
+            <Switch
+              thin
+              checked={checked}
+              id={`filter-tool-${gene}`}
+              onChange={e => this.props.handleToggle(e, gene)}
+            >
+            <span className={colorHelper}>{gene}</span>
+            </Switch>
+          </Control>
+        </Field>
       )
     })
 
     return (
-      <Container>
+      <Box className="QueryListSelector">
+        <span>{Object.values(this.props.filteredGenes).filter(v => v).length} genes will be included in the query</span>
         <Field>
           <Control>
             <Input placeholder="search" aria-label="search"
@@ -53,7 +66,7 @@ export default class QueryListSelector extends React.Component {
         <Box className="search-all-genes">
           {genes.length ? genes : <span>No items found</span>}
         </Box>
-      </Container>
+      </Box>
     )
   }
 }

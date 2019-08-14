@@ -14,7 +14,7 @@ export default ({ gene, checked, handleToggle }) => {
           <Switch thin
             checked={checked}
             id={`filter-tool-${gene}`}
-            onChange={(event) => handleToggle(event, gene)}
+            onChange={e => handleToggle(e, gene)}
           >
             <span className={colorHelper}>
               {gene}

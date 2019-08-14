@@ -1,7 +1,6 @@
 import React from 'react';
-// import { connect } from 'react-redux'
-// import simpleAction from '../actions/simpleAction';
 
+// component libraries
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import {
   Container,
@@ -13,10 +12,15 @@ import {
 import { Collapse } from 'react-collapse';
 import Switch from 'react-bulma-switch/full';
 
-import QueryList from './QueryList';
+// local components
+import QueryListSelector from './QueryUI/QueryListSelector';
+import QueryList from './QueryUI/QueryList';
 import GeneFilterTool from './GeneFilterTool';
 
+// css
+import './QueryUI.css';
 
+// destructure component definitions
 const { Field, Control } = Form;
 
 class QueryUI extends React.Component {
@@ -48,11 +52,11 @@ class QueryUI extends React.Component {
     });
   }
 
-  toggleFiltered = (gene, value) => {
+  toggleFiltered = (event, gene) => {
     this.setState({
       filteredGenes: {
         ...this.state.filteredGenes,
-        [gene]: value,
+        [gene]: event.target.checked,
       }
     })
   }
@@ -90,10 +94,10 @@ class QueryUI extends React.Component {
 
   render() {
     const { filtering, queryGenes, value, filteredGenes } = this.state;
-    const switchText = filtering ? 'Update Query List' : 'Filter genes';
+    const switchText = filtering ? 'Update unfiltered query list' : 'Filter genes';
 
     return (
-      <div>
+      <Container className="QueryUI">
         <Section>
             <Container breakpoint="widescreen">
               <Field>
@@ -139,15 +143,23 @@ class QueryUI extends React.Component {
             </Container>
         </Section>
         { filtering &&
-          <Section>
-            <GeneFilterTool
-              queryGenes={queryGenes}
-              filteredGenes={filteredGenes}
-              toggleFiltered={this.toggleFiltered}
-            />
-          </Section>
+          <Container>
+            <Section>
+              <QueryListSelector
+                queryGenes={this.state.queryGenes}
+                filteredGenes={this.state.filteredGenes}
+                handleToggle={this.toggleFiltered}
+              />
+            </Section>
+            <Section>
+              <GeneFilterTool
+                queryGenes={queryGenes}
+                filteredGenes={filteredGenes}
+              />
+            </Section>
+          </Container>
         }
-      </div>
+      </Container>
     );
   }
 }

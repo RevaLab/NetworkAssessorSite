@@ -8,8 +8,6 @@ import {
 
 import './GeneFilterTool.css'
 
-import QueryListSelector from './GeneFilterTool/QueryListSelector';
-
 class GeneFilterTool extends React.Component {
   state = {
     activeTab: 'query_list',
@@ -57,15 +55,7 @@ class GeneFilterTool extends React.Component {
             <Tabs>
               {tabs}
             </Tabs>
-            <span>{Object.values(this.props.filteredGenes).filter(v => v).length} genes will be included in the query</span>
-            {this.state.activeTab === 'query_list' ?
-              <QueryListSelector
-                queryGenes={this.props.queryGenes}
-                filteredGenes={this.props.filteredGenes}
-                handleToggle={this.handleToggle}
-              />
-              : <span>Process filter here</span>
-            }
+              <span>active tab is {this.state.activeTab}</span>
           </div>
           :
           <Loader style={{

@@ -2,12 +2,6 @@
   min-height: 200px;
 }
 
-.GeneFilterTool .search-all-genes {
-  max-height: 400px;
-  overflow: auto;
-  padding: .5em;
-}
-
 .GeneFilterTool .ReactCollapse--content {
   padding: .75em;
 }
