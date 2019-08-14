@@ -22,6 +22,10 @@ import './QueryUI.css';
 const { Field, Control, Label, Textarea } = Form;
 
 class QueryUI extends React.Component {
+  componentDidMount() {
+    this.handleExample();
+  }
+
   state = {
     queryGenesValue: '',
     filteredGenesValue: '',

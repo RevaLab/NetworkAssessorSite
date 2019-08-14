@@ -1,4 +1,6 @@
 import React from 'react';
+
+// component libraries
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import {
   Box,
@@ -6,20 +8,22 @@ import {
   Tabs,
 } from 'react-bulma-components';
 
+// local components
+import GeneFilterTable from './GeneFilterTool/GeneFilterTable';
+
+// css
 import './GeneFilterTool.css'
 
 class GeneFilterTool extends React.Component {
   state = {
     activeTab: null,
     ontologies: {
+      byId: {},
       allIds: [],
     },
-    goTerms: {},
-  }
-
-  handleToggle = (event, gene) => {
-    const checked = event.target.checked;
-    this.props.toggleFiltered(gene, checked);
+    goTerms: {
+      byId: {}
+    },
   }
 
   async componentDidMount() {
@@ -32,7 +36,14 @@ class GeneFilterTool extends React.Component {
     this.setState({
       ontologies,
       goTerms,
+      activeTab: ontologies.allIds[0],
     })
+  }
+
+  handleClick = (id) => {
+    this.setState({
+      activeTab: id,
+    });
   }
 
   render() {
@@ -41,8 +52,12 @@ class GeneFilterTool extends React.Component {
       name: this.state.ontologies.byId[id].name,
     }));
 
-    const tabs = ontologies.map(({ id, name }, idx) =>
-      <Tabs.Tab key={id} active={this.state.activeTab ? id===this.state.activeTab : idx===0}>
+    const tabs = ontologies.map(({ id, name }) =>
+      <Tabs.Tab
+        key={id}
+        active={id===this.state.activeTab}
+        onClick={this.handleClick.bind(null, id)}
+      >
         {name}
       </Tabs.Tab>
     )
@@ -55,7 +70,13 @@ class GeneFilterTool extends React.Component {
             <Tabs>
               {tabs}
             </Tabs>
-              <span>active tab is {this.state.activeTab}</span>
+            {
+              this.state.activeTab &&
+              <GeneFilterTable
+                goTermIds={this.state.ontologies.byId[this.state.activeTab].goTerms}
+                goTermsById={this.state.goTerms.byId}
+              />
+            }
           </div>
           :
           <Loader style={{
