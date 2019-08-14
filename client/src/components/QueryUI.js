@@ -1,6 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux'
-import simpleAction from '../actions/simpleAction';
+// import { connect } from 'react-redux'
+// import simpleAction from '../actions/simpleAction';
 
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import {
@@ -152,12 +152,13 @@ class QueryUI extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  queryUI: state.queryUIReducer,
-});
+// const mapStateToProps = state => ({
+//   queryUI: state.queryUIReducer,
+// });
 
-const mapDispatchToProps = dispatch => ({
-  simpleAction: () => dispatch(simpleAction())
-});
+// const mapDispatchToProps = dispatch => ({
+//   simpleAction: () => dispatch(simpleAction())
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(QueryUI);
+// export default connect(mapStateToProps, mapDispatchToProps)(QueryUI);
+export default QueryUI;
