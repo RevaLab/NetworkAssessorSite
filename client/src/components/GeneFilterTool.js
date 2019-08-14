@@ -33,8 +33,20 @@ class GeneFilterTool extends React.Component {
       delay(2000, require('./goData').goTerms),
     ]);
 
+    const allGoTerms = Object.values(ontologies.byId).reduce((acc, { goTerms }) => [...acc, ...goTerms], [])
+
     this.setState({
-      ontologies,
+      // includes 'all', which merges the data among all ontologies together on the frontend
+      ontologies: {
+        byId: {
+          all: {
+            name: 'All',
+            goTerms: allGoTerms,
+          },
+          ...ontologies.byId
+        },
+        allIds: ['all', ...ontologies.allIds],
+      },
       goTerms,
     })
   }
@@ -45,20 +57,22 @@ class GeneFilterTool extends React.Component {
       allIds: this.state.selectedTerms,
     }
 
+    const ontologies = this.state.ontologies;
+
     return (
       <Container className="GeneFilterTool">
         {
-          !!this.state.ontologies.allIds.length &&
+          !!ontologies.allIds.length &&
           !!this.state.selectedTerms.length &&
           <GeneFilterContainer
-            ontologies={this.state.ontologies}
+            ontologies={ontologies}
             goTerms={filteredGoTerms}
           />
         }
         {
-          this.state.ontologies.allIds.length ?
+          ontologies.allIds.length ?
           <GeneFilterContainer
-            ontologies={this.state.ontologies}
+            ontologies={ontologies}
             goTerms={this.state.goTerms}
           />
           :
