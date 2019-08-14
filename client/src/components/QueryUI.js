@@ -99,17 +99,29 @@ class QueryUI extends React.Component {
     return (
       <Container className="QueryUI">
         <Section>
-            <Container breakpoint="widescreen">
-              <Field>
-                <Collapse isOpened={!filtering}>
+            <Columns>
+              <Columns.Column>
+                <Field>
                   <QueryList
                     filtering={filtering}
                     value={value}
                     onChange={this.onChange}
                     genes={queryGenes}
                   />
-                </Collapse>
-              </Field>
+                </Field>
+              </Columns.Column>
+              {
+                filtering &&
+                <Columns.Column>
+                  <QueryListSelector
+                    queryGenes={this.state.queryGenes}
+                    filteredGenes={this.state.filteredGenes}
+                    handleToggle={this.toggleFiltered}
+                  />
+                </Columns.Column>
+              }
+            </Columns>
+            <Container breakpoint="widescreen">
               <Field>
                 <Control>
                   <Columns>
@@ -144,13 +156,6 @@ class QueryUI extends React.Component {
         </Section>
         { filtering &&
           <Container>
-            <Section>
-              <QueryListSelector
-                queryGenes={this.state.queryGenes}
-                filteredGenes={this.state.filteredGenes}
-                handleToggle={this.toggleFiltered}
-              />
-            </Section>
             <Section>
               <GeneFilterTool
                 queryGenes={queryGenes}
