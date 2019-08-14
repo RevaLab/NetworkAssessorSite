@@ -3,27 +3,27 @@ import React from 'react';
 // component libraries
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import {
-  Box,
+  Container,
   Loader,
-  Tabs,
 } from 'react-bulma-components';
 
 // local components
-import GeneFilterTable from './GeneFilterTool/GeneFilterTable';
+import GeneFilterContainer from './GeneFilterTool/GeneFilterContainer';
 
 // css
 import './GeneFilterTool.css'
 
 class GeneFilterTool extends React.Component {
   state = {
-    activeTab: null,
     ontologies: {
       byId: {},
       allIds: [],
     },
     goTerms: {
-      byId: {}
+      byId: {},
+      allIds: [],
     },
+    selectedTerms: [],
   }
 
   async componentDidMount() {
@@ -36,48 +36,19 @@ class GeneFilterTool extends React.Component {
     this.setState({
       ontologies,
       goTerms,
-      activeTab: ontologies.allIds[0],
     })
   }
 
-  handleClick = (id) => {
-    this.setState({
-      activeTab: id,
-    });
-  }
-
   render() {
-    const ontologies = this.state.ontologies.allIds.map(id => ({
-      id,
-      name: this.state.ontologies.byId[id].name,
-    }));
-
-    const tabs = ontologies.map(({ id, name }) =>
-      <Tabs.Tab
-        key={id}
-        active={id===this.state.activeTab}
-        onClick={this.handleClick.bind(null, id)}
-      >
-        {name}
-      </Tabs.Tab>
-    )
 
     return (
-      <Box className="GeneFilterTool">
+      <Container className="GeneFilterTool">
         {
-          tabs.length > 1 ?
-          <div>
-            <Tabs>
-              {tabs}
-            </Tabs>
-            {
-              this.state.activeTab &&
-              <GeneFilterTable
-                goTermIds={this.state.ontologies.byId[this.state.activeTab].goTerms}
-                goTermsById={this.state.goTerms.byId}
-              />
-            }
-          </div>
+          this.state.ontologies.allIds.length ?
+          <GeneFilterContainer
+            ontologies={this.state.ontologies}
+            goTerms={this.state.goTerms}
+          />
           :
           <Loader style={{
             width: 100,
@@ -88,7 +59,7 @@ class GeneFilterTool extends React.Component {
             margin: '0 auto',
           }}/>
         }
-      </Box>
+      </Container>
     );
   }
 }

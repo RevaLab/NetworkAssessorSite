@@ -34,9 +34,12 @@ class QueryUI extends React.Component {
     filtering: false,
   }
 
+  geneTextCleanup = str => str.split('\n').map(str => str.trim()).join('\n')
+  geneTextToArray = str => str.split('\n').map(str => str.trim()).filter(el => el);
+
   onQueryChange = evt => {
     this.setState({
-        queryGenes: evt.target.value.split('\n').filter(el => el),
+        queryGenes: this.geneTextToArray(evt.target.value),
         queryGenesValue: evt.target.value,
       }
     );
@@ -44,15 +47,13 @@ class QueryUI extends React.Component {
 
   onFilteredChange = evt => {
     this.setState({
-      filteredGenes: evt.target.value.split('\n').filter(el => el),
+      filteredGenes: this.geneTextToArray(evt.target.value),
       filteredGenesValue: evt.target.value,
     });
   }
 
   toggleFiltering = () => {
     this.setState({
-      filteredGenes: this.state.queryGenes,
-      filteredGenesValue: this.state.queryGenesValue.split('\n').filter(el => el).join('\n'),
       filtering: !this.state.filtering,
     });
   }
@@ -82,9 +83,7 @@ class QueryUI extends React.Component {
 
     this.setState({
       queryGenesValue: exampleGenes.join('\n'),
-      filteredGenesValue: exampleGenes.join('\n'),
       queryGenes: exampleGenes,
-      filteredGenes: exampleGenes,
       filtering: true,
     })
   }
@@ -117,7 +116,7 @@ class QueryUI extends React.Component {
                     <span>Filtered List: {filteredGenes.length} Genes</span>
                     <Control>
                       <Textarea
-                        placeholder="Enter Query Gene List"
+                        placeholder="Use GO Term selectors below, or modify here"
                         name="filtered_list"
                         onChange={this.onFilteredChange}
                         value={filteredGenesValue}
@@ -159,14 +158,12 @@ class QueryUI extends React.Component {
               </Field>
         </Section>
         { filtering &&
-          <Container>
-            <Section>
-              <GeneFilterTool
-                queryGenes={queryGenes}
-                filteredGenes={filteredGenes}
-              />
-            </Section>
-          </Container>
+        <Section>
+          <GeneFilterTool
+            queryGenes={queryGenes}
+            filteredGenes={filteredGenes}
+          />
+        </Section>
         }
       </Container>
     );

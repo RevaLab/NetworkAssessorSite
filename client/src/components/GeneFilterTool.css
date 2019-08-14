@@ -1,7 +1,3 @@
 .GeneFilterTool {
   min-height: 200px;
 }
-
-.GeneFilterTool .ReactCollapse--content {
-  padding: .75em;
-}

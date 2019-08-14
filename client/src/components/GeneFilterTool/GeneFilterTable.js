@@ -4,7 +4,6 @@ import React from 'react';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import {
   Button,
-  Container,
   Content,
   Heading,
   Modal,
@@ -12,10 +11,11 @@ import {
 } from 'react-bulma-components';
 
 // css
+import './GeneFilterTable.css';
 
 export default class GeneFilterTable extends React.Component {
   state = {
-    modalGenes: null
+    modal: null
   }
 
   handleClick = (id) => {
@@ -51,20 +51,19 @@ export default class GeneFilterTable extends React.Component {
     ))
 
     return (
-      <Container style={{ height: 500, overflow: 'auto'}}>
-        <Table>
-          <Modal
-            show={this.state.modal}
-            onClose={onClose}
-            closeOnBlur={true}
-            showClose={false}
-          >
-            {
-              this.state.modal &&
+        <Table className="GeneFilterTable">
+          {
+            this.state.modal &&
+            <Modal
+              show={true}
+              onClose={onClose}
+              closeOnBlur={true}
+              showClose={false}
+            >
               <Modal.Card>
                 <Modal.Card.Head onClose={onClose}>
-                    <Modal.Card.Title>
-                      <Heading size={4}>
+                    <Modal.Card.Title renderAs="div">
+                      <Heading size={4} renderAs="h1">
                         {goTermsById[this.state.modal].name}
                       </Heading>
                       <Heading subtitle size={6} renderAs="h2">
@@ -75,21 +74,21 @@ export default class GeneFilterTable extends React.Component {
                 <Modal.Card.Body>
                   <Content>
                     <ul style={{ listStyle: 'none' }}>
-                      {goTermsById[this.state.modal].genes.map(gene => <li>{gene}</li>)}
+                      {goTermsById[this.state.modal].genes.map(gene => <li key={gene}>{gene}</li>)}
                     </ul>
                   </Content>
                 </Modal.Card.Body>
                 <Modal.Card.Foot></Modal.Card.Foot>
               </Modal.Card>
-            }
-          </Modal>
+            </Modal>
+          }
           <thead>
             <tr>
               <th>
                 <abbr title="GOTerm ID">ID</abbr>
               </th>
               <th>
-                Biological Process
+                Term
               </th>
               <th>
                 Genes
@@ -103,7 +102,6 @@ export default class GeneFilterTable extends React.Component {
             {rows}
           </tbody>
         </Table>
-      </Container>
     )
   }
 

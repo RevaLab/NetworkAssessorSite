@@ -8,7 +8,7 @@ import network from '../img/icons8-network-64.png'
 
 export default () => {
   return (
-    <Hero>
+    <Hero renderAs="header">
       <Hero.Body>
         <img src={network} alt="Network Icon"></img>
         <Heading>
