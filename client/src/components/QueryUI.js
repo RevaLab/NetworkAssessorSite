@@ -22,10 +22,6 @@ import './QueryUI.css';
 const { Field, Control, Label, Textarea } = Form;
 
 class QueryUI extends React.Component {
-  componentDidMount() {
-    this.handleExample();
-  }
-
   state = {
     queryGenesValue: '',
     filteredGenesValue: '',
@@ -59,27 +55,7 @@ class QueryUI extends React.Component {
   }
 
   handleExample = () => {
-    const exampleGenes = [
-      "FLT3",
-      "SMO",
-      "GLA",
-      "SGCB",
-      "OAT",
-      "CAPN3",
-      "ASS1",
-      "AGXT",
-      "AKT1",
-      "PTPN1",
-      "PIAS1",
-      "CDKN1B",
-      "THEM4",
-      "CCNE1",
-      "MAP2K4",
-      "ATG7",
-      "ATG12",
-      "BAD",
-      "BCL2L1",
-    ];
+    const exampleGenes = ["FLT3","SMO","GLA","SGCB","OAT","CAPN3","ASS1","AGXT","AKT1","PTPN1","PIAS1","CDKN1B","THEM4","CCNE1","MAP2K4","ATG7","ATG12","BAD","BCL2L1",];
 
     this.setState({
       queryGenesValue: exampleGenes.join('\n'),
