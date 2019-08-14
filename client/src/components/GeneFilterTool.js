@@ -10,7 +10,7 @@ import './GeneFilterTool.css'
 
 class GeneFilterTool extends React.Component {
   state = {
-    activeTab: 'query_list',
+    activeTab: null,
     ontologies: {
       allIds: [],
     },
@@ -41,8 +41,8 @@ class GeneFilterTool extends React.Component {
       name: this.state.ontologies.byId[id].name,
     }));
 
-    const tabs = [{ id: 'query_list', name: 'Gene Query List'}, ...ontologies].map(({ id, name }) =>
-      <Tabs.Tab key={id} active={this.state.activeTab===id}>
+    const tabs = ontologies.map(({ id, name }, idx) =>
+      <Tabs.Tab key={id} active={this.state.activeTab ? id===this.state.activeTab : idx===0}>
         {name}
       </Tabs.Tab>
     )

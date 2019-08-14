@@ -3,17 +3,15 @@ import React from 'react';
 // component libraries
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import {
-  Container,
-  Section,
-  Form,
-  Columns,
   Button,
+  Columns,
+  Container,
+  Form,
+  Section,
 } from 'react-bulma-components';
-import { Collapse } from 'react-collapse';
 import Switch from 'react-bulma-switch/full';
 
 // local components
-import QueryListSelector from './QueryUI/QueryListSelector';
 import QueryList from './QueryUI/QueryList';
 import GeneFilterTool from './GeneFilterTool';
 
@@ -21,44 +19,38 @@ import GeneFilterTool from './GeneFilterTool';
 import './QueryUI.css';
 
 // destructure component definitions
-const { Field, Control } = Form;
+const { Field, Control, Label, Textarea } = Form;
 
 class QueryUI extends React.Component {
   state = {
-    value: '',
+    queryGenesValue: '',
+    filteredGenesValue: '',
     queryGenes: [],
-    filteredGenes: {},
+    filteredGenes: [],
     filtering: false,
   }
 
-  onChange = evt => {
+  onQueryChange = evt => {
     this.setState({
         queryGenes: evt.target.value.split('\n').filter(el => el),
-        value: evt.target.value,
+        queryGenesValue: evt.target.value,
       }
     );
   };
 
-  updateFilteredGenes = (filteredGenes) => {
+  onFilteredChange = evt => {
     this.setState({
-      filteredGenes,
+      filteredGenes: evt.target.value.split('\n').filter(el => el),
+      filteredGenesValue: evt.target.value,
     });
   }
 
   toggleFiltering = () => {
     this.setState({
-      filteredGenes: this.state.queryGenes.reduce((acc, gene) => ({...acc, [gene]: false }), {}),
+      filteredGenes: this.state.queryGenes,
+      filteredGenesValue: this.state.queryGenesValue.split('\n').filter(el => el).join('\n'),
       filtering: !this.state.filtering,
     });
-  }
-
-  toggleFiltered = (event, gene) => {
-    this.setState({
-      filteredGenes: {
-        ...this.state.filteredGenes,
-        [gene]: event.target.checked,
-      }
-    })
   }
 
   handleExample = () => {
@@ -85,15 +77,16 @@ class QueryUI extends React.Component {
     ];
 
     this.setState({
-      value: exampleGenes.join('\n'),
+      queryGenesValue: exampleGenes.join('\n'),
+      filteredGenesValue: exampleGenes.join('\n'),
       queryGenes: exampleGenes,
+      filteredGenes: exampleGenes,
       filtering: true,
-      filteredGenes: exampleGenes.reduce((acc, gene) => ({...acc, [gene]: false }), {}),
     })
   }
 
   render() {
-    const { filtering, queryGenes, value, filteredGenes } = this.state;
+    const { filtering, queryGenes, filteredGenes, queryGenesValue, filteredGenesValue } = this.state;
     const switchText = filtering ? 'Update unfiltered query list' : 'Filter genes';
 
     return (
@@ -104,8 +97,8 @@ class QueryUI extends React.Component {
                 <Field>
                   <QueryList
                     filtering={filtering}
-                    value={value}
-                    onChange={this.onChange}
+                    value={queryGenesValue}
+                    onChange={this.onQueryChange}
                     genes={queryGenes}
                   />
                 </Field>
@@ -113,15 +106,23 @@ class QueryUI extends React.Component {
               {
                 filtering &&
                 <Columns.Column>
-                  <QueryListSelector
-                    queryGenes={this.state.queryGenes}
-                    filteredGenes={this.state.filteredGenes}
-                    handleToggle={this.toggleFiltered}
-                  />
+                  <Field>
+                    <Label>
+                      Filtered Query List
+                    </Label>
+                    <span>Filtered List: {filteredGenes.length} Genes</span>
+                    <Control>
+                      <Textarea
+                        placeholder="Enter Query Gene List"
+                        name="filtered_list"
+                        onChange={this.onFilteredChange}
+                        value={filteredGenesValue}
+                      />
+                    </Control>
+                  </Field>
                 </Columns.Column>
               }
             </Columns>
-            <Container breakpoint="widescreen">
               <Field>
                 <Control>
                   <Columns>
@@ -152,7 +153,6 @@ class QueryUI extends React.Component {
                   </Columns>
                 </Control>
               </Field>
-            </Container>
         </Section>
         { filtering &&
           <Container>

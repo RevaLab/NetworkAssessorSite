@@ -1,3 +1,7 @@
 .QueryUI textarea[name=query_list] {
   height: 400px;
 }
+
+.QueryUI textarea[name=filtered_list] {
+  height: 400px;
+}

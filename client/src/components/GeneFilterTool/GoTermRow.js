@@ -1,8 +1,10 @@
 import React from 'react'
+
+// component libraries
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import { Form } from 'react-bulma-components'
-
 import Switch from 'react-bulma-switch/full';
+
 const { Field, Control } = Form;
 
 export default ({ gene, checked, handleToggle }) => {
