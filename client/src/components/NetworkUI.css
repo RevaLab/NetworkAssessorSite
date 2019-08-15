@@ -1,0 +1,83 @@
+.NetworkUI {
+  padding: .5em;
+}
+
+.NetworkUI .network-nav {
+  width: 450px;
+}
+
+.NetworkUI nav.box {
+  padding: 0;
+  height: calc(100vh - 2em);
+}
+
+.NetworkUI .network-nav-container {
+  overflow: scroll;
+  height: 30%;
+}
+
+.NetworkUI .network-table-container {
+  height: 70%;
+  overflow: scroll;
+  width: 100%;
+}
+
+.NetworkUI table {
+  table-layout: fixed;
+  font-size: 11px;
+  padding: 0;
+}
+
+.NetworkUI table th abbr {
+  cursor: help;
+}
+.NetworkUI td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+
+}
+
+.NetworkUI table td.col-name,
+.NetworkUI table td.col-sig {
+  text-align: left;
+  white-space: normal;
+  overflow: scroll;
+  text-overflow: clip;
+}
+
+
+.NetworkUI table .col-name {
+  /* width: 200px; */
+}
+
+.NetworkUI table .col-color {
+  width: 35px;
+}
+
+.NetworkUI table .col-pwaymembers {
+  width: 40px;
+  text-align: right;
+}
+
+.NetworkUI table .col-edges {
+  width: 40px;
+  text-align: right;
+}
+
+.NetworkUI table .col-overlap {
+  width: 40px;
+  text-align: right;
+}
+
+.NetworkUI table .col-sig {
+  width: 65px;
+}
+
+.NetworkUI main.network-container {
+  width: calc(100vw - 470px);
+  min-width: 700px;
+  height: calc(100vh - 2em);
+  background-color: lightblue;
+}
