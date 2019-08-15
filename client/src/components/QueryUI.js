@@ -31,40 +31,26 @@ class QueryUI extends React.Component {
     return (
       <QueryUIProvider>
         <QueryUIConsumer>
-          {
-            ({
-              filtering,
-              queryGenes,
-              filteredGenes,
-              queryGenesValue,
-              filteredGenesValue,
-              onQueryChange,
-              onFilteredChange,
-              toggleFiltering,
-              handleExample,
-              updateFiltered,
-            }) =>
+          {({
+            filtering,
+            queryGenes,
+            toggleFiltering,
+            handleExample,
+            updateFiltered,
+          }) =>
           <Container className="QueryUI">
             <Section>
               <Container>
                 <Columns>
                   <Columns.Column>
                     <Field>
-                      <QueryList
-                        filtering={filtering}
-                        value={queryGenesValue}
-                        genes={queryGenes}
-                        onChange={onQueryChange}
-                      />
+                      <QueryList />
                     </Field>
                   </Columns.Column>
                   {
                   filtering &&
                   <Columns.Column>
                     <FilteredList
-                      value={filteredGenesValue}
-                      genes={filteredGenes}
-                      onChange={onFilteredChange}
                     />
                   </Columns.Column>
                   }
