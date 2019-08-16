@@ -51,6 +51,11 @@ class QueryUIProvider extends React.Component {
     })
   }
 
+  updateFilteredFromGoTerms = ({ goTerms, selectedTerms }) => {
+    const geneSet = new Set(selectedTerms.flatMap(term => goTerms.byId[term].genes));
+    this.updateFiltered(Array.from(geneSet));
+  }
+
   render() {
     return (
       <Provider value={{
@@ -60,6 +65,7 @@ class QueryUIProvider extends React.Component {
         toggleFiltering: this.toggleFiltering,
         handleExample: this.handleExample,
         updateFiltered: this.updateFiltered,
+        updateFilteredFromGoTerms: this.updateFilteredFromGoTerms,
       }}>
         {this.props.children}
       </Provider>
