@@ -19,35 +19,42 @@ import './NetworkUI.css';
 class NetworkUi extends React.Component {
 
   state = {
-    k_pathwayId_v_color: {},
-    k_pathwayId_v_edgesLength: {},
-    k_pathwayId_v_membersLength: {},
-    k_pathwayId_v_name: {},
-    k_pathwayId_v_overlapLength: {},
-    k_pathwayId_v_pVal: {},
-    k_sourceId_v_name: {},
-    k_sourceId_v_pathwayIds: {},
-    sourceIds: [],
-    pathways: [],
+    pathways: {
+      byId: {
+        // name
+        // color
+        // edgesLength
+        // membersLength
+        // overlapLength
+        // pVal
+      },
+      allIds: [],
+    },
+    sources: {
+      byId: {
+        // name
+        // pathways
+      },
+      allIds: [],
+    },
   }
 
   async componentDidMount() {
     const delay = (t, v) => new Promise((res) => setTimeout(res.bind(null, v), t));
     const data = await delay(2000, require('./networkData').pathwayData)
 
-    this.setState({
-      ...data,
-    })
+    console.log(data);
+    this.setState(data)
   }
 
   render() {
-    const rows = this.state.pathways.map(id => (
+    const rows = this.state.pathways.allIds.map(id => (
       <tr key={id}>
         <td className="col-name">
-          {this.state.k_pathwayId_v_name[id]}
+          {this.state.pathways.byId[id].name}
         </td>
         <td>
-          <Icon style={{ borderRadius: '50%', backgroundColor: this.state.k_pathwayId_v_color[id],
+          <Icon style={{ borderRadius: '50%', backgroundColor: this.state.pathways.byId[id].color,
             width: '1em',
             height: '1em',
           }}>
@@ -55,16 +62,16 @@ class NetworkUi extends React.Component {
           </Icon>
         </td>
         <td className="col-pwaymembers">
-          {this.state.k_pathwayId_v_membersLength[id]}
+          {this.state.pathways.byId[id].membersLength}
         </td>
         <td className="col-edges">
-          {this.state.k_pathwayId_v_edgesLength[id]}
+          {this.state.pathways.byId[id].edgesLength}
         </td>
         <td className="col-overlap">
-          {this.state.k_pathwayId_v_overlapLength[id]}
+          {this.state.pathways.byId[id].overlapLength}
         </td>
         <td className="col-sig">
-          {this.state.k_pathwayId_v_pVal[id].toExponential(2)}
+          {this.state.pathways.byId[id].pVal.toExponential(2)}
         </td>
       </tr>
     ))
