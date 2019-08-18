@@ -11,7 +11,7 @@ import {
 } from 'react-bulma-components';
 
 // context
-import { GeneFilterToolConsumer } from './GeneFilterToolContext';
+import { QueryUIConsumer } from '../QueryUIContext';
 
 // css
 
@@ -35,7 +35,7 @@ const TableBody = ({ goTerms, selectedTerms, handleClick }) => {
   const rows = sortedGoTerms.map(id => (
     <tr key={id}>
       <td style={{textAlign: 'center', 'verticalAlign': 'middle', width: 100 }}>
-        <GeneFilterToolConsumer>
+        <QueryUIConsumer>
           {({ removeSelectedTerm, addSelectedTerms }) => (
             selectedTermsSet.has(id) ?
             <Button remove onClick={() =>removeSelectedTerm(id)} />
@@ -44,7 +44,7 @@ const TableBody = ({ goTerms, selectedTerms, handleClick }) => {
               Add
             </Button>
           )}
-        </GeneFilterToolConsumer>
+        </QueryUIConsumer>
       </td>
       <td>
         {id}
@@ -115,8 +115,8 @@ export default class GeneFilterTable extends React.Component {
     const { handleClick, onClose } = this;
 
     return (
-      <GeneFilterToolConsumer>
-        {({ selectedTerms }) => (
+      <QueryUIConsumer>
+        {({ ui: { selectedTerms } }) => (
         <Table className="GeneFilterTable">
           {
             this.state.modal &&
@@ -129,13 +129,13 @@ export default class GeneFilterTable extends React.Component {
           <thead>
             <tr>
               <th style={{textAlign: 'center', 'verticalAlign': 'middle', width: 100 }}>
-                <GeneFilterToolConsumer>
+                <QueryUIConsumer>
                   {({ addSelectedTerms }) => (
                     <Button onClick={() => addSelectedTerms(...goTerms.allIds)}>
                       Add all
                     </Button>
                   )}
-                </GeneFilterToolConsumer>
+                </QueryUIConsumer>
               </th>
               <th>
                 <abbr title="GOTerm ID">ID</abbr>
@@ -155,7 +155,7 @@ export default class GeneFilterTable extends React.Component {
           />
         </Table>
         )}
-      </GeneFilterToolConsumer>
+      </QueryUIConsumer>
     )
   }
 

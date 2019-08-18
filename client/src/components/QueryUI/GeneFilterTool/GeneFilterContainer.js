@@ -8,32 +8,23 @@ import {
   Tabs,
 } from 'react-bulma-components';
 
-// context
-import { GeneFilterToolConsumer } from './GeneFilterToolContext';
-
 // local components
 import GeneFilterTable from './GeneFilterTable';
 
 const { Field, Control, Input } = Form;
 
-const OntologyTabs = ({ activeTab, handleTabClick }) => (
-  <GeneFilterToolConsumer>
-    {({ ontologies }) => {
-      return (
-        <Tabs>
-          {ontologies.allIds.map((id) => (
-            <Tabs.Tab
-              key={id}
-              active={id===activeTab}
-              onClick={() => handleTabClick(id)}
-            >
-              {ontologies.byId[id].name}
-            </Tabs.Tab>
-          ))}
-        </Tabs>
-      );
-    }}
-  </GeneFilterToolConsumer>
+const OntologyTabs = ({ ontologies, activeTab, handleTabClick }) => (
+  <Tabs>
+    {ontologies.allIds.map((id) => (
+      <Tabs.Tab
+        key={id}
+        active={id===activeTab}
+        onClick={() => handleTabClick(id)}
+      >
+        {ontologies.byId[id].name}
+      </Tabs.Tab>
+    ))}
+  </Tabs>
 );
 
 class GeneFilterContainer extends React.Component {
@@ -55,9 +46,9 @@ class GeneFilterContainer extends React.Component {
     })
   }
 
-  filterTerms({ goTerms, ontologies }) {
-    const { allIds: goTermsIds, byId: goTermsById } = goTerms;
-    const { byId: ontologiesById } = ontologies
+  filterTerms() {
+    const { allIds: goTermsIds, byId: goTermsById } = this.props.goTerms;
+    const { byId: ontologiesById } = this.props.ontologies
 
     const activeGoTermsSet = new Set(ontologiesById[this.state.activeTab].goTerms);
 
@@ -77,30 +68,28 @@ class GeneFilterContainer extends React.Component {
     return (
       <Box className="GeneFilterContainer">
         <OntologyTabs
+          ontologies={this.props.ontologies}
           activeTab={this.state.activeTab}
           handleTabClick={this.handleTabClick}
         />
-          <Field>
-            <Control>
-              <Input
-                onChange={this.handleSearchChange}
-                value={this.state.search}
-                placeholder="search"
-              ></Input>
-            </Control>
-          </Field>
-          <div style={{ height: 500, overflow: 'auto' }}>
-            <GeneFilterToolConsumer>
-              {({ goTerms, ontologies }) => (
-                <GeneFilterTable
-                  goTerms={{
-                    byId: goTerms.byId,
-                    allIds: this.filterTerms({ goTerms, ontologies }),
-                  }}
-                />
-              )}
-            </GeneFilterToolConsumer>
-          </div>
+        <Field>
+          <Control>
+            <Input
+              onChange={this.handleSearchChange}
+              value={this.state.search}
+              placeholder="search"
+            ></Input>
+          </Control>
+        </Field>
+        <div style={{ height: 500, overflow: 'auto' }}>
+            <GeneFilterTable
+              goTerms={{
+                byId: this.props.goTerms.byId,
+                allIds: this.filterTerms(),
+              }}
+            />
+          )}
+        </div>
       </Box>
     )
   }

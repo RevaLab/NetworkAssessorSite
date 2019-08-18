@@ -32,11 +32,12 @@ class QueryUI extends React.Component {
       <QueryUIProvider>
         <QueryUIConsumer>
           {({
-            filtering,
-            queryGenes,
+            ui: {
+              filtering,
+              queryGenes,
+            },
             toggleFiltering,
             handleExample,
-            updateFiltered,
           }) =>
           <Container className="QueryUI">
             <Section>
@@ -85,9 +86,7 @@ class QueryUI extends React.Component {
             </Section>
             { filtering &&
             <Section>
-              <GeneFilterTool
-                updateFiltered={updateFiltered}
-              />
+              <GeneFilterTool />
             </Section>
             }
           </Container>}

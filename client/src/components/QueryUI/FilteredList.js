@@ -14,8 +14,10 @@ const FilteredList = () =>{
   return (
     <QueryUIConsumer>
       {({
-        filteredGenes,
-        filteredGenesValue,
+        ui: {
+          filteredGenes,
+          filteredGenesValue,
+        },
         onFilteredChange,
       }) =>
       <Field>

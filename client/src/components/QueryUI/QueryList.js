@@ -14,9 +14,11 @@ const QueryList = () => {
   return (
     <QueryUIConsumer>
       {({
-        filtering,
-        queryGenes,
-        queryGenesValue,
+        ui: {
+          filtering,
+          queryGenesValue,
+          queryGenes,
+        },
         onQueryChange,
       }) =>
         <Field className="QueryList">
