@@ -63,7 +63,7 @@ class QueryUI extends React.Component {
                           id="filter-genes-toggle"
                           checked={filtering}
                           onChange={toggleFiltering}
-                          disabled={!queryGenes.length}
+                          disabled={queryGenes.length===0}
                         >
                         {filtering ? 'Update unfiltered query list' : 'Filter genes'}
                         </Switch>

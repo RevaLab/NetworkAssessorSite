@@ -260,6 +260,34 @@ const pathwayData = {
       }
     },
     "allIds": [1, 2, 3]
+  },
+  pathwayDatabases: {
+    byId: {
+      1: {
+        name: 'KEGG',
+        pathways: ["547", "838", "1097", "1210", "1911", "2725", "2942", "3116", "3240", "3369"],
+      },
+      2: {
+        name: 'My Cancer Genome',
+        pathways: ["3379", "3662", "4903", "5290", "6131", "6145", "6194", "6380", "6492", "7388"],
+      },
+      3: {
+        name: 'Reactome',
+        pathways: ["7504", "8186", "8655", "8848", "9143", "9268", "9820", "9875", "9931", "9932"],
+      }
+    },
+    allIds: [1, 2, 3],
+  },
+  ppiDatabases: {
+    byId: {
+      1: {
+        name: 'STRING'
+      },
+      2: {
+        name: 'BioGrid',
+      },
+    },
+    allIds: [1, 2],
   }
 };
 

@@ -8,10 +8,10 @@ import {
 } from 'react-bulma-components';
 
 
-const TableBody = ({ pathways, loadState }) => {
-  const sorted = pathways.allIds.concat().sort((idA, idB) =>
+const TableBody = ({ pathways, pathwayDatabases, loadState, selectedPathwayDatabase}) => {
+  const sorted = selectedPathwayDatabase ? pathwayDatabases.byId[selectedPathwayDatabase].pathways.concat().sort((idA, idB) =>
     pathways.byId[idA].pVal - pathways.byId[idB].pVal
-  );
+  ) : [];
 
   const rows =
   loadState === 'LOADING' ?

@@ -28,9 +28,11 @@ class QueryUIProvider extends React.Component {
     });
   }
 
-  toggleFiltering = () => {
+  toggleFiltering = (e) => {
     this.setState({
-      filtering: !this.state.filtering,
+      filtering: e.target.checked,
+      filteredGenesValue: '',
+      filteredGenes: [],
     });
   }
 
