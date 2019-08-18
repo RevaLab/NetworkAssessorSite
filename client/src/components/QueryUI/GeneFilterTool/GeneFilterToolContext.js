@@ -11,7 +11,7 @@ const {
 
 class GeneFilterToolProvider extends React.Component {
   state = {
-    loadState: 'UNLOADED',
+    loadState: 'LOADING',
     ontologies: {
       byId: {},
       allIds: [],
@@ -24,10 +24,6 @@ class GeneFilterToolProvider extends React.Component {
   }
 
   async componentDidMount() {
-    this.setState({
-      loadState: 'LOADING',
-    })
-
     const delay = (t, v) => new Promise((res) => setTimeout(res.bind(null, v), t));
     const [ontologies, goTerms] = await Promise.all([
       delay(2000, require('./goData').ontologies),

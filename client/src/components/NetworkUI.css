@@ -11,9 +11,10 @@
   height: calc(100vh - 2em);
 }
 
-.NetworkUI .network-nav-container {
+.NetworkUI .network-topnav-container {
   overflow: scroll;
   height: 30%;
+  width: 100%;
 }
 
 .NetworkUI .network-table-container {
