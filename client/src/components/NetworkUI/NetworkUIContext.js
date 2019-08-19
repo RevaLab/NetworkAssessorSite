@@ -10,6 +10,7 @@ const {
 class NetworkUIProvider extends React.Component {
   state = {
     ui: {
+      selectedPpiDatabase: null,
       selectedPathwayDatabase: null,
       loadState: 'LOADING',
     },
@@ -47,8 +48,9 @@ class NetworkUIProvider extends React.Component {
   }
 
   handleDropdownSelect = (type, val) => {
-    this.setState(({
+    this.setState(state => ({
       ui: {
+        ...state.ui,
         [type]: val,
       },
     }))
@@ -62,6 +64,7 @@ class NetworkUIProvider extends React.Component {
       ...state,
       ...data,
       ui: {
+        selectedPpiDatabase: data.ppiDatabases.allIds[0],
         selectedPathwayDatabase: data.pathwayDatabases.allIds[0],
         loadState: 'LOADED',
       },

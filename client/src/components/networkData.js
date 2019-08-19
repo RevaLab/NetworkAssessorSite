@@ -4,7 +4,6 @@ const pathwayData = {
       "547": {
         "name": "Apoptosis_path",
         "color": "#f85435",
-        "edgesLength": 5,
         "membersLength": 11,
         "overlapLength": 9,
         "pVal": 0.0006363054587206767
@@ -12,7 +11,6 @@ const pathwayData = {
       "838": {
         "name": "TGF-B_Signaling_path",
         "color": "#cfedde",
-        "edgesLength": 1,
         "membersLength": 4,
         "overlapLength": 6,
         "pVal": 0.00145758036001902
@@ -20,7 +18,6 @@ const pathwayData = {
       "1097": {
         "name": "DNA_Damage_path",
         "color": "#4e188c",
-        "edgesLength": 9,
         "membersLength": 11,
         "overlapLength": 1,
         "pVal": 0.00015145873325311322
@@ -28,7 +25,6 @@ const pathwayData = {
       "1210": {
         "name": "Cellular_Architecture_and_Microenvironment_path",
         "color": "#629b5f",
-        "edgesLength": 0,
         "membersLength": 6,
         "overlapLength": 2,
         "pVal": 0.00147910835279699
@@ -36,7 +32,6 @@ const pathwayData = {
       "1911": {
         "name": "Janus_Kinase_JAK-or-Signal_Transducers_and_Activators_of_Transcription_STAT_path",
         "color": "#972086",
-        "edgesLength": 3,
         "membersLength": 9,
         "overlapLength": 2,
         "pVal": 0.00181001789273953
@@ -44,7 +39,6 @@ const pathwayData = {
       "2725": {
         "name": "PI3K-AKT1-MTOR_Signaling_path",
         "color": "#c46bed",
-        "edgesLength": 15,
         "membersLength": 20,
         "overlapLength": 2,
         "pVal": 0.000374773849753141
@@ -52,7 +46,6 @@ const pathwayData = {
       "2942": {
         "name": "Chromatin_Remodeling-DNA_Methylation_path",
         "color": "#e61452",
-        "edgesLength": 1,
         "membersLength": 5,
         "overlapLength": 4,
         "pVal": 0.00002392763949444232
@@ -60,7 +53,6 @@ const pathwayData = {
       "3116": {
         "name": "Hedgehog_Signaling_path",
         "color": "#1aa7ba",
-        "edgesLength": 5,
         "membersLength": 0,
         "overlapLength": 3,
         "pVal": 0.00047829128970683366
@@ -68,7 +60,6 @@ const pathwayData = {
       "3240": {
         "name": "Cell_Cycle_ext_path",
         "color": "#be19f3",
-        "edgesLength": 43,
         "membersLength": 45,
         "overlapLength": 4,
         "pVal": 0.001487112880164228
@@ -76,7 +67,6 @@ const pathwayData = {
       "3369": {
         "name": "Cell_Cycle_Control_path",
         "color": "#fca535",
-        "edgesLength": 27,
         "membersLength": 31,
         "overlapLength": 9,
         "pVal": 0.0007529947487762665
@@ -84,7 +74,6 @@ const pathwayData = {
       "3379": {
         "name": "WNT_ext_path",
         "color": "#fe5d18",
-        "edgesLength": 11,
         "membersLength": 12,
         "overlapLength": 5,
         "pVal": 0.0003250272196074229
@@ -92,7 +81,6 @@ const pathwayData = {
       "3662": {
         "name": "CALC_PKC_ext_path",
         "color": "#923b3e",
-        "edgesLength": 0,
         "membersLength": 5,
         "overlapLength": 8,
         "pVal": 0.0013787906109511874
@@ -100,7 +88,6 @@ const pathwayData = {
       "4903": {
         "name": "Jack_Stat_ext_path",
         "color": "#82fd0f",
-        "edgesLength": 8,
         "membersLength": 14,
         "overlapLength": 3,
         "pVal": 0.0006057200026052585
@@ -108,7 +95,6 @@ const pathwayData = {
       "5290": {
         "name": "Mitogen_Activated_Protein-MAP_Kinase_Signaling_path",
         "color": "#4c7fb8",
-        "edgesLength": 10,
         "membersLength": 17,
         "overlapLength": 5,
         "pVal": 0.0008449145721473537
@@ -116,7 +102,6 @@ const pathwayData = {
       "6131": {
         "name": "Receptor_Tyrosine_KinaseORGrowth_Factor_Signaling_path",
         "color": "#521f74",
-        "edgesLength": 12,
         "membersLength": 14,
         "overlapLength": 7,
         "pVal": 0.000026876482060089303
@@ -124,7 +109,6 @@ const pathwayData = {
       "6145": {
         "name": "Protein_Degradation_Ubiquitination_path",
         "color": "#ec8600",
-        "edgesLength": 3,
         "membersLength": 7,
         "overlapLength": 3,
         "pVal": 0.0009249305959767607
@@ -132,7 +116,6 @@ const pathwayData = {
       "6194": {
         "name": "Kinase_Fusions_path",
         "color": "#2b2e2c",
-        "edgesLength": 5,
         "membersLength": 9,
         "overlapLength": 1,
         "pVal": 0.000954274430117962
@@ -140,7 +123,6 @@ const pathwayData = {
       "6380": {
         "name": "AKT_ext_path",
         "color": "#9561e2",
-        "edgesLength": 19,
         "membersLength": 26,
         "overlapLength": 9,
         "pVal": 0.00185390326478682
@@ -148,7 +130,6 @@ const pathwayData = {
       "6492": {
         "name": "G-Protein_Signaling_path",
         "color": "#273b25",
-        "edgesLength": 2,
         "membersLength": 1,
         "overlapLength": 6,
         "pVal": 0.000795553195050128
@@ -156,7 +137,6 @@ const pathwayData = {
       "7388": {
         "name": "Hormone_Signaling_path",
         "color": "#9dfc27",
-        "edgesLength": 4,
         "membersLength": 5,
         "overlapLength": 3,
         "pVal": 0.0004654716728720567
@@ -164,7 +144,6 @@ const pathwayData = {
       "7504": {
         "name": "Metabolic_Signaling_path",
         "color": "#3a6670",
-        "edgesLength": 1,
         "membersLength": 6,
         "overlapLength": 5,
         "pVal": 0.0007371020317998451
@@ -172,7 +151,6 @@ const pathwayData = {
       "8186": {
         "name": "Immune_Checkpoints_path",
         "color": "#b44e61",
-        "edgesLength": 1,
         "membersLength": 1,
         "overlapLength": 3,
         "pVal": 0.0017095708242806454
@@ -180,7 +158,6 @@ const pathwayData = {
       "8655": {
         "name": "B-Catenin-WNT_Signaling_path",
         "color": "#a2f46f",
-        "edgesLength": 8,
         "membersLength": 9,
         "overlapLength": 0,
         "pVal": 0.0007673122647588677
@@ -188,7 +165,6 @@ const pathwayData = {
       "8848": {
         "name": "HIPPO_ext_path",
         "color": "#9ffd6d",
-        "edgesLength": 0,
         "membersLength": 3,
         "overlapLength": 2,
         "pVal": 0.0008083142932262799
@@ -196,7 +172,6 @@ const pathwayData = {
       "9143": {
         "name": "RNA_Splicing_path",
         "color": "#10aa6a",
-        "edgesLength": 2,
         "membersLength": 2,
         "overlapLength": 4,
         "pVal": 0.0012626687631663671
@@ -204,7 +179,6 @@ const pathwayData = {
       "9268": {
         "name": "TGFB_ext_path",
         "color": "#5c7847",
-        "edgesLength": 6,
         "membersLength": 6,
         "overlapLength": 1,
         "pVal": 0.0004052376646696736
@@ -212,7 +186,6 @@ const pathwayData = {
       "9820": {
         "name": "NFKB_ext_path",
         "color": "#e2648c",
-        "edgesLength": 7,
         "membersLength": 7,
         "overlapLength": 3,
         "pVal": 0.000917922235325964
@@ -220,7 +193,6 @@ const pathwayData = {
       "9875": {
         "name": "Notch_ext_path",
         "color": "#476035",
-        "edgesLength": 3,
         "membersLength": 3,
         "overlapLength": 0,
         "pVal": 0.000620379457046759
@@ -228,7 +200,6 @@ const pathwayData = {
       "9931": {
         "name": "Apoptosis_ext_path",
         "color": "#bb7e85",
-        "edgesLength": 25,
         "membersLength": 25,
         "overlapLength": 3,
         "pVal": 0.0018552338699180581
@@ -236,7 +207,6 @@ const pathwayData = {
       "9932": {
         "name": "ERK_ext_path",
         "color": "#90d8ea",
-        "edgesLength": 3,
         "membersLength": 10,
         "overlapLength": 9,
         "pVal": 0.001980012744088671
@@ -281,14 +251,78 @@ const pathwayData = {
   ppiDatabases: {
     byId: {
       1: {
-        name: 'STRING'
+        name: 'STRING',
+        edgesLengths: {
+          547: 5,
+          838: 1,
+          1097: 9,
+          1210: 0,
+          1911: 3,
+          2725: 15,
+          2942: 1,
+          3116: 5,
+          3240: 43,
+          3369: 27,
+          3379: 11,
+          3662: 0,
+          4903: 8,
+          5290: 10,
+          6131: 12,
+          6145: 3,
+          6194: 5,
+          6380: 19,
+          6492: 2,
+          7388: 4,
+          7504: 1,
+          8186: 1,
+          8655: 8,
+          8848: 0,
+          9143: 2,
+          9268: 6,
+          9820: 7,
+          9875: 3,
+          9931: 25,
+          9932: 3
+        },
       },
       2: {
         name: 'BioGrid',
+        edgesLengths: {
+          547: 3,
+          838: 4,
+          1097: 6,
+          1210: 2,
+          1911: 0,
+          2725: 17,
+          2942: 3,
+          3116: 5,
+          3240: 43,
+          3369: 30,
+          3379: 12,
+          3662: 1,
+          4903: 10,
+          5290: 13,
+          6131: 10,
+          6145: 1,
+          6194: 5,
+          6380: 17,
+          6492: 5,
+          7388: 2,
+          7504: 2,
+          8186: 1,
+          8655: 5,
+          8848: 4,
+          9143: 0,
+          9268: 8,
+          9820: 7,
+          9875: 5,
+          9931: 21,
+          9932: 1
+        },
       },
     },
     allIds: [1, 2],
-  }
+  },
 };
 
 export {

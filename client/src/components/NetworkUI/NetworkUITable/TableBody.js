@@ -8,7 +8,7 @@ import {
 } from 'react-bulma-components';
 
 
-const TableBody = ({ pathways, pathwayDatabases, loadState, selectedPathwayDatabase}) => {
+const TableBody = ({ pathways, pathwayDatabases, ppiDatabases, loadState, selectedPathwayDatabase, selectedPpiDatabase }) => {
   const sorted = selectedPathwayDatabase ? pathwayDatabases.byId[selectedPathwayDatabase].pathways.concat().sort((idA, idB) =>
     pathways.byId[idA].pVal - pathways.byId[idB].pVal
   ) : [];
@@ -30,29 +30,29 @@ const TableBody = ({ pathways, pathwayDatabases, loadState, selectedPathwayDatab
       )}
     </tr>
     :
-    sorted.map(id => (
-    <tr key={id}>
+    sorted.map(pathwayId => (
+    <tr key={pathwayId}>
       <td className="col-name">
-        {pathways.byId[id].name}
+        {pathways.byId[pathwayId].name}
       </td>
       <td>
-        <Icon style={{ borderRadius: '50%', backgroundColor: pathways.byId[id].color,
+        <Icon style={{ borderRadius: '50%', backgroundColor: pathways.byId[pathwayId].color,
           width: '1em',
           height: '1em',
         }}>
         </Icon>
       </td>
       <td className="col-pwaymembers">
-        {pathways.byId[id].membersLength}
+        {pathways.byId[pathwayId].membersLength}
       </td>
       <td className="col-edges">
-        {pathways.byId[id].edgesLength}
+        {ppiDatabases.byId[selectedPpiDatabase].edgesLengths[pathwayId]}
       </td>
       <td className="col-overlap">
-        {pathways.byId[id].overlapLength}
+        {pathways.byId[pathwayId].overlapLength}
       </td>
       <td className="col-sig">
-        {pathways.byId[id].pVal.toExponential(2)}
+        {pathways.byId[pathwayId].pVal.toExponential(2)}
       </td>
     </tr>
   ))
