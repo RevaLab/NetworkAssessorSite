@@ -2,210 +2,210 @@ const pathwayData = {
   "pathways": {
     "byId": {
       "547": {
-        "name": "Apoptosis_path",
+        "name": "Apoptosis path",
         "color": "#f85435",
         "membersLength": 11,
         "overlapLength": 9,
         "pVal": 0.0006363054587206767
       },
       "838": {
-        "name": "TGF-B_Signaling_path",
+        "name": "TGF-B Signaling path",
         "color": "#cfedde",
         "membersLength": 4,
         "overlapLength": 6,
         "pVal": 0.00145758036001902
       },
       "1097": {
-        "name": "DNA_Damage_path",
+        "name": "DNA Damage path",
         "color": "#4e188c",
         "membersLength": 11,
         "overlapLength": 1,
         "pVal": 0.00015145873325311322
       },
       "1210": {
-        "name": "Cellular_Architecture_and_Microenvironment_path",
+        "name": "Cellular Architecture and Microenvironment path",
         "color": "#629b5f",
         "membersLength": 6,
         "overlapLength": 2,
         "pVal": 0.00147910835279699
       },
       "1911": {
-        "name": "Janus_Kinase_JAK-or-Signal_Transducers_and_Activators_of_Transcription_STAT_path",
+        "name": "Janus Kinase JAK-or-Signal Transducers and Activators of Transcription STAT path",
         "color": "#972086",
         "membersLength": 9,
         "overlapLength": 2,
         "pVal": 0.00181001789273953
       },
       "2725": {
-        "name": "PI3K-AKT1-MTOR_Signaling_path",
+        "name": "PI3K-AKT1-MTOR Signaling path",
         "color": "#c46bed",
         "membersLength": 20,
         "overlapLength": 2,
         "pVal": 0.000374773849753141
       },
       "2942": {
-        "name": "Chromatin_Remodeling-DNA_Methylation_path",
+        "name": "Chromatin Remodeling-DNA Methylation path",
         "color": "#e61452",
         "membersLength": 5,
         "overlapLength": 4,
         "pVal": 0.00002392763949444232
       },
       "3116": {
-        "name": "Hedgehog_Signaling_path",
+        "name": "Hedgehog Signaling path",
         "color": "#1aa7ba",
         "membersLength": 0,
         "overlapLength": 3,
         "pVal": 0.00047829128970683366
       },
       "3240": {
-        "name": "Cell_Cycle_ext_path",
+        "name": "Cell Cycle ext path",
         "color": "#be19f3",
         "membersLength": 45,
         "overlapLength": 4,
         "pVal": 0.001487112880164228
       },
       "3369": {
-        "name": "Cell_Cycle_Control_path",
+        "name": "Cell Cycle Control path",
         "color": "#fca535",
         "membersLength": 31,
         "overlapLength": 9,
         "pVal": 0.0007529947487762665
       },
       "3379": {
-        "name": "WNT_ext_path",
+        "name": "WNT ext path",
         "color": "#fe5d18",
         "membersLength": 12,
         "overlapLength": 5,
         "pVal": 0.0003250272196074229
       },
       "3662": {
-        "name": "CALC_PKC_ext_path",
+        "name": "CALC PKC ext path",
         "color": "#923b3e",
         "membersLength": 5,
         "overlapLength": 8,
         "pVal": 0.0013787906109511874
       },
       "4903": {
-        "name": "Jack_Stat_ext_path",
+        "name": "Jack Stat ext path",
         "color": "#82fd0f",
         "membersLength": 14,
         "overlapLength": 3,
         "pVal": 0.0006057200026052585
       },
       "5290": {
-        "name": "Mitogen_Activated_Protein-MAP_Kinase_Signaling_path",
+        "name": "Mitogen Activated Protein-MAP Kinase Signaling path",
         "color": "#4c7fb8",
         "membersLength": 17,
         "overlapLength": 5,
         "pVal": 0.0008449145721473537
       },
       "6131": {
-        "name": "Receptor_Tyrosine_KinaseORGrowth_Factor_Signaling_path",
+        "name": "Receptor Tyrosine KinaseORGrowth Factor Signaling path",
         "color": "#521f74",
         "membersLength": 14,
         "overlapLength": 7,
         "pVal": 0.000026876482060089303
       },
       "6145": {
-        "name": "Protein_Degradation_Ubiquitination_path",
+        "name": "Protein Degradation Ubiquitination path",
         "color": "#ec8600",
         "membersLength": 7,
         "overlapLength": 3,
         "pVal": 0.0009249305959767607
       },
       "6194": {
-        "name": "Kinase_Fusions_path",
+        "name": "Kinase Fusions path",
         "color": "#2b2e2c",
         "membersLength": 9,
         "overlapLength": 1,
         "pVal": 0.000954274430117962
       },
       "6380": {
-        "name": "AKT_ext_path",
+        "name": "AKT ext path",
         "color": "#9561e2",
         "membersLength": 26,
         "overlapLength": 9,
         "pVal": 0.00185390326478682
       },
       "6492": {
-        "name": "G-Protein_Signaling_path",
+        "name": "G-Protein Signaling path",
         "color": "#273b25",
         "membersLength": 1,
         "overlapLength": 6,
         "pVal": 0.000795553195050128
       },
       "7388": {
-        "name": "Hormone_Signaling_path",
+        "name": "Hormone Signaling path",
         "color": "#9dfc27",
         "membersLength": 5,
         "overlapLength": 3,
         "pVal": 0.0004654716728720567
       },
       "7504": {
-        "name": "Metabolic_Signaling_path",
+        "name": "Metabolic Signaling path",
         "color": "#3a6670",
         "membersLength": 6,
         "overlapLength": 5,
         "pVal": 0.0007371020317998451
       },
       "8186": {
-        "name": "Immune_Checkpoints_path",
+        "name": "Immune Checkpoints path",
         "color": "#b44e61",
         "membersLength": 1,
         "overlapLength": 3,
         "pVal": 0.0017095708242806454
       },
       "8655": {
-        "name": "B-Catenin-WNT_Signaling_path",
+        "name": "B-Catenin-WNT Signaling path",
         "color": "#a2f46f",
         "membersLength": 9,
         "overlapLength": 0,
         "pVal": 0.0007673122647588677
       },
       "8848": {
-        "name": "HIPPO_ext_path",
+        "name": "HIPPO ext path",
         "color": "#9ffd6d",
         "membersLength": 3,
         "overlapLength": 2,
         "pVal": 0.0008083142932262799
       },
       "9143": {
-        "name": "RNA_Splicing_path",
+        "name": "RNA Splicing path",
         "color": "#10aa6a",
         "membersLength": 2,
         "overlapLength": 4,
         "pVal": 0.0012626687631663671
       },
       "9268": {
-        "name": "TGFB_ext_path",
+        "name": "TGFB ext path",
         "color": "#5c7847",
         "membersLength": 6,
         "overlapLength": 1,
         "pVal": 0.0004052376646696736
       },
       "9820": {
-        "name": "NFKB_ext_path",
+        "name": "NFKB ext path",
         "color": "#e2648c",
         "membersLength": 7,
         "overlapLength": 3,
         "pVal": 0.000917922235325964
       },
       "9875": {
-        "name": "Notch_ext_path",
+        "name": "Notch ext path",
         "color": "#476035",
         "membersLength": 3,
         "overlapLength": 0,
         "pVal": 0.000620379457046759
       },
       "9931": {
-        "name": "Apoptosis_ext_path",
+        "name": "Apoptosis ext path",
         "color": "#bb7e85",
         "membersLength": 25,
         "overlapLength": 3,
         "pVal": 0.0018552338699180581
       },
       "9932": {
-        "name": "ERK_ext_path",
+        "name": "ERK ext path",
         "color": "#90d8ea",
         "membersLength": 10,
         "overlapLength": 9,
@@ -225,7 +225,7 @@ const pathwayData = {
         "pathways": [4, 5, 6]
       },
       "3": {
-        "name": "my_cancer_genome",
+        "name": "my cancer genome",
         "pathways": [7, 8, 9]
       }
     },
