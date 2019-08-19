@@ -31,6 +31,7 @@ const NetworkUITable = () => {
               selectedPathways,
             },
             updateSelectedPathways,
+            updatePathwayColor,
           }) =>
           <TableBody
             pathways={pathways}
@@ -41,6 +42,7 @@ const NetworkUITable = () => {
             selectedPpiDatabase={selectedPpiDatabase}
             updateSelectedPathways={updateSelectedPathways}
             selectedPathways={selectedPathways}
+            updatePathwayColor={updatePathwayColor}
           />
         }
       </NetworkUIConsumer>

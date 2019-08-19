@@ -69,6 +69,21 @@ class NetworkUIProvider extends React.Component {
     }));
   }
 
+  updatePathwayColor = (id, color) => {
+    this.setState(state => ({
+      pathways: {
+        ...state.pathways,
+        byId: {
+          ...state.pathways.byId,
+          [id]: {
+            ...state.pathways.byId[id],
+            color,
+          }
+        }
+      }
+    }))
+  }
+
   async componentDidMount() {
     const delay = (t, v) => new Promise((res) => setTimeout(res.bind(null, v), t));
     const data = await delay(2000, require('../networkData').pathwayData)
@@ -82,7 +97,6 @@ class NetworkUIProvider extends React.Component {
         selectedPathwayDatabase: data.pathwayDatabases.allIds[0],
         loadState: 'LOADED',
       },
-      updateSelectedPathways: this.updateSelectedPathways,
     }))
   }
 
@@ -91,6 +105,8 @@ class NetworkUIProvider extends React.Component {
       <Provider value={{
         ...this.state,
         handleDropdownSelect: this.handleDropdownSelect,
+        updateSelectedPathways: this.updateSelectedPathways,
+        updatePathwayColor: this.updatePathwayColor,
       }}>
         {this.props.children}
       </Provider>

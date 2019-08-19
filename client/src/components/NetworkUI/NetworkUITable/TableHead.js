@@ -8,8 +8,7 @@ const TableHead = () => {
         <th className="col-name">
           Name
         </th>
-        <th className="col-color">
-        </th>
+        <th className="col-color"></th>
         <th className="col-pwaymembers">
           <abbr title="Pathway members">
             L

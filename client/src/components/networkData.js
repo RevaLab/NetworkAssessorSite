@@ -246,7 +246,7 @@ const pathwayData = {
         pathways: ["7504", "8186", "8655", "8848", "9143", "9268", "9820", "9875", "9931", "9932"],
       }
     },
-    allIds: [1, 2, 3],
+    allIds: [2, 1, 3],
   },
   ppiDatabases: {
     byId: {
