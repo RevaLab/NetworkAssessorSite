@@ -5,24 +5,37 @@ import {
   Form,
 } from 'react-bulma-components';
 
+// context
+import { QueryUIConsumer } from './QueryUIContext';
+
 const { Field, Control, Label, Textarea } = Form;
 
-const FilteredList = ({ value, onChange, genes }) =>{
+const FilteredList = () =>{
   return (
-    <Field>
-      <Label>
-        Filtered Query List
-      </Label>
-      <span>Filtered List: {genes.length} Genes</span>
-      <Control>
-        <Textarea
-          placeholder="Use GO Term selectors below, or modify here"
-          name="filtered_list"
-          onChange={onChange}
-          value={value}
-        />
-      </Control>
-    </Field>
+    <QueryUIConsumer>
+      {({
+        ui: {
+          filteredGenes,
+          filteredGenesValue,
+        },
+        onFilteredChange,
+      }) =>
+      <Field>
+        <Label>
+          Filtered Query List
+        </Label>
+        <span>Filtered List: {filteredGenes.length} Genes</span>
+        <Control>
+          <Textarea
+            placeholder="Use GO Term selectors below, or modify here"
+            name="filtered_list"
+            onChange={onFilteredChange}
+            value={filteredGenesValue}
+          />
+        </Control>
+      </Field>
+      }
+    </QueryUIConsumer>
   )
 }
 

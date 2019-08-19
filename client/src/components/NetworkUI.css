@@ -3,17 +3,18 @@
 }
 
 .NetworkUI .network-nav {
-  width: 450px;
+  width: 460px;
 }
 
 .NetworkUI nav.box {
   padding: 0;
-  height: calc(100vh - 2em);
+  height: calc(100vh - 4em);
 }
 
-.NetworkUI .network-nav-container {
+.NetworkUI .network-topnav-container {
   overflow: scroll;
   height: 30%;
+  width: 100%;
 }
 
 .NetworkUI .network-table-container {
@@ -24,8 +25,7 @@
 
 .NetworkUI table {
   table-layout: fixed;
-  font-size: 11px;
-  padding: 0;
+  font-size: 14px;
 }
 
 .NetworkUI table th abbr {
@@ -34,50 +34,76 @@
 .NetworkUI td {
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
   text-align: center;
-
 }
 
-.NetworkUI table td.col-name,
-.NetworkUI table td.col-sig {
+.NetworkUI table .pway-select {
+  width: 25px;
+}
+
+.NetworkUI table td.col-name {
   text-align: left;
   white-space: normal;
-  overflow: scroll;
   text-overflow: clip;
-}
-
-
-.NetworkUI table .col-name {
-  /* width: 200px; */
 }
 
 .NetworkUI table .col-color {
   width: 35px;
 }
 
+.NetworkUI table .col-color button {
+  vertical-align: middle;
+  padding: 0;
+  border-radius: 50%;
+  width: 1em;
+  height: 1em;
+}
+
 .NetworkUI table .col-pwaymembers {
-  width: 40px;
+  width: 30px;
   text-align: right;
 }
 
 .NetworkUI table .col-edges {
-  width: 40px;
+  width: 30px;
   text-align: right;
 }
 
 .NetworkUI table .col-overlap {
-  width: 40px;
+  width: 30px;
   text-align: right;
 }
 
 .NetworkUI table .col-sig {
-  width: 65px;
+  width: 75px;
 }
 
 .NetworkUI main.network-container {
   width: calc(100vw - 470px);
-  min-width: 700px;
-  height: calc(100vh - 2em);
+  min-width: 100%;
+  height: calc(100vh - 4em);
   background-color: lightblue;
+  margin: 0 auto;
+}
+
+@media only screen and (max-width: 770px) {
+  .NetworkUI .network-nav,
+  .NetworkUI .network-container {
+    width: 100vw;
+  }
+}
+
+.NetworkUI .compact-picker-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.NetworkUI .compact-picker-container {
+  position: absolute;
+  z-index: 2;
+  right: 180px;
 }
