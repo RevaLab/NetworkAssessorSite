@@ -8,7 +8,16 @@ import {
 } from 'react-bulma-components';
 
 
-const TableBody = ({ pathways, pathwayDatabases, ppiDatabases, loadState, selectedPathwayDatabase, selectedPpiDatabase }) => {
+const TableBody = ({
+    pathways,
+    pathwayDatabases,
+    ppiDatabases,
+    loadState,
+    selectedPathwayDatabase,
+    selectedPpiDatabase,
+    updateSelectedPathways,
+    selectedPathways,
+  }) => {
   const sorted = selectedPathwayDatabase ? pathwayDatabases.byId[selectedPathwayDatabase].pathways.concat().sort((idA, idB) =>
     pathways.byId[idA].pVal - pathways.byId[idB].pVal
   ) : [];
@@ -16,7 +25,7 @@ const TableBody = ({ pathways, pathwayDatabases, ppiDatabases, loadState, select
   const rows =
   loadState === 'LOADING' ?
     <tr>
-      {[1,2,3,4,5,6].map((col) =>
+      {[1,2,3,4,5,6, 7].map((col) =>
         <td key={col}>
           <Loader style={{
             width: 25,
@@ -32,6 +41,12 @@ const TableBody = ({ pathways, pathwayDatabases, ppiDatabases, loadState, select
     :
     sorted.map(pathwayId => (
     <tr key={pathwayId}>
+      <td className="pway-select">
+        <input type="checkbox"
+          onChange={e => updateSelectedPathways(pathwayId, e.target.checked)}
+          value={selectedPathways[pathwayId]}
+        />
+      </td>
       <td className="col-name">
         {pathways.byId[pathwayId].name}
       </td>

@@ -40,6 +40,10 @@
 
 }
 
+.NetworkUI table .pway-select {
+  width: 25px;
+}
+
 .NetworkUI table td.col-name,
 .NetworkUI table td.col-sig {
   text-align: left;

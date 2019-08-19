@@ -19,7 +19,19 @@ const NetworkUITable = () => {
     <Table>
       <TableHead />
       <NetworkUIConsumer>
-        {({ pathways, pathwayDatabases, ppiDatabases, ui: { loadState, selectedPathwayDatabase, selectedPpiDatabase }}) =>
+        {
+          ({
+            pathways,
+            pathwayDatabases,
+            ppiDatabases,
+            ui: {
+              loadState,
+              selectedPathwayDatabase,
+              selectedPpiDatabase,
+              selectedPathways,
+            },
+            updateSelectedPathways,
+          }) =>
           <TableBody
             pathways={pathways}
             loadState={loadState}
@@ -27,6 +39,8 @@ const NetworkUITable = () => {
             pathwayDatabases={pathwayDatabases}
             ppiDatabases={ppiDatabases}
             selectedPpiDatabase={selectedPpiDatabase}
+            updateSelectedPathways={updateSelectedPathways}
+            selectedPathways={selectedPathways}
           />
         }
       </NetworkUIConsumer>

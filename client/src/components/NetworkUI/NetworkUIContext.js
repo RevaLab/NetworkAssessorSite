@@ -13,6 +13,7 @@ class NetworkUIProvider extends React.Component {
       selectedPpiDatabase: null,
       selectedPathwayDatabase: null,
       loadState: 'LOADING',
+      selectedPathways: {},
     },
     pathways: {
       byId: {
@@ -56,6 +57,18 @@ class NetworkUIProvider extends React.Component {
     }))
   }
 
+  updateSelectedPathways = (id, val) => {
+    this.setState(state => ({
+      ui: {
+        ...state.ui,
+        selectedPathways: {
+          ...state.ui.selectedPathways,
+          [id]: val,
+        }
+      }
+    }));
+  }
+
   async componentDidMount() {
     const delay = (t, v) => new Promise((res) => setTimeout(res.bind(null, v), t));
     const data = await delay(2000, require('../networkData').pathwayData)
@@ -64,10 +77,12 @@ class NetworkUIProvider extends React.Component {
       ...state,
       ...data,
       ui: {
+        ...state.ui,
         selectedPpiDatabase: data.ppiDatabases.allIds[0],
         selectedPathwayDatabase: data.pathwayDatabases.allIds[0],
         loadState: 'LOADED',
       },
+      updateSelectedPathways: this.updateSelectedPathways,
     }))
   }
 
