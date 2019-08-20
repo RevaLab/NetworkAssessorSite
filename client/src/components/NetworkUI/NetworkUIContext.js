@@ -51,7 +51,22 @@ class NetworkUIProvider extends React.Component {
   }
 
   updatePpiDatabases = async (ppiDatabaseId, geneList) => {
-    const data = await require('../networkData').ppiDatabaseBioGrid();
+    const data = await require('../networkData').ppiDatabases(ppiDatabaseId);
+
+    this.setState(state => merge(
+      {},
+      state,
+      data,
+      {
+        ui: {
+          loadState: 'LOADED',
+        }
+      }
+    ))
+  }
+
+  updatePathwayDatabases = async (pathwayDbId, geneList) => {
+    const data = await require('../networkData').pathwayDatabasePathways(pathwayDbId);
 
     this.setState(state => merge(
       {},
@@ -89,7 +104,7 @@ class NetworkUIProvider extends React.Component {
           }
         }
       }
-    ))
+    ), () => console.log(this.state.ui.selectedPathways))
   }
 
   updatePathwayColor = (id, color) => {
@@ -109,16 +124,38 @@ class NetworkUIProvider extends React.Component {
   }
 
   async componentDidMount() {
-    const data = await require('../networkData').pathwayData();
+    const pathwayDbsData = await require('../networkData').pathways();
+
+    const selectedPathwayDatabase = pathwayDbsData.pathwayDatabases.allIds[0];
+    const selectedPpiDatabase = pathwayDbsData.ppiDatabases.allIds[0];
 
     this.setState(state => merge(
       {},
       state,
-      data,
+      pathwayDbsData,
       {
         ui: {
-          selectedPpiDatabase: data.ppiDatabases.allIds[0],
-          selectedPathwayDatabase: data.pathwayDatabases.allIds[0],
+          selectedPpiDatabase,
+          selectedPathwayDatabase,
+        }
+      }
+    ));
+
+    const [
+      ppiDatabaseData,
+      pathwaysData,
+    ] = await Promise.all([
+      require('../networkData').ppiDatabases(selectedPpiDatabase),
+      require('../networkData').pathwayDatabasePathways(selectedPathwayDatabase)
+    ]);
+
+    this.setState(state => merge(
+      {},
+      state,
+      ppiDatabaseData,
+      pathwaysData,
+      {
+        ui: {
           loadState: 'LOADED',
         }
       }
@@ -133,6 +170,7 @@ class NetworkUIProvider extends React.Component {
         updateSelectedPathways: this.updateSelectedPathways,
         updatePathwayColor: this.updatePathwayColor,
         updatePpiDatabases: this.updatePpiDatabases,
+        updatePathwayDatabases: this.updatePathwayDatabases,
       }}>
         {this.props.children}
       </Provider>

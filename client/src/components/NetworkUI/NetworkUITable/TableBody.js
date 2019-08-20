@@ -33,10 +33,10 @@ const TableBody = ({
     }
   }
 
-
-  const sorted = selectedPathwayDatabase ? pathwayDatabases.byId[selectedPathwayDatabase].pathways.concat().sort((idA, idB) =>
-  pathways.byId[idA].pVal - pathways.byId[idB].pVal
-  ) : [];
+  const pathwaysToSort = (selectedPathwayDatabase && pathwayDatabases.byId[selectedPathwayDatabase].pathways) || [];
+  const sorted = pathwaysToSort.concat().sort((idA, idB) =>
+    pathways.byId[idA].pVal - pathways.byId[idB].pVal
+  );
 
   const ColorPicker = ({ pathwayId }) => {
     const handleKey = (e) => {
@@ -90,7 +90,7 @@ const TableBody = ({
       <td className="pway-select">
         <input type="checkbox"
           onChange={e => updateSelectedPathways(pathwayId, e.target.checked)}
-          value={selectedPathways[pathwayId]}
+          checked={!!selectedPathways[pathwayId]}
         />
       </td>
       <td className="col-name">
@@ -145,7 +145,7 @@ const TableBody = ({
             </Modal.Card>
           </Modal>
         }
-        <a>{pathways.byId[pathwayId].membersLength}</a>
+        <button className="as-link">{pathways.byId[pathwayId].membersLength}</button>
       </td>
       <td className="col-edges">
         {ppiDatabases.byId[selectedPpiDatabase].edgesLengths[pathwayId]}

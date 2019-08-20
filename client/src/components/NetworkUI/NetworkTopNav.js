@@ -21,13 +21,20 @@ class NetworkTopNav extends React.Component {
               pathwayDatabases,
               ppiDatabases,
               handleDropdownSelect,
-              updatePpiDatabases
+              updatePpiDatabases,
+              updatePathwayDatabases,
             }) =>
             <div>
               {ui.selectedPathwayDatabase &&
               <Dropdown
                 value={ui.selectedPathwayDatabase}
-                onChange={(value) => handleDropdownSelect('selectedPathwayDatabase', value)} >
+                onChange={(value) => handleDropdownSelect(
+                  'selectedPathwayDatabase',
+                  value,
+                  pathwayDatabases.byId[value].pathways ?
+                  undefined
+                  : () => updatePathwayDatabases(value, []) // send gene list
+                )} >
                 {pathwayDatabases.allIds.map(id =>
                   <Dropdown.Item key={id} value={id}>
                     {pathwayDatabases.byId[id].name}
@@ -42,7 +49,7 @@ class NetworkTopNav extends React.Component {
                     'selectedPpiDatabase',
                     value,
                     ppiDatabases.byId[value].edgesLengths ?
-                    undefined // will take a genelist
+                    undefined
                     : () => updatePpiDatabases(value, [])
                   )
                 }
