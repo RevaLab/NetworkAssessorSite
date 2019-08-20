@@ -15,9 +15,16 @@ class NetworkTopNav extends React.Component {
     return (
       <Container className="network-topnav-container">
         <NetworkUIConsumer>
-          {({ ui, pathwayDatabases, ppiDatabases, handleDropdownSelect }) =>
-            ui.selectedPathwayDatabase ?
+          {
+            ({
+              ui,
+              pathwayDatabases,
+              ppiDatabases,
+              handleDropdownSelect,
+              updatePpiDatabases
+            }) =>
             <div>
+              {ui.selectedPathwayDatabase &&
               <Dropdown
                 value={ui.selectedPathwayDatabase}
                 onChange={(value) => handleDropdownSelect('selectedPathwayDatabase', value)} >
@@ -26,19 +33,27 @@ class NetworkTopNav extends React.Component {
                     {pathwayDatabases.byId[id].name}
                   </Dropdown.Item>
                 )}
-              </Dropdown>
+              </Dropdown>}
+             {ui.selectedPpiDatabase &&
               <Dropdown
                 value={ui.selectedPpiDatabase}
-                onChange={(value) => handleDropdownSelect('selectedPpiDatabase', value)}
+                onChange = {
+                  (value) => handleDropdownSelect(
+                    'selectedPpiDatabase',
+                    value,
+                    ppiDatabases.byId[value].edgesLengths ?
+                    undefined // will take a genelist
+                    : () => updatePpiDatabases(value, [])
+                  )
+                }
               >
                 {ppiDatabases.allIds.map(id =>
                   <Dropdown.Item key={id} value={id}>
                     {ppiDatabases.byId[id].name}
                   </Dropdown.Item>
                 )}
-              </Dropdown>
+              </Dropdown>}
             </div>
-            : null
           }
         </NetworkUIConsumer>
       </Container>

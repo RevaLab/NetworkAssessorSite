@@ -1,5 +1,7 @@
 import React from 'react';
 
+import merge from 'lodash/merge';
+
 let NetworkUIContext
 const {
   Provider,
@@ -48,56 +50,79 @@ class NetworkUIProvider extends React.Component {
     }
   }
 
-  handleDropdownSelect = (type, val) => {
-    this.setState(state => ({
-      ui: {
-        ...state.ui,
-        [type]: val,
-      },
-    }))
+  updatePpiDatabases = async (ppiDatabaseId, geneList) => {
+    const data = await require('../networkData').ppiDatabaseBioGrid();
+
+    this.setState(state => merge(
+      {},
+      state,
+      data,
+      {
+        ui: {
+          loadState: 'LOADED',
+        }
+      }
+    ))
+  }
+
+  handleDropdownSelect = (type, val, callback) => {
+    this.setState(state => merge(
+      {},
+      state,
+      {
+        ui: {
+          [type]: val,
+          loadState: callback ? 'LOADING' : state.ui.loadState,
+        }
+      }
+    ), callback ? () => callback(val) : () => {})
   }
 
   updateSelectedPathways = (id, val) => {
-    this.setState(state => ({
-      ui: {
-        ...state.ui,
-        selectedPathways: {
-          ...state.ui.selectedPathways,
-          [id]: val,
-        }
-      }
-    }));
-  }
-
-  updatePathwayColor = (id, color) => {
-    this.setState(state => ({
-      pathways: {
-        ...state.pathways,
-        byId: {
-          ...state.pathways.byId,
-          [id]: {
-            ...state.pathways.byId[id],
-            color,
+    this.setState(state => merge(
+      {},
+      state,
+      {
+        ui: {
+          selectedPathways: {
+            [id]: val,
           }
         }
       }
-    }))
+    ))
+  }
+
+  updatePathwayColor = (id, color) => {
+    this.setState(state => merge(
+      {},
+      state,
+      {
+        pathways: {
+          byId: {
+            [id]: {
+              color,
+            }
+          }
+        }
+      }
+    ))
   }
 
   async componentDidMount() {
-    const delay = (t, v) => new Promise((res) => setTimeout(res.bind(null, v), t));
-    const data = await delay(2000, require('../networkData').pathwayData)
+    const data = await require('../networkData').pathwayData();
 
-    this.setState(state => ({
-      ...state,
-      ...data,
-      ui: {
-        ...state.ui,
-        selectedPpiDatabase: data.ppiDatabases.allIds[0],
-        selectedPathwayDatabase: data.pathwayDatabases.allIds[0],
-        loadState: 'LOADED',
-      },
-    }))
+    this.setState(state => merge(
+      {},
+      state,
+      data,
+      {
+        ui: {
+          selectedPpiDatabase: data.ppiDatabases.allIds[0],
+          selectedPathwayDatabase: data.pathwayDatabases.allIds[0],
+          loadState: 'LOADED',
+        }
+      }
+    ))
   }
 
   render() {
@@ -107,6 +132,7 @@ class NetworkUIProvider extends React.Component {
         handleDropdownSelect: this.handleDropdownSelect,
         updateSelectedPathways: this.updateSelectedPathways,
         updatePathwayColor: this.updatePathwayColor,
+        updatePpiDatabases: this.updatePpiDatabases,
       }}>
         {this.props.children}
       </Provider>

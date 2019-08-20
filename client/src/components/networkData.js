@@ -287,6 +287,16 @@ const pathwayData = {
       },
       2: {
         name: 'BioGrid',
+      },
+    },
+    allIds: [1, 2],
+  },
+};
+
+const ppiDatabaseBioGrid = {
+  ppiDatabases: {
+    byId: {
+      2: {
         edgesLengths: {
           547: 3,
           838: 4,
@@ -319,12 +329,16 @@ const pathwayData = {
           9931: 21,
           9932: 1
         },
-      },
-    },
-    allIds: [1, 2],
-  },
-};
+      }
+    }
+  }
+}
+
+const delay = (t, v) => new Promise((res) => setTimeout(res.bind(null, v), t));
+const pathwayDataPromise = () => delay(2000, pathwayData);
+const ppiDatabaseBioGridPromise = () => delay(2000, ppiDatabaseBioGrid);
 
 export {
-  pathwayData,
+  pathwayDataPromise as pathwayData,
+  ppiDatabaseBioGridPromise as ppiDatabaseBioGrid,
 }
