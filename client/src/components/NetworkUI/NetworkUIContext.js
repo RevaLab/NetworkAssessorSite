@@ -11,6 +11,10 @@ const {
 
 class NetworkUIProvider extends React.Component {
   state = {
+    queryList: {
+      validGenes: [],
+      invalidGenes: [],
+    },
     ui: {
       selectedPpiDatabase: null,
       selectedPathwayDatabase: null,

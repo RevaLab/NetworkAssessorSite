@@ -15,12 +15,15 @@
   overflow: scroll;
   height: 30%;
   width: 100%;
+  padding: 1em;
+  box-sizing: border-box;
 }
 
 .NetworkUI .network-table-container {
-  height: 70%;
   overflow: scroll;
+  height: 70%;
   width: 100%;
+  padding: .5em;
 }
 
 .NetworkUI table {
