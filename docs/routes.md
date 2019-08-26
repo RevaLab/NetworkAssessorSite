@@ -5,7 +5,7 @@
 * **PATH**: `/api/ontologies/`
 * **METHOD**: GET
 * **QUERY PARAMETERS**: `none`
-* **RESPONSE BODY:**:
+* **RESPONSE BODY**:
 ```json
 {
   "ontologies": {
@@ -23,11 +23,11 @@
     "allIds": ["molecularFunction", "biologicalProcess", "cellularLocation"]
 ```
 
-## Go Terms
+## GO Terms
 
 * **PATH**: `/api/go-terms/`
 * **METHOD**: POST
-* **REQUEST BODY**:
+* **REQUEST**: POST `/api/go-terms`
 ```json
 {
   "genes": [
@@ -40,7 +40,7 @@
   ]
 }
 ```
-* **RESPONSE BODY:**
+* **RESPONSE BODY**:
 ```json
 {
   "ontologies": {
@@ -139,13 +139,12 @@
 }
 ```
 
-* **PATH**: `/api/ppi-edges-lengths`
+* **PATH**: `/api/ppi-edges-lengths/<ppi-database-id>`
 * **METHOD**: POST
-* **REQUEST BODY**: `none`
+* **REQUEST**: POST `/api/ppi-edges-lengths/2`
 ```json
 {
   "pathwayDatabase": 1,
-  "ppiDatabase": 2,
   "genes": [
     "FLT3", "SMO", "GLA", "SGCB", "OAT", "CAPN3", "ASS1", "AGXT", "AKT1", "PTPN1", "PIAS1", "CDKN1B", "THEM4", "CCNE1", "MAP2K4", "ATG7", "ATG12", "BAD", "BCL2L1", "BADGENE"
   ]
@@ -204,4 +203,128 @@
     }
   }
 };
+```
+
+* **PATH**: `/api/pathway-databases/<pathway-database-id>`
+* **METHOD**: POST
+* **REQUEST**: POST `/api/pathway-databases/1`
+```json
+{
+  "genes": [
+    "FLT3", "SMO", "GLA", "SGCB", "OAT", "CAPN3", "ASS1", "AGXT", "AKT1", "PTPN1", "PIAS1", "CDKN1B", "THEM4", "CCNE1", "MAP2K4", "ATG7", "ATG12", "BAD", "BCL2L1", "BADGENE"
+  ]
+}
+```
+* **RESPONSE BODY**:
+```json
+{
+  "query": {
+    "validGenes": [
+      "FLT3",
+      "SMO",
+      "GLA",
+      "SGCB",
+      "OAT",
+      "CAPN3",
+      "ASS1",
+      "AGXT",
+      "AKT1",
+      "PTPN1",
+      "PIAS1",
+      "CDKN1B",
+      "THEM4",
+      "CCNE1",
+      "MAP2K4",
+      "ATG7",
+      "ATG12",
+      "BAD",
+      "BCL2L1"
+    ],
+    "invalidGenes": [
+      "BADGENE"
+    ]
+  },
+  "pathways": {
+    "byId": {
+      "547": {
+        "name": "Apoptosis path",
+        "color": "#f85435",
+        "membersLength": 11,
+        "overlapLength": 9,
+        "pVal": 0.0006363054587206767
+      },
+      "838": {
+        "name": "TGF-B Signaling path",
+        "color": "#cfedde",
+        "membersLength": 4,
+        "overlapLength": 6,
+        "pVal": 0.00145758036001902
+      },
+      "1097": {
+        "name": "DNA Damage path",
+        "color": "#4e188c",
+        "membersLength": 11,
+        "overlapLength": 1,
+        "pVal": 0.00015145873325311322
+      },
+      "1210": {
+        "name": "Cellular Architecture and Microenvironment path",
+        "color": "#629b5f",
+        "membersLength": 6,
+        "overlapLength": 2,
+        "pVal": 0.00147910835279699
+      },
+      "1911": {
+        "name": "Janus Kinase JAK-or-Signal Transducers and Activators of Transcription STAT path",
+        "color": "#972086",
+        "membersLength": 9,
+        "overlapLength": 2,
+        "pVal": 0.00181001789273953
+      },
+      "2725": {
+        "name": "PI3K-AKT1-MTOR Signaling path",
+        "color": "#c46bed",
+        "membersLength": 20,
+        "overlapLength": 2,
+        "pVal": 0.000374773849753141
+      },
+      "2942": {
+        "name": "Chromatin Remodeling-DNA Methylation path",
+        "color": "#e61452",
+        "membersLength": 5,
+        "overlapLength": 4,
+        "pVal": 0.00002392763949444232
+      },
+      "3116": {
+        "name": "Hedgehog Signaling path",
+        "color": "#1aa7ba",
+        "membersLength": 0,
+        "overlapLength": 3,
+        "pVal": 0.00047829128970683366
+      },
+      "3240": {
+        "name": "Cell Cycle ext path",
+        "color": "#be19f3",
+        "membersLength": 45,
+        "overlapLength": 4,
+        "pVal": 0.001487112880164228
+      },
+      "3369": {
+        "name": "Cell Cycle Control path",
+        "color": "#fca535",
+        "membersLength": 31,
+        "overlapLength": 9,
+        "pVal": 0.0007529947487762665
+      }
+    }
+  },
+  "pathwayDatabases": {
+    "byId": {
+      "1": {
+        "name": "KEGG",
+        "pathways": ["547", "838", "1097", "1210", "1911", "2725", "2942", "3116", "3240", "3369"]
+      }
+    }
+  }
+}
 ```
