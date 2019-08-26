@@ -12,6 +12,7 @@ import {
 // local components
 import NetworkUITable from './NetworkUI/NetworkUITable/NetworkUITable';
 import NetworkTopNav from './NetworkUI/NetworkTopNav';
+import NetworkContainer from './NetworkUI/NetworkContainer'
 
 // context
 import { NetworkUIProvider } from './NetworkUI/NetworkUIContext';
@@ -20,23 +21,35 @@ import { NetworkUIProvider } from './NetworkUI/NetworkUIContext';
 import './NetworkUI.css';
 
 class NetworkUi extends React.Component {
+  state = {
+    isOpen: true,
+  }
+
+  toggleOpen = () => {
+    this.setState(state => ({
+      isOpen: !state.isOpen,
+    }))
+  }
+
   render() {
     return (
       <NetworkUIProvider>
         <Section className="NetworkUI">
+          <button onClick={this.toggleOpen}>toggle</button>
           <Columns gapless multiline={false}>
-            <Columns.Column>
-              <Box renderAs="nav" className="network-nav">
-                <NetworkTopNav />
-                <Container className="network-table-container">
-                  <NetworkUITable />
-                </Container>
-              </Box>
+            <Columns.Column style={{ display: this.state.isOpen ? 'inherit' : 'none'  }}>
+                <Box
+                  renderAs="nav"
+                  className="network-nav"
+                >
+                  <NetworkTopNav />
+                  <Container className="network-table-container">
+                    <NetworkUITable />
+                  </Container>
+                </Box>
             </Columns.Column>
             <Columns.Column style={{margin: '0 auto'}}>
-              <Box renderAs="main" className="network-container">
-
-              </Box>
+              <NetworkContainer />
             </Columns.Column>
           </Columns>
         </Section>

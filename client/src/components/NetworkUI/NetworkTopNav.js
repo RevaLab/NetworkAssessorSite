@@ -1,49 +1,116 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // component libraries
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import {
+  Button,
+  Content,
   Container,
+  Columns,
   Dropdown,
+  Form,
+  Modal,
 } from 'react-bulma-components';
 
 import { NetworkUIConsumer } from './NetworkUIContext';
 
+const { Label } = Form;
 
-class NetworkTopNav extends React.Component {
-  render() {
+const NetworkTopNav = () => {
+    const [modal, setModal] = useState(null);
+
     return (
       <Container className="network-topnav-container">
         <NetworkUIConsumer>
-          {({ ui, pathwayDatabases, ppiDatabases, handleDropdownSelect }) =>
-            ui.selectedPathwayDatabase ?
-            <div>
-              <Dropdown
-                value={ui.selectedPathwayDatabase}
-                onChange={(value) => handleDropdownSelect('selectedPathwayDatabase', value)} >
-                {pathwayDatabases.allIds.map(id =>
-                  <Dropdown.Item key={id} value={id}>
-                    {pathwayDatabases.byId[id].name}
-                  </Dropdown.Item>
-                )}
-              </Dropdown>
-              <Dropdown
-                value={ui.selectedPpiDatabase}
-                onChange={(value) => handleDropdownSelect('selectedPpiDatabase', value)}
-              >
-                {ppiDatabases.allIds.map(id =>
-                  <Dropdown.Item key={id} value={id}>
-                    {ppiDatabases.byId[id].name}
-                  </Dropdown.Item>
-                )}
-              </Dropdown>
-            </div>
-            : null
-          }
-        </NetworkUIConsumer>
+            {
+              ({
+                queryList,
+                ui,
+                pathwayDatabases,
+                ppiDatabases,
+                handleDropdownSelect,
+                updatePpiDatabases,
+                updatePathwayDatabases,
+              }) =>
+              <Columns>
+                {ui.selectedPathwayDatabase &&
+                <Columns.Column>
+                  <Label>Pathway Database</Label>
+                  <Dropdown
+                    value={ui.selectedPathwayDatabase}
+                    onChange={(value) => handleDropdownSelect(
+                      'selectedPathwayDatabase',
+                      value,
+                      pathwayDatabases.byId[value].pathways ?
+                      undefined
+                      : () => updatePathwayDatabases(value, []) // send gene list
+                    )} >
+                    {pathwayDatabases.allIds.map(id =>
+                      <Dropdown.Item key={id} value={id}>
+                        {pathwayDatabases.byId[id].name}
+                      </Dropdown.Item>
+                    )}
+                  </Dropdown>
+                </Columns.Column>}
+              {ui.selectedPpiDatabase &&
+              <Columns.Column>
+                <Label>PPI Database</Label>
+                <Dropdown
+                  value={ui.selectedPpiDatabase}
+                  onChange = {
+                    (value) => handleDropdownSelect(
+                      'selectedPpiDatabase',
+                      value,
+                      ppiDatabases.byId[value].edgesLengths ?
+                      undefined
+                      : () => updatePpiDatabases(value, [])
+                    )
+                  }
+                >
+                  {ppiDatabases.allIds.map(id =>
+                    <Dropdown.Item key={id} value={id}>
+                      {ppiDatabases.byId[id].name}
+                    </Dropdown.Item>
+                  )}
+                </Dropdown>
+              </Columns.Column>}
+              <Columns.Column>
+                <Button onClick={() => setModal(true)}>
+                  Show Query List
+                </Button>
+                <Modal
+                  show={!!modal}
+                  onClose={() => setModal(null)}
+                  closeOnBlur={true}
+                  showClose={false}
+                >
+                  <Modal.Card>
+                    <Modal.Card.Head onClose={() => setModal(null)}>
+                      <Modal.Card.Title>
+                        Query List Genes
+                      </Modal.Card.Title>
+                    </Modal.Card.Head>
+                    <Modal.Card.Body>
+                      <Content>
+                        <ul style={{ listStyle: 'none' }}>
+                          {queryList.validGenes.map(gene =>
+                            <li key={gene}>
+                              {gene}
+                            </li>
+                          )}
+
+                        </ul>
+                      </Content>
+                    </Modal.Card.Body>
+                    <Modal.Card.Foot />
+                  </Modal.Card>
+                </Modal>
+              </Columns.Column>
+            </Columns>
+            }
+          </NetworkUIConsumer>
       </Container>
     )
-  }
 }
 
 export default NetworkTopNav;

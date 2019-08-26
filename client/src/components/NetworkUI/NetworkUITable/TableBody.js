@@ -5,7 +5,10 @@ import { CompactPicker } from 'react-color';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import {
   Button,
+  Content,
+  Heading,
   Loader,
+  Modal,
 } from 'react-bulma-components';
 
 const TableBody = ({
@@ -21,6 +24,7 @@ const TableBody = ({
   }) => {
 
   const [colorPicker, setColorPicker] = useState(null);
+  const [modal, setModal] = useState(null);
 
   const handleClose = (e) => {
     if (e.target === e.currentTarget) {
@@ -29,10 +33,10 @@ const TableBody = ({
     }
   }
 
-
-  const sorted = selectedPathwayDatabase ? pathwayDatabases.byId[selectedPathwayDatabase].pathways.concat().sort((idA, idB) =>
-  pathways.byId[idA].pVal - pathways.byId[idB].pVal
-  ) : [];
+  const pathwaysToSort = (selectedPathwayDatabase && pathwayDatabases.byId[selectedPathwayDatabase].pathways) || [];
+  const sorted = pathwaysToSort.concat().sort((idA, idB) =>
+    pathways.byId[idA].pVal - pathways.byId[idB].pVal
+  );
 
   const ColorPicker = ({ pathwayId }) => {
     const handleKey = (e) => {
@@ -86,7 +90,7 @@ const TableBody = ({
       <td className="pway-select">
         <input type="checkbox"
           onChange={e => updateSelectedPathways(pathwayId, e.target.checked)}
-          value={selectedPathways[pathwayId]}
+          checked={!!selectedPathways[pathwayId]}
         />
       </td>
       <td className="col-name">
@@ -106,8 +110,42 @@ const TableBody = ({
           <ColorPicker pathwayId={pathwayId}/>
         }
       </td>
-      <td className="col-pwaymembers">
-        {pathways.byId[pathwayId].membersLength}
+      <td className="col-pwaymembers"
+        onClick={() => setModal(pathwayId)}
+      >
+        {pathwayId === modal &&
+          <Modal
+            show={true}
+            onClose={() => setModal(null)}
+            closeOnBlur={true}
+            showClose={false}
+          >
+            <Modal.Card>
+              <Modal.Card.Head onClose={(e) => {
+                e.stopPropagation();
+                setModal(null)
+              }}>
+                <Modal.Card.Title renderAs="div">
+                  <Heading size={4} renderAs="h1">
+                    {pathways.byId[pathwayId].name}
+                  </Heading>
+                  <Heading subtitle size={6} renderAs="h2">
+                    {pathways.byId[pathwayId].membersLength} Member{pathways.byId[pathwayId].membersLength > 1 ? 's' : ''}
+                  </Heading>
+                </Modal.Card.Title>
+              </Modal.Card.Head>
+              <Modal.Card.Body>
+                <Content>
+                  <ul style={{ listStyle: 'none' }}>
+                    {[1, 2, 3].map(gene => <li key={gene}>{gene}</li>)}
+                  </ul>
+                </Content>
+              </Modal.Card.Body>
+              <Modal.Card.Foot></Modal.Card.Foot>
+            </Modal.Card>
+          </Modal>
+        }
+        <button className="as-link">{pathways.byId[pathwayId].membersLength}</button>
       </td>
       <td className="col-edges">
         {ppiDatabases.byId[selectedPpiDatabase].edgesLengths[pathwayId]}

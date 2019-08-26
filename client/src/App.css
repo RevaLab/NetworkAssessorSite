@@ -1,11 +1,12 @@
-.App {
+.App header .hero-body {
+  padding: 1rem 1rem;
   text-align: center;
 }
 
-header .hero-body {
+.App footer.footer {
   padding: 1rem 1rem;
 }
 
-footer.footer {
-  padding: 1rem 1rem;
+.modal-card-title {
+  max-width: 95%;
 }
