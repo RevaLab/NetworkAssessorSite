@@ -1,9 +1,25 @@
+svg {
+  cursor: crosshair;
+}
+
 .links line {
   stroke: #999;
   stroke-opacity: 0.6;
 }
 
+svg text {
+  font-size: 1em;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
 .nodes circle {
-  stroke: #fff;
-  stroke-width: 1.5px;
+  stroke: black;
+  stroke-width: .1px;
+  cursor: grab;
+}
+
+.nodes circle.fixed {
+  stroke: black;
+  stroke-width: 1px;
 }
