@@ -1,0 +1,1128 @@
+{
+  "subnetwork": {
+    "first_degree": {
+      "data": [],
+      "directed": false,
+      "multigraph": false,
+      "elements": {
+        "nodes": [
+          {
+            "data": {
+              "pathways": [
+                "Mitogen_Activated_Protein-MAP_Kinase_Signaling_path",
+                "query_list"
+              ],
+              "id": "MAP2K4",
+              "value": "MAP2K4",
+              "name": "MAP2K4"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "AKT_ext_path",
+                "PI3K-AKT1-MTOR_Signaling_path",
+                "query_list"
+              ],
+              "id": "AKT1",
+              "value": "AKT1",
+              "name": "AKT1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "CAPN3",
+              "value": "CAPN3",
+              "name": "CAPN3"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Jack_Stat_ext_path",
+                "query_list"
+              ],
+              "id": "PIAS1",
+              "value": "PIAS1",
+              "name": "PIAS1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "PTPN1",
+              "value": "PTPN1",
+              "name": "PTPN1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "ASS1",
+              "value": "ASS1",
+              "name": "ASS1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "ATG12",
+              "value": "ATG12",
+              "name": "ATG12"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "ATG7",
+              "value": "ATG7",
+              "name": "ATG7"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Receptor_Tyrosine_KinaseORGrowth_Factor_Signaling_path",
+                "query_list"
+              ],
+              "id": "FLT3",
+              "value": "FLT3",
+              "name": "FLT3"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Cell_Cycle_Control_path",
+                "Cell_Cycle_ext_path",
+                "query_list"
+              ],
+              "id": "CDKN1B",
+              "value": "CDKN1B",
+              "name": "CDKN1B"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Cell_Cycle_Control_path",
+                "Cell_Cycle_ext_path",
+                "query_list"
+              ],
+              "id": "CCNE1",
+              "value": "CCNE1",
+              "name": "CCNE1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Apoptosis_ext_path",
+                "query_list"
+              ],
+              "id": "BCL2L1",
+              "value": "BCL2L1",
+              "name": "BCL2L1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "GLA",
+              "value": "GLA",
+              "name": "GLA"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Apoptosis_ext_path",
+                "query_list"
+              ],
+              "id": "BAD",
+              "value": "BAD",
+              "name": "BAD"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "OAT",
+              "value": "OAT",
+              "name": "OAT"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "AGXT",
+              "value": "AGXT",
+              "name": "AGXT"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "THEM4",
+              "value": "THEM4",
+              "name": "THEM4"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "SGCB",
+              "value": "SGCB",
+              "name": "SGCB"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "data": {
+              "source": "MAP2K4",
+              "target": "AKT1"
+            }
+          },
+          {
+            "data": {
+              "source": "AKT1",
+              "target": "BAD"
+            }
+          },
+          {
+            "data": {
+              "source": "AKT1",
+              "target": "THEM4"
+            }
+          },
+          {
+            "data": {
+              "source": "AKT1",
+              "target": "CDKN1B"
+            }
+          },
+          {
+            "data": {
+              "source": "AKT1",
+              "target": "PIAS1"
+            }
+          },
+          {
+            "data": {
+              "source": "AKT1",
+              "target": "BCL2L1"
+            }
+          },
+          {
+            "data": {
+              "source": "PTPN1",
+              "target": "ASS1"
+            }
+          },
+          {
+            "data": {
+              "relation": "activation",
+              "source": "ATG12",
+              "target": "ATG7"
+            }
+          },
+          {
+            "data": {
+              "source": "CDKN1B",
+              "target": "CCNE1"
+            }
+          },
+          {
+            "data": {
+              "relation": "inhibition",
+              "source": "BCL2L1",
+              "target": "BAD"
+            }
+          }
+        ]
+      }
+    },
+    "second_degree": {
+      "data": [],
+      "directed": false,
+      "multigraph": false,
+      "elements": {
+        "nodes": [
+          {
+            "data": {
+              "pathways": [
+                "Mitogen_Activated_Protein-MAP_Kinase_Signaling_path",
+                "query_list"
+              ],
+              "id": "MAP2K4",
+              "value": "MAP2K4",
+              "name": "MAP2K4"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "AKT_ext_path",
+                "PI3K-AKT1-MTOR_Signaling_path",
+                "query_list"
+              ],
+              "id": "AKT1",
+              "value": "AKT1",
+              "name": "AKT1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "CAPN3",
+              "value": "CAPN3",
+              "name": "CAPN3"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Jack_Stat_ext_path",
+                "query_list"
+              ],
+              "id": "PIAS1",
+              "value": "PIAS1",
+              "name": "PIAS1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "PTPN1",
+              "value": "PTPN1",
+              "name": "PTPN1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "ASS1",
+              "value": "ASS1",
+              "name": "ASS1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "ATG12",
+              "value": "ATG12",
+              "name": "ATG12"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "ATG7",
+              "value": "ATG7",
+              "name": "ATG7"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Receptor_Tyrosine_KinaseORGrowth_Factor_Signaling_path",
+                "query_list"
+              ],
+              "id": "FLT3",
+              "value": "FLT3",
+              "name": "FLT3"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Cell_Cycle_Control_path",
+                "Cell_Cycle_ext_path",
+                "query_list"
+              ],
+              "id": "CDKN1B",
+              "value": "CDKN1B",
+              "name": "CDKN1B"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Cell_Cycle_Control_path",
+                "Cell_Cycle_ext_path",
+                "query_list"
+              ],
+              "id": "CCNE1",
+              "value": "CCNE1",
+              "name": "CCNE1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Apoptosis_ext_path",
+                "query_list"
+              ],
+              "id": "BCL2L1",
+              "value": "BCL2L1",
+              "name": "BCL2L1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "GLA",
+              "value": "GLA",
+              "name": "GLA"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Apoptosis_ext_path",
+                "query_list"
+              ],
+              "id": "BAD",
+              "value": "BAD",
+              "name": "BAD"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "OAT",
+              "value": "OAT",
+              "name": "OAT"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "AGXT",
+              "value": "AGXT",
+              "name": "AGXT"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "THEM4",
+              "value": "THEM4",
+              "name": "THEM4"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "SGCB",
+              "value": "SGCB",
+              "name": "SGCB"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "data": {
+              "source": "MAP2K4",
+              "target": "AKT1"
+            }
+          },
+          {
+            "data": {
+              "source": "AKT1",
+              "target": "BAD"
+            }
+          },
+          {
+            "data": {
+              "source": "AKT1",
+              "target": "THEM4"
+            }
+          },
+          {
+            "data": {
+              "source": "AKT1",
+              "target": "CDKN1B"
+            }
+          },
+          {
+            "data": {
+              "source": "AKT1",
+              "target": "PIAS1"
+            }
+          },
+          {
+            "data": {
+              "source": "AKT1",
+              "target": "BCL2L1"
+            }
+          },
+          {
+            "data": {
+              "source": "PTPN1",
+              "target": "ASS1"
+            }
+          },
+          {
+            "data": {
+              "relation": "activation",
+              "source": "ATG12",
+              "target": "ATG7"
+            }
+          },
+          {
+            "data": {
+              "source": "CDKN1B",
+              "target": "CCNE1"
+            }
+          },
+          {
+            "data": {
+              "relation": "inhibition",
+              "source": "BCL2L1",
+              "target": "BAD"
+            }
+          }
+        ]
+      }
+    },
+    "third_degree": {
+      "data": [],
+      "directed": false,
+      "multigraph": false,
+      "elements": {
+        "nodes": [
+          {
+            "data": {
+              "pathways": [
+                "Mitogen_Activated_Protein-MAP_Kinase_Signaling_path",
+                "query_list"
+              ],
+              "id": "MAP2K4",
+              "value": "MAP2K4",
+              "name": "MAP2K4"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "AKT_ext_path",
+                "PI3K-AKT1-MTOR_Signaling_path",
+                "query_list"
+              ],
+              "id": "AKT1",
+              "value": "AKT1",
+              "name": "AKT1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "CAPN3",
+              "value": "CAPN3",
+              "name": "CAPN3"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Jack_Stat_ext_path",
+                "query_list"
+              ],
+              "id": "PIAS1",
+              "value": "PIAS1",
+              "name": "PIAS1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "PTPN1",
+              "value": "PTPN1",
+              "name": "PTPN1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "ASS1",
+              "value": "ASS1",
+              "name": "ASS1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "ATG12",
+              "value": "ATG12",
+              "name": "ATG12"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "ATG7",
+              "value": "ATG7",
+              "name": "ATG7"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Receptor_Tyrosine_KinaseORGrowth_Factor_Signaling_path",
+                "query_list"
+              ],
+              "id": "FLT3",
+              "value": "FLT3",
+              "name": "FLT3"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Cell_Cycle_Control_path",
+                "Cell_Cycle_ext_path",
+                "query_list"
+              ],
+              "id": "CDKN1B",
+              "value": "CDKN1B",
+              "name": "CDKN1B"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Cell_Cycle_Control_path",
+                "Cell_Cycle_ext_path",
+                "query_list"
+              ],
+              "id": "CCNE1",
+              "value": "CCNE1",
+              "name": "CCNE1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Apoptosis_ext_path",
+                "query_list"
+              ],
+              "id": "BCL2L1",
+              "value": "BCL2L1",
+              "name": "BCL2L1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "GLA",
+              "value": "GLA",
+              "name": "GLA"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Apoptosis_ext_path",
+                "query_list"
+              ],
+              "id": "BAD",
+              "value": "BAD",
+              "name": "BAD"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "OAT",
+              "value": "OAT",
+              "name": "OAT"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "AGXT",
+              "value": "AGXT",
+              "name": "AGXT"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "THEM4",
+              "value": "THEM4",
+              "name": "THEM4"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "SGCB",
+              "value": "SGCB",
+              "name": "SGCB"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "data": {
+              "source": "MAP2K4",
+              "target": "AKT1"
+            }
+          },
+          {
+            "data": {
+              "source": "AKT1",
+              "target": "BAD"
+            }
+          },
+          {
+            "data": {
+              "source": "AKT1",
+              "target": "THEM4"
+            }
+          },
+          {
+            "data": {
+              "source": "AKT1",
+              "target": "CDKN1B"
+            }
+          },
+          {
+            "data": {
+              "source": "AKT1",
+              "target": "PIAS1"
+            }
+          },
+          {
+            "data": {
+              "source": "AKT1",
+              "target": "BCL2L1"
+            }
+          },
+          {
+            "data": {
+              "source": "PTPN1",
+              "target": "ASS1"
+            }
+          },
+          {
+            "data": {
+              "relation": "activation",
+              "source": "ATG12",
+              "target": "ATG7"
+            }
+          },
+          {
+            "data": {
+              "source": "CDKN1B",
+              "target": "CCNE1"
+            }
+          },
+          {
+            "data": {
+              "relation": "inhibition",
+              "source": "BCL2L1",
+              "target": "BAD"
+            }
+          }
+        ]
+      }
+    },
+    "whole": {
+      "data": [],
+      "directed": false,
+      "multigraph": false,
+      "elements": {
+        "nodes": [
+          {
+            "data": {
+              "pathways": [
+                "Mitogen_Activated_Protein-MAP_Kinase_Signaling_path",
+                "query_list"
+              ],
+              "id": "MAP2K4",
+              "value": "MAP2K4",
+              "name": "MAP2K4"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "AKT_ext_path",
+                "PI3K-AKT1-MTOR_Signaling_path",
+                "query_list"
+              ],
+              "id": "AKT1",
+              "value": "AKT1",
+              "name": "AKT1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "CAPN3",
+              "value": "CAPN3",
+              "name": "CAPN3"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Jack_Stat_ext_path",
+                "query_list"
+              ],
+              "id": "PIAS1",
+              "value": "PIAS1",
+              "name": "PIAS1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "PTPN1",
+              "value": "PTPN1",
+              "name": "PTPN1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "ASS1",
+              "value": "ASS1",
+              "name": "ASS1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "ATG12",
+              "value": "ATG12",
+              "name": "ATG12"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "ATG7",
+              "value": "ATG7",
+              "name": "ATG7"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Receptor_Tyrosine_KinaseORGrowth_Factor_Signaling_path",
+                "query_list"
+              ],
+              "id": "FLT3",
+              "value": "FLT3",
+              "name": "FLT3"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Cell_Cycle_Control_path",
+                "Cell_Cycle_ext_path",
+                "query_list"
+              ],
+              "id": "CDKN1B",
+              "value": "CDKN1B",
+              "name": "CDKN1B"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Cell_Cycle_Control_path",
+                "Cell_Cycle_ext_path",
+                "query_list"
+              ],
+              "id": "CCNE1",
+              "value": "CCNE1",
+              "name": "CCNE1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Apoptosis_ext_path",
+                "query_list"
+              ],
+              "id": "BCL2L1",
+              "value": "BCL2L1",
+              "name": "BCL2L1"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "GLA",
+              "value": "GLA",
+              "name": "GLA"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "Apoptosis_ext_path",
+                "query_list"
+              ],
+              "id": "BAD",
+              "value": "BAD",
+              "name": "BAD"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "OAT",
+              "value": "OAT",
+              "name": "OAT"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "AGXT",
+              "value": "AGXT",
+              "name": "AGXT"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "THEM4",
+              "value": "THEM4",
+              "name": "THEM4"
+            }
+          },
+          {
+            "data": {
+              "pathways": [
+                "query_list"
+              ],
+              "id": "SGCB",
+              "value": "SGCB",
+              "name": "SGCB"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "data": {
+              "source": "MAP2K4",
+              "target": "AKT1"
+            }
+          },
+          {
+            "data": {
+              "source": "AKT1",
+              "target": "BAD"
+            }
+          },
+          {
+            "data": {
+              "source": "AKT1",
+              "target": "THEM4"
+            }
+          },
+          {
+            "data": {
+              "source": "AKT1",
+              "target": "CDKN1B"
+            }
+          },
+          {
+            "data": {
+              "source": "AKT1",
+              "target": "PIAS1"
+            }
+          },
+          {
+            "data": {
+              "source": "AKT1",
+              "target": "BCL2L1"
+            }
+          },
+          {
+            "data": {
+              "source": "PTPN1",
+              "target": "ASS1"
+            }
+          },
+          {
+            "data": {
+              "relation": "activation",
+              "source": "ATG12",
+              "target": "ATG7"
+            }
+          },
+          {
+            "data": {
+              "source": "CDKN1B",
+              "target": "CCNE1"
+            }
+          },
+          {
+            "data": {
+              "relation": "inhibition",
+              "source": "BCL2L1",
+              "target": "BAD"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "pathways_edge_counts": {
+    "AKT_ext_path": 26,
+    "Apoptosis_path": 11,
+    "Apoptosis_ext_path": 25,
+    "CALC_PKC_ext_path": 5,
+    "Cellular_Architecture_and_Microenvironment_path": 6,
+    "Cell_Cycle_Control_path": 31,
+    "Cell_Cycle_ext_path": 45,
+    "Chromatin_Remodeling-DNA_Methylation_path": 5,
+    "DNA_Damage_path": 11,
+    "ERK_ext_path": 10,
+    "G-Protein_Signaling_path": 1,
+    "Hedgehog_Signaling_path": 0,
+    "HIPPO_ext_path": 3,
+    "Hormone_Signaling_path": 5,
+    "Immune_Checkpoints_path": 1,
+    "B-Catenin-WNT_Signaling_path": 9,
+    "Jack_Stat_ext_path": 14,
+    "Janus_Kinase_JAK-or-Signal_Transducers_and_Activators_of_Transcription_STAT_path": 9,
+    "Kinase_Fusions_path": 9,
+    "Metabolic_Signaling_path": 6,
+    "NFKB_ext_path": 7,
+    "Notch_ext_path": 3,
+    "PI3K-AKT1-MTOR_Signaling_path": 20,
+    "Protein_Degradation_Ubiquitination_path": 7,
+    "Receptor_Tyrosine_KinaseORGrowth_Factor_Signaling_path": 14,
+    "RNA_Splicing_path": 2,
+    "TGF-B_Signaling_path": 4,
+    "TGFB_ext_path": 6,
+    "WNT_ext_path": 12,
+    "Mitogen_Activated_Protein-MAP_Kinase_Signaling_path": 17
+  },
+  "pathways_p_vals": {
+    "AKT_ext_path": 0.00001,
+    "Apoptosis_path": 0.00015,
+    "Apoptosis_ext_path": 0.00003,
+    "CALC_PKC_ext_path": 0.0117,
+    "Cellular_Architecture_and_Microenvironment_path": 0.00001,
+    "Cell_Cycle_Control_path": 0.00009,
+    "Cell_Cycle_ext_path": 0.00023,
+    "Chromatin_Remodeling-DNA_Methylation_path": 0.02495,
+    "DNA_Damage_path": 0.01917,
+    "ERK_ext_path": 0.01199,
+    "G-Protein_Signaling_path": 0.19943,
+    "Hedgehog_Signaling_path": 1,
+    "HIPPO_ext_path": 0.20654,
+    "Hormone_Signaling_path": 0.01307,
+    "Immune_Checkpoints_path": 0.42588,
+    "B-Catenin-WNT_Signaling_path": 0.0033,
+    "Jack_Stat_ext_path": 0.0004,
+    "Janus_Kinase_JAK-or-Signal_Transducers_and_Activators_of_Transcription_STAT_path": 0.00157,
+    "Kinase_Fusions_path": 0.00665,
+    "Metabolic_Signaling_path": 0.0297,
+    "NFKB_ext_path": 0.03052,
+    "Notch_ext_path": 0.04217,
+    "PI3K-AKT1-MTOR_Signaling_path": 0.00001,
+    "Protein_Degradation_Ubiquitination_path": 0.01766,
+    "Receptor_Tyrosine_KinaseORGrowth_Factor_Signaling_path": 0.02176,
+    "RNA_Splicing_path": 0.09379,
+    "TGF-B_Signaling_path": 0.04757,
+    "TGFB_ext_path": 0.04146,
+    "WNT_ext_path": 0.01834,
+    "Mitogen_Activated_Protein-MAP_Kinase_Signaling_path": 0.00003
+  },
+  "internal_p_val": 0,
+  "query_genes_not_in_ppi_db": [
+    "SMO"
+  ]
+}
