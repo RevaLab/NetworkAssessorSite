@@ -1,13 +1,10 @@
 import React, { useEffect } from 'react';
-import createNetwork from './d3/createNetwork'
-import graph from './graph';
+import createNetwork, { adjustSVG } from './d3/createNetwork'
+import debounce from 'lodash/debounce';
 
 // component libraries
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import { Box } from 'react-bulma-components';
-
-// css
-import './network.css';
 
 const NetworkGraph = () => {
 
@@ -97,16 +94,26 @@ const NetworkGraph = () => {
   }
 
   useEffect(() => {
-    createNetwork(graph);
+    const parent = document.querySelector('#network');
+    const { svg } = createNetwork(graph, parent);
+
+    window.addEventListener('resize', debounce(function() {
+      console.log('adjust')
+      adjustSVG(svg, parent);
+    }, 500))
+
+    return () => {
+      Array.from(svg.node().children).forEach(child => child.remove())
+    }
   })
 
   return (
-    // <Box renderAs="main"
-    //   className="network-container" id="network"
-    //   style={{padding: '0'}}
-    // >
-      <svg width="960" height="600"></svg>
-    // </Box>
+    <Box renderAs="main"
+      className="network-container" id="network"
+      style={{padding: '0'}}
+    >
+      <svg></svg>
+    </Box>
   );
 }
 

@@ -1,13 +1,20 @@
 import './d3.css';
 
 const d3 = window.d3;
+const NodePieBuilder = window.NodePieBuilder;
 
-function createNetwork({ nodes, links }) {
+function adjustSVG(svg, parent) {
+  const { height, width } = d3.select(parent).node().getBoundingClientRect()
+
+  svg.attr("width", width);
+  svg.attr("height", height);
+
+  return { width, height };
+}
+
+function createNetwork({ nodes, links }, parent) {
   const svg = d3.select("svg");
-  const width = +svg.attr("width");
-  const height = +svg.attr("height");
-
-  console.log(nodes, links)
+  const { width, height } = adjustSVG(svg, parent);
 
   const link_force = d3.forceLink(links)
     .id(function(d) { return d.id; })
@@ -32,12 +39,30 @@ function createNetwork({ nodes, links }) {
 
   const node = g.append("g")
     .attr("class", "nodes")
-    .selectAll("circle")
+    .selectAll("g.node")
     .data(nodes)
     .enter()
-    .append("circle")
-    .attr("r", 15)
-    .attr("fill", "red");
+    .append("g")
+    .attr("class", "node")
+    .call(d3.drag()
+      .on('start', dragStart)
+      .on('drag', dragDrag)
+      .on('end', dragEnd)
+    );
+
+  // set up colors
+  const color = d3.scaleOrdinal(d3.schemeCategory10);
+  window.color = color;
+  /* Draw the respective pie chart for each node */
+  node.each(function (d) {
+    NodePieBuilder.drawNodePie(d3.select(this), d.pieChart, {
+      parentNodeColor: color(d.group),
+      outerStrokeWidth: 12,
+      showLabelText: true,
+      labelText: d.id,
+      labelColor: color(d.group)
+    });
+  });
 
   const link = g.append("g")
     .attr("class", "links")
@@ -67,14 +92,23 @@ function createNetwork({ nodes, links }) {
         .attr("y1", function(d) { return d.source.y; })
         .attr("x2", function(d) { return d.target.x; })
         .attr("y2", function(d) { return d.target.y; });
+
+    d3.selectAll("circle").attr("cx", function (d) {
+        return d.x;
+      })
+      .attr("cy", function (d) {
+        return d.y;
+      });
+
+    d3.selectAll("text").attr("x", function (d) {
+        return d.x;
+      })
+      .attr("y", function (d) {
+        return d.y;
+      });
   }
 
   simulation.on("tick", tickActions);
-
-  const dragHandler = d3.drag()
-    .on('start', dragStart)
-    .on('drag', dragDrag)
-    .on('end', dragEnd)
 
   const sticky = true;
   function dragStart(d) {
@@ -107,8 +141,7 @@ function createNetwork({ nodes, links }) {
     }
   }
 
-  dragHandler(node)
-
+  // ZOOM HANDLING
   const zoomHandler = d3.zoom()
     .on("zoom", zoomActions);
 
@@ -117,6 +150,8 @@ function createNetwork({ nodes, links }) {
   function zoomActions() {
     g.attr("transform", d3.event.transform)
   }
+
+  return { svg };
 }
 
 const cytoscape = require('./cytoscapeNetwork');
@@ -124,3 +159,7 @@ window.cytoscape = cytoscape;
 console.log(cytoscape);
 
 export default createNetwork;
+
+export {
+  adjustSVG,
+}
