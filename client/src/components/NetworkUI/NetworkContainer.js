@@ -6,34 +6,34 @@ import debounce from 'lodash/debounce';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import { Box } from 'react-bulma-components';
 
-const NetworkGraph = () => {
+const NetworkGraph = ({ pathways, loadState }) => {
 
   const graph = {
     "nodes": [
       {
         "id": "a", "group": 1,
         "pieChart" : [
-          { "color": 1, "percent": 40 },
-          { "color": 2, "percent": 20 },
-          { "color": 3, "percent": 20 },
-          { "color": 4, "percent": 20 }
+          { "color": 547, "percent": 40 },
+          { "color": 838, "percent": 20 },
+          { "color": 1097, "percent": 20 },
+          { "color": 1210, "percent": 20 }
         ]
       },
       {
         "id": "b", "group": 2,
         "pieChart" : [
-          { "color": 1, "percent": 33.33 },
-          { "color": 2, "percent": 33.34 },
-          { "color": 3, "percent": 33.33 }
+          { "color": 3369, "percent": 33.33 },
+          { "color": 3116, "percent": 33.34 },
+          { "color": 2942, "percent": 33.33 }
         ]
       },
       {
         "id": "c", "group": 3,
         "pieChart" : [
-          { "color": 1, "percent": 25 },
-          { "color": 2, "percent": 25 },
-          { "color": 3, "percent": 25 },
-          { "color": 4, "percent": 25 }
+          { "color": 1210, "percent": 25 },
+          { "color": 1911, "percent": 25 },
+          { "color": 1097, "percent": 25 },
+          { "color": 2725, "percent": 25 }
         ]
       },
       {
@@ -94,16 +94,22 @@ const NetworkGraph = () => {
   }
 
   useEffect(() => {
-    const parent = document.querySelector('#network');
-    const { svg } = createNetwork(graph, parent);
+    if (loadState !== 'LOADED') return;
 
-    window.addEventListener('resize', debounce(function() {
-      console.log('adjust')
-      adjustSVG(svg, parent);
-    }, 500))
+    const parent = document.querySelector('#network');
+    const { svg } = createNetwork(graph, parent, pathways);
+
+    const resize = debounce(function () {
+          console.log('adjust')
+          adjustSVG(svg, parent);
+    }, 500);
+
+    window.addEventListener('resize', resize);
 
     return () => {
-      Array.from(svg.node().children).forEach(child => child.remove())
+      console.log('unmount')
+      window.removeEventListener('resize', resize);
+      Array.from(svg.node().children).forEach(child => child.remove());
     }
   })
 

@@ -1,5 +1,5 @@
 svg {
-  cursor: crosshair;
+  cursor: move;
 }
 
 .links line {
@@ -14,12 +14,10 @@ svg text {
 }
 
 .nodes circle {
-  stroke: black;
-  stroke-width: .1px;
+  /* stroke: black;
+  stroke-width: .1px; */
   cursor: grab;
 }
 
-.nodes circle.fixed {
-  stroke: black;
-  stroke-width: 1px;
+.nodes .fixed circle {
 }
