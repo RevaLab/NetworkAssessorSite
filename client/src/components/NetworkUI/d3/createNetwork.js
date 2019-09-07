@@ -12,7 +12,7 @@ function adjustSVG(svg, parent) {
   return { width, height };
 }
 
-function createNetwork({ nodes, links }, parent) {
+function createNetwork({ nodes, links }, parent, pathways) {
   const svg = d3.select("svg");
   const { width, height } = adjustSVG(svg, parent);
 
@@ -50,17 +50,21 @@ function createNetwork({ nodes, links }, parent) {
       .on('end', dragEnd)
     );
 
-  // set up colors
-  const color = d3.scaleOrdinal(d3.schemeCategory10);
+  console.log(pathways);
+  const color = (pathwayId) => {
+    console.log(pathwayId);
+    const pathway = pathways.byId[pathwayId.toString()];
+    return pathway ?  pathway.color : 'black';
+  }
   window.color = color;
   /* Draw the respective pie chart for each node */
   node.each(function (d) {
     NodePieBuilder.drawNodePie(d3.select(this), d.pieChart, {
-      parentNodeColor: color(d.group),
+      parentNodeColor: null,
       outerStrokeWidth: 12,
       showLabelText: true,
       labelText: d.id,
-      labelColor: color(d.group)
+      labelColor: 'black',
     });
   });
 
@@ -154,9 +158,9 @@ function createNetwork({ nodes, links }, parent) {
   return { svg };
 }
 
-const cytoscape = require('./cytoscapeNetwork');
-window.cytoscape = cytoscape;
-console.log(cytoscape);
+// const cytoscape = require('./cytoscapeNetwork');
+// window.cytoscape = cytoscape;
+// console.log(cytoscape);
 
 export default createNetwork;
 

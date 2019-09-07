@@ -85,7 +85,8 @@
   width: calc(100vw - 470px);
   min-width: 100%;
   height: calc(100vh - 4em);
-  background-color: lightblue;
+  background-color: lightcyan;
+  border: 1px solid black;
   margin: 0 auto;
 }
 
