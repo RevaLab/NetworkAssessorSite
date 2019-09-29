@@ -1,4 +1,5 @@
 import React from 'react';
+import merge from 'lodash/merge';
 
 const { Provider, Consumer } = React.createContext();
 
@@ -28,32 +29,32 @@ class QueryUIProvider extends React.Component {
 
   onQueryChange = evt => {
     this.setState(state => ({
-      ui: {
-        ...state.ui,
-        queryGenes: this.geneTextToArray(evt.target.value),
-        queryGenesValue: evt.target.value,
-      },
+      ui: merge({}, state.ui, {
+        filteredGenes: this.geneTextToArray(evt.target.value),
+        filteredGenesValue: evt.target.value,
+      }),
     }));
   };
 
   onFilteredChange = evt => {
     this.setState(state => ({
-      ui: {
-        ...state.ui,
+      ui: merge({}, state.ui, {
         filteredGenes: this.geneTextToArray(evt.target.value),
         filteredGenesValue: evt.target.value,
-      },
+      }),
     }));
   }
 
   toggleFiltering = (e) => {
+    // checked must be 'cached' outside of the setState function 
+    // because the event will not persist asynchronously
+    const checked = e.target.checked;
     this.setState(state => ({
-      ui: {
-        ...state.ui,
-        filtering: e.target.checked,
+      ui: merge({}, state.ui, {
+        filtering: checked,
         filteredGenesValue: '',
         filteredGenes: [],
-      },
+      }),
     }));
   }
 
@@ -61,13 +62,13 @@ class QueryUIProvider extends React.Component {
     const exampleGenes = ["FLT3", "SMO", "GLA", "SGCB", "OAT", "CAPN3", "ASS1", "AGXT", "AKT1", "PTPN1", "PIAS1", "CDKN1B", "THEM4", "CCNE1", "MAP2K4", "ATG7", "ATG12", "BAD", "BCL2L1", ];
 
     this.setState(state => ({
-      ui: {
+      ui: merge({}, state.ui, {
         ...state.ui,
         loadState: 'LOADING',
         queryGenesValue: exampleGenes.join('\n'),
         queryGenes: exampleGenes,
         filtering: true,
-      },
+      }),
     }), this.fetchOntologies)
   }
 
@@ -80,26 +81,23 @@ class QueryUIProvider extends React.Component {
 
     const allGoTerms = Object.values(ontologies.byId).reduce((acc, { goTerms }) => [...acc, ...goTerms], [])
 
-    const newState = state => ({
-      // includes 'all', which merges the data among all ontologies together on the frontend
+    const createNewState = state => merge({}, state, {
       ontologies: {
-        byId: {
+        byId: merge(ontologies.byId, {
           all: {
             name: 'All',
             goTerms: allGoTerms,
           },
-          ...ontologies.byId
-        },
+        }),
         allIds: ['all', ...ontologies.allIds],
       },
       goTerms,
       ui: {
-        ...state.ui,
         loadState: 'LOADED',
       }
     });
 
-    this.setState(newState);
+    this.setState(createNewState);
   }
 
   genesFromSelectedGoTerms = (selectedTerms, goTerms) => {
@@ -112,12 +110,11 @@ class QueryUIProvider extends React.Component {
     const filteredGenes = this.genesFromSelectedGoTerms(selectedTerms, this.state.goTerms);
 
     this.setState(state => ({
-      ui: {
-        ...state.ui,
+      ui: merge({}, state.ui, {
+        selectedTerms,
         filteredGenes,
         filteredGenesValue: filteredGenes.join('\n'),
-        selectedTerms,
-      },
+      })
     }))
   }
 
@@ -126,12 +123,11 @@ class QueryUIProvider extends React.Component {
     const filteredGenes = this.genesFromSelectedGoTerms(selectedTerms, this.state.goTerms);
 
     this.setState(state => ({
-      ui: {
-        ...state.ui,
+      ui: merge({}, state.ui, {
         selectedTerms,
         filteredGenes,
         filteredGenesValue: filteredGenes.join('\n'),
-      }
+      })
     }))
   }
 
