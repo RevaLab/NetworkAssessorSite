@@ -50,12 +50,13 @@ class QueryUIProvider extends React.Component {
     // because the event will not persist asynchronously
     const checked = e.target.checked;
     this.setState(state => ({
-      ui: merge({}, state.ui, {
+      ui: {
+        ...state.ui,
         filtering: checked,
         filteredGenesValue: '',
         filteredGenes: [],
-      }),
-    }));
+      }
+    }))
   }
 
   handleExample = () => {
@@ -123,11 +124,12 @@ class QueryUIProvider extends React.Component {
     const filteredGenes = this.genesFromSelectedGoTerms(selectedTerms, this.state.goTerms);
 
     this.setState(state => ({
-      ui: merge({}, state.ui, {
+      ui: {
+        ...state.ui,
         selectedTerms,
         filteredGenes,
         filteredGenesValue: filteredGenes.join('\n'),
-      })
+      }
     }))
   }
 
