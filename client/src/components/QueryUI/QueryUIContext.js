@@ -28,20 +28,24 @@ class QueryUIProvider extends React.Component {
   geneTextToArray = str => str.split('\n').map(str => str.trim()).filter(el => el);
 
   onQueryChange = evt => {
+    const value = evt.target.value
     this.setState(state => ({
-      ui: merge({}, state.ui, {
-        filteredGenes: this.geneTextToArray(evt.target.value),
-        filteredGenesValue: evt.target.value,
-      }),
+      ui: {
+        ...state.ui,
+        queryGenesValue: value,
+        queryGenes: this.geneTextToArray(value),
+      }
     }));
   };
 
   onFilteredChange = evt => {
+    const value = evt.target.value
     this.setState(state => ({
-      ui: merge({}, state.ui, {
-        filteredGenes: this.geneTextToArray(evt.target.value),
-        filteredGenesValue: evt.target.value,
-      }),
+      ui: {
+        ...state.ui,
+        filteredGenes: this.geneTextToArray(value),
+        filteredGenesValue: value,
+      }
     }));
   }
 
@@ -55,6 +59,7 @@ class QueryUIProvider extends React.Component {
         filtering: checked,
         filteredGenesValue: '',
         filteredGenes: [],
+        selectedTerms: []
       }
     }))
   }
