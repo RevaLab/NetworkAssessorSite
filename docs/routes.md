@@ -134,71 +134,7 @@
 }
 ```
 
-* **PATH**: `/api/ppi-edges-lengths/<ppi-database-id>`
-* **METHOD**: POST
-* **REQUEST**: POST `/api/ppi-edges-lengths/2`
-```json
-{
-  "pathwayDatabase": 1,
-  "genes": [
-    "FLT3", "SMO", "GLA", "SGCB", "OAT", "CAPN3", "ASS1", "AGXT", "AKT1", "PTPN1", "PIAS1", "CDKN1B", "THEM4", "CCNE1", "MAP2K4", "ATG7", "ATG12", "BAD", "BCL2L1", "BADGENE"
-  ]
-}
-```
-* **RESPONSE BODY**:
-```json
-{
-  "query": {
-    "validGenes": [
-      "FLT3",
-      "SMO",
-      "GLA",
-      "SGCB",
-      "OAT",
-      "CAPN3",
-      "ASS1",
-      "AGXT",
-      "AKT1",
-      "PTPN1",
-      "PIAS1",
-      "CDKN1B",
-      "THEM4",
-      "CCNE1",
-      "MAP2K4",
-      "ATG7",
-      "ATG12",
-      "BAD",
-      "BCL2L1"
-    ],
-    "invalidGenes": [
-      "BADGENE"
-    ]
-  },
-  "ppiDatabases": {
-    "byId": {
-      "2": {
-        "name": "BioGrid",
-        "edgesLengthsByPathwayId": {
-          "547": 3,
-          "838": 4,
-          "1097": 6,
-          "1210": 2,
-          "1911": 0,
-          "2725": 17
-          ...
-        }
-      }
-    }
-  },
-  "pathwayDatabases": {
-    "byId": {
-      "1": {
-        "name": "KEGG",
-      }
-    }
-  }
-};
-```
+### Pathway properties from pathway databases
 
 * **PATH**: `/api/pathway-databases/<pathway-database-id>`
 * **METHOD**: POST
@@ -246,14 +182,12 @@
         "color": "#f85435",
         "membersLength": 11,
         "overlapLength": 9,
-        "pVal": 0.0006363054587206767
       },
       "838": {
         "name": "TGF-B Signaling path",
         "color": "#cfedde",
         "membersLength": 4,
         "overlapLength": 6,
-        "pVal": 0.00145758036001902
       },
       ...
     }
@@ -267,4 +201,74 @@
     }
   }
 }
+```
+
+### PPI edge counts + pvals (per pathway)
+
+* **PATH**: `/api/ppi-edges`
+* **METHOD**: POST
+* **REQUEST**: POST `/api/ppi-edges`
+```json
+{
+  "ppiDatabase": 2,
+  "pathwayDatabase": 1,
+  "genes": [
+    "FLT3", "SMO", "GLA", "SGCB", "OAT", "CAPN3", "ASS1", "AGXT", "AKT1", "PTPN1", "PIAS1", "CDKN1B", "THEM4", "CCNE1", "MAP2K4", "ATG7", "ATG12", "BAD", "BCL2L1", "BADGENE"
+  ]
+}
+```
+* **RESPONSE BODY**:
+```json
+{
+  "query": {
+    "validGenes": [
+      "FLT3",
+      "SMO",
+      "GLA",
+      "SGCB",
+      "OAT",
+      "CAPN3",
+      "ASS1",
+      "AGXT",
+      "AKT1",
+      "PTPN1",
+      "PIAS1",
+      "CDKN1B",
+      "THEM4",
+      "CCNE1",
+      "MAP2K4",
+      "ATG7",
+      "ATG12",
+      "BAD",
+      "BCL2L1"
+    ],
+    "invalidGenes": [
+      "BADGENE"
+    ]
+  },
+  "ppiDatabases": {
+    "byId": {
+      "2": {
+        "name": "BioGrid",
+        "edgesLengthsByPathwayId": {
+          "547": 3,
+          "838": 4,
+          ...
+        },
+        "pValsByPathwayId": {
+          "547": 0.0006363054587206767,
+          "838": 0.00145758036001902,
+          ...
+        }
+      }
+    }
+  },
+  "pathwayDatabases": {
+    "byId": {
+      "1": {
+        "name": "KEGG",
+      }
+    }
+  }
+};
 ```
