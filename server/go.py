@@ -1,6 +1,7 @@
 import pickle
+import os
 
-go = pickle.load(open('/Users/anna/Documents/sandbox_ramp_up/network_assessor_backend/GO.pkl', 'rb'))
+go = pickle.load(open(os.path.join(os.path.dirname(__file__), './GO.pkl'), 'rb'))
 ontology_names = {
     'biologicalProcess': 'Biological Process',
     'cellularLocation': 'Cellular Location',
