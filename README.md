@@ -14,6 +14,9 @@ pip install -r requirements.txt
 # Sets up FLASK_APP so flask run can work from anywhere
 export FLASK_APP=$(pwd)/server/app.py
 
+# for debug mode
+export FLASK_ENV=development
+
 # Finally, to run...
 flask run
 ```
