@@ -3,6 +3,7 @@ import React from 'react';
 // component libraries
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import {
+  Button,
   Columns,
   Container,
   Form,
@@ -51,18 +52,32 @@ class QueryUI extends React.Component {
                   </Columns.Column>
                   }
                 </Columns>
-                  <Field>
-                    <Control>
-                      <Switch
-                        id="filter-genes-toggle"
-                        checked={filtering}
-                        onChange={toggleFiltering}
-                        disabled={queryGenes.length===0}
-                      >
-                      {filtering ? 'Update unfiltered query list' : 'Filter genes'}
-                      </Switch>
-                    </Control>
-                  </Field>
+                <Columns>
+                  <Columns.Column>
+                    <Field>
+                      <Control>
+                        <Switch
+                          id="filter-genes-toggle"
+                          checked={filtering}
+                          onChange={toggleFiltering}
+                          disabled={queryGenes.length===0}
+                        >
+                        {filtering ? 'Update unfiltered query list' : 'Filter genes'}
+                        </Switch>
+                      </Control>
+                    </Field>
+                  </Columns.Column>
+                  <Columns.Column>
+                    <Button
+                      fullwidth
+                      type="submit"
+                      color="success"
+                      onClick={() =>  console.log('hello')}
+                    >
+                      Submit
+                    </Button>
+                  </Columns.Column>
+                </Columns>
               </Container>
             </Section>
             { filtering &&
