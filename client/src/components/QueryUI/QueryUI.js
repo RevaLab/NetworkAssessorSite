@@ -73,6 +73,7 @@ const QueryUI = () => {
             </Columns.Column>
             <Columns.Column>
               <Button
+                disabled={queryGenes.length === 0}
                 fullwidth
                 type="submit"
                 color="success"

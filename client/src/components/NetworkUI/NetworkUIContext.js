@@ -129,9 +129,9 @@ class NetworkUIProvider extends React.Component {
   }
 
   async componentDidMount() {
-    const pathwayDbsData = await require('../networkData').pathways();
-    const { data } = await axios.get('http://localhost:5000/api/pathways')
-    console.log(data)
+    // const pathwayDbsData = await require('../networkData').pathways();
+    const { data: pathwayDbsData } = await axios.get('http://localhost:5000/api/pathways')
+    console.log(pathwayDbsData)
 
     const selectedPathwayDatabase = pathwayDbsData.pathwayDatabases.allIds[0];
     const selectedPpiDatabase = pathwayDbsData.ppiDatabases.allIds[0];

@@ -33,4 +33,31 @@ def go_terms():
 
 @app.route('/api/pathways', methods=['GET'])
 def pathways():
-    return jsonify({ 'body': 'hello pathways' })
+    res = {
+        "pathwayDatabases": {
+            "byId": {
+                "1": {
+                    "name": 'KEGG',
+                },
+                "2": {
+                    "name": 'My Cancer Genome',
+                },
+                "3": {
+                    "name": 'Reactome',
+                }
+            },
+            "allIds": [2, 1, 3],
+        },
+        "ppiDatabases": {
+            "byId": {
+                "1": {
+                    "name": 'STRING',
+                },
+                "2": {
+                    "name": 'BioGrid',
+                },
+            },
+            "allIds": [1, 2],
+        }
+    }
+    return jsonify(res)
