@@ -1,5 +1,6 @@
 import React from 'react';
 import merge from 'lodash/merge';
+import axios from 'axios'
 
 const { Provider, Consumer } = React.createContext();
 
@@ -79,11 +80,7 @@ class QueryUIProvider extends React.Component {
   }
 
   fetchOntologies = async () => {
-    const delay = (t, v) => new Promise((res) => setTimeout(res.bind(null, v), t));
-    const [ontologies, goTerms] = await Promise.all([
-      delay(2000, require('./goData').ontologies),
-      delay(2000, require('./goData').goTerms),
-    ]);
+    const { data: { ontologies, goTerms }} = await axios.post('http://localhost:5000/api/go-terms', { genes: this.state.ui.queryGenes })
 
     const allGoTerms = Object.values(ontologies.byId).reduce((acc, { goTerms }) => [...acc, ...goTerms], [])
 

@@ -1,11 +1,12 @@
 import json
 
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 import go as go
 
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route('/api/go-terms', methods=['GET','POST'])
 def go_terms():
