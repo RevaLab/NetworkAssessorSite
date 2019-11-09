@@ -74,7 +74,6 @@ class QueryUIProvider extends React.Component {
         loadState: 'LOADING',
         queryGenesValue: exampleGenes.join('\n'),
         queryGenes: exampleGenes,
-        filtering: true,
       }),
     }), this.fetchOntologies)
   }
