@@ -2,11 +2,14 @@ import React from 'react';
 
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import {
+  Button,
   Form,
 } from 'react-bulma-components';
 
 // context
-import { QueryUIConsumer } from './QueryUIContext';
+import { QueryUIConsumer } from '../QueryUIContext';
+
+import './QueryList.css'
 
 const { Field, Control, Label, Textarea } = Form;
 
@@ -20,8 +23,19 @@ const QueryList = () => {
           queryGenes,
         },
         onQueryChange,
+        handleExample
       }) =>
         <Field className="QueryList">
+            <div className="query-list-header">
+              {queryGenes.length || filtering ? null : (
+                <Button 
+                  color="info"
+                  onClick={handleExample}
+                >
+                  Try Example
+                </Button>
+              )}  
+            </div>
           <Label>
             Query List
           </Label>

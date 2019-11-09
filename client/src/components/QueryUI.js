@@ -3,7 +3,6 @@ import React from 'react';
 // component libraries
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import {
-  Button,
   Columns,
   Container,
   Form,
@@ -15,7 +14,7 @@ import Switch from 'react-bulma-switch/full';
 import { QueryUIProvider, QueryUIConsumer } from './QueryUI/QueryUIContext';
 
 // local components
-import QueryList from './QueryUI/QueryList';
+import QueryList from './QueryUI/QueryList/QueryList';
 import FilteredList from './QueryUI/FilteredList';
 import GeneFilterTool from './QueryUI/GeneFilterTool';
 
@@ -37,51 +36,33 @@ class QueryUI extends React.Component {
               queryGenes,
             },
             toggleFiltering,
-            handleExample,
           }) =>
           <Container className="QueryUI">
             <Section>
               <Container>
                 <Columns>
                   <Columns.Column>
-                    <Field>
-                      <QueryList />
-                    </Field>
+                    <QueryList />
                   </Columns.Column>
                   {
                   filtering &&
                   <Columns.Column>
-                    <FilteredList
-                    />
+                    <FilteredList />
                   </Columns.Column>
                   }
                 </Columns>
-                <Columns>
-                  <Columns.Column size="half">
-                    <Field>
-                      <Control>
-                        <Switch
-                          id="filter-genes-toggle"
-                          checked={filtering}
-                          onChange={toggleFiltering}
-                          disabled={queryGenes.length===0}
-                        >
-                        {filtering ? 'Update unfiltered query list' : 'Filter genes'}
-                        </Switch>
-                      </Control>
-                    </Field>
-                  </Columns.Column>
-                  <Columns.Column size="half">
-                    {
-                      queryGenes.length || filtering ? null :
-                      <Button color="info" fullwidth
-                        onClick={handleExample}
+                  <Field>
+                    <Control>
+                      <Switch
+                        id="filter-genes-toggle"
+                        checked={filtering}
+                        onChange={toggleFiltering}
+                        disabled={queryGenes.length===0}
                       >
-                        Try Example
-                      </Button>
-                    }
-                  </Columns.Column>
-                </Columns>
+                      {filtering ? 'Update unfiltered query list' : 'Filter genes'}
+                      </Switch>
+                    </Control>
+                  </Field>
               </Container>
             </Section>
             { filtering &&
