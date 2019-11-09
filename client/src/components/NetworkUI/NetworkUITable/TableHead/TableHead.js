@@ -4,7 +4,7 @@ const TableHead = () => {
   return (
     <thead>
       <tr>
-        <th className="pway-select"></th>
+        <th className="col-pway-select"></th>
         <th className="col-name">
           Name
         </th>

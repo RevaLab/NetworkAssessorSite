@@ -6,13 +6,13 @@ import {
 } from 'react-bulma-components';
 
 // local compoonents
-import TableHead from './TableHead';
-import TableBody from './TableBody';
+import TableHead from './TableHead/TableHead';
+import TableBody from './TableBody/TableBody';
 
 // context
-import {
-  NetworkUIConsumer,
-} from '../NetworkUIContext';
+import { NetworkUIConsumer } from '../NetworkUIContext';
+
+import './NetworkUITable.css'
 
 const NetworkUITable = () => {
   return (
@@ -21,27 +21,22 @@ const NetworkUITable = () => {
       <NetworkUIConsumer>
         {
           ({
-            pathways,
-            pathwayDatabases,
-            ppiDatabases,
+            // pathways,
+            // pathwayDatabases,
+            // ppiDatabases,
             ui: {
               loadState,
-              selectedPathwayDatabase,
-              selectedPpiDatabase,
-              selectedPathways,
+              // selectedPathwayDatabase,
+              // selectedPpiDatabase,
+              // selectedPathways,
             },
-            updateSelectedPathways,
+            // updateSelectedPathways,
             updatePathwayColor,
+            tableData
           }) =>
           <TableBody
-            pathways={pathways}
+            tableData={tableData}
             loadState={loadState}
-            selectedPathwayDatabase={selectedPathwayDatabase}
-            pathwayDatabases={pathwayDatabases}
-            ppiDatabases={ppiDatabases}
-            selectedPpiDatabase={selectedPpiDatabase}
-            updateSelectedPathways={updateSelectedPathways}
-            selectedPathways={selectedPathways}
             updatePathwayColor={updatePathwayColor}
           />
         }
