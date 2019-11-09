@@ -11,12 +11,12 @@ import {
 import Switch from 'react-bulma-switch/full';
 
 // context
-import { QueryUIProvider, QueryUIConsumer } from './QueryUI/QueryUIContext';
+import { QueryUIProvider, QueryUIConsumer } from './QueryUIContext';
 
 // local components
-import QueryList from './QueryUI/QueryList/QueryList';
-import FilteredList from './QueryUI/FilteredList';
-import GeneFilterTool from './QueryUI/GeneFilterTool';
+import QueryList from './QueryList/QueryList';
+import FilteredList from './FilteredList/FilteredList';
+import GeneFilterTool from './GeneFilterTool/GeneFilterTool';
 
 // css
 import './QueryUI.css';

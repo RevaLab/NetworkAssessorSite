@@ -6,7 +6,7 @@ import {
 } from 'react-bulma-components';
 
 // context
-import { QueryUIConsumer } from './QueryUIContext';
+import { QueryUIConsumer } from '../QueryUIContext';
 
 const { Field, Control, Label, Textarea } = Form;
 

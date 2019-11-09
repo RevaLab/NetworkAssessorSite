@@ -8,10 +8,10 @@ import {
 } from 'react-bulma-components';
 
 // local components
-import GeneFilterContainer from './GeneFilterTool/GeneFilterContainer';
+import GeneFilterContainer from './GeneFilterContainer';
 
 // context
-import { QueryUIConsumer } from './QueryUIContext';
+import { QueryUIConsumer } from '../QueryUIContext';
 
 // css
 import './GeneFilterTool.css'

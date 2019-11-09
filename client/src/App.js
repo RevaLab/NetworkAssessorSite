@@ -8,7 +8,7 @@ import {
 import './App.css';
 
 import Header from './components/Header';
-import QueryUI from './components/QueryUI';
+import QueryUI from './components/QueryUI/QueryUI';
 import Footer from './components/Footer';
 
 import NetworkUI from './components/NetworkUI';
