@@ -88,7 +88,6 @@ class GeneFilterContainer extends React.Component {
                 allIds: this.filterTerms(),
               }}
             />
-          )}
         </div>
       </Box>
     )
