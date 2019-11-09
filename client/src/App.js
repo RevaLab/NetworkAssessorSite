@@ -12,13 +12,16 @@ import QueryUI from './components/QueryUI/QueryUI';
 import Footer from './components/Footer';
 
 import NetworkUI from './components/NetworkUI';
+import { QueryUIProvider } from './components/QueryUI/QueryUIContext';
 
 function AppRouter() {
   return (
     <Router>
       <div className="App">
         <Header />
-        <Route path="/" exact component={QueryUI} />
+        <QueryUIProvider>
+          <Route path="/" exact component={QueryUI} />
+        </QueryUIProvider>
         <Route path="/network/" component={NetworkUI} />
         <Footer />
       </div>

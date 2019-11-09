@@ -1,5 +1,6 @@
 import React from 'react';
 
+import axios from 'axios';
 import merge from 'lodash/merge';
 
 let NetworkUIContext
@@ -129,6 +130,8 @@ class NetworkUIProvider extends React.Component {
 
   async componentDidMount() {
     const pathwayDbsData = await require('../networkData').pathways();
+    const { data } = await axios.get('http://localhost:5000/api/pathways')
+    console.log(data)
 
     const selectedPathwayDatabase = pathwayDbsData.pathwayDatabases.allIds[0];
     const selectedPpiDatabase = pathwayDbsData.ppiDatabases.allIds[0];

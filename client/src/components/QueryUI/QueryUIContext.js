@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import merge from 'lodash/merge';
 import axios from 'axios'
 
-const { Provider, Consumer } = React.createContext();
-
+const QueryUIContext = React.createContext();
+const { Provider, Consumer } = QueryUIContext
 
 class QueryUIProvider extends React.Component {
   state = {
@@ -151,7 +151,11 @@ class QueryUIProvider extends React.Component {
   }
 }
 
+const useQueryUI = () => useContext(QueryUIContext)
+
 export {
+  useQueryUI,
+  QueryUIContext,
   QueryUIProvider,
   Consumer as QueryUIConsumer
 };

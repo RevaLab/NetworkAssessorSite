@@ -30,3 +30,7 @@ def go_terms():
     }
 
     return jsonify(res)
+
+@app.route('/api/pathways', methods=['GET'])
+def pathways():
+    return jsonify({ 'body': 'hello pathways' })
