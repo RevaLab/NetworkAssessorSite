@@ -48,7 +48,7 @@ class NetworkUi extends React.Component {
                   </Container>
                 </Box>
             </Columns.Column>
-            <Columns.Column style={{margin: '0 auto'}}>
+            {/* <Columns.Column style={{margin: '0 auto'}}>
               <NetworkUIConsumer>
                 {({ pathways, ui: { loadState } }) =>
                   <NetworkContainer
@@ -57,7 +57,7 @@ class NetworkUi extends React.Component {
                   />
                 }
               </NetworkUIConsumer>
-            </Columns.Column>
+            </Columns.Column> */}
           </Columns>
         </Section>
       </NetworkUIProvider>

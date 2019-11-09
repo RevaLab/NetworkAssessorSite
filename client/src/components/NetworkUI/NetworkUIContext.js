@@ -221,9 +221,7 @@ class NetworkUIProvider extends React.Component {
   }
 
   async componentDidMount() {
-    // const pathwayDbsData = await require('../networkData').pathways();
     const { data: pathwayDbsData } = await axios.get('http://localhost:5000/api/pathways')
-    console.log(pathwayDbsData)
 
     const selectedPathwayDatabase = pathwayDbsData.pathwayDatabases.allIds[0];
     const selectedPpiDatabase = pathwayDbsData.ppiDatabases.allIds[0];
@@ -243,22 +241,12 @@ class NetworkUIProvider extends React.Component {
     const ppiEdgesData = await require('../networkData').ppiEdgesPromise({})
     console.log(ppiEdgesData)
 
-    const [
-      ppiDatabaseData,
-      pathwaysData,
-    ] = await Promise.all([
-      require('../networkData').ppiDatabases(selectedPpiDatabase),
-      require('../networkData').pathwayDatabasePathways(selectedPathwayDatabase)
-    ]);
-
     this.setState(state => merge(
       {},
       state,
-      ppiDatabaseData,
-      pathwaysData,
       {
         ui: {
-          loadState: 'LOADED',
+          loadState: 'LOADED'
         }
       }
     ))
