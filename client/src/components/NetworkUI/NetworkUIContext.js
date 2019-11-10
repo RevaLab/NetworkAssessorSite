@@ -41,11 +41,28 @@ class NetworkUIProvider extends React.Component {
         ...state,
         ui: {
           ...state.ui,
-          loadState: 'LOADING',
           [dbKey]: newSelectedDatabase
         }
       }))
 
+      if (dbKey === 'selectedPpiDatabase') {
+        if (this.state.tables[newSelectedDatabase][this.state.ui.selectedPathwayDatabase].length > 0) {
+          return
+        }
+      } else {
+        if (this.state.tables[this.state.ui.selectedPpiDatabase][newSelectedDatabase].length > 0) {
+          return
+        }
+      }
+
+      this.setState(state => ({
+        ui: {
+          ...state.ui,
+          loadState: 'LOADING',
+        }
+      }))
+
+      console.log("MADE A REQUEST")
       const { data } = await axios.post('http://localhost:5000/api/table', {
         selectedPpiDatabase: this.state.ui.selectedPpiDatabase,
         selectedPathwayDatabase: this.state.ui.selectedPathwayDatabase,
