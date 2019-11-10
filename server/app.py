@@ -64,10 +64,8 @@ def pathways():
 
 @app.route('/api/table', methods=['POST'])
 def table():
-    # print(request.keys())
     selectedPathwayDatabase = request.json['selectedPathwayDatabase']
     selectedPpiDatabase = request.json['selectedPpiDatabase']
-    # selectedPathwayDatabase = "My Cancer Genome"
     res = {
         "selectedPpiDatabase": selectedPpiDatabase,
         "selectedPathwayDatabase": selectedPathwayDatabase,
@@ -164,4 +162,41 @@ def table():
             }
         ]
     }
+    return jsonify(res)
+
+@app.route('/api/network', methods=['POST'])
+def network():
+    res = {
+        "nodes": [
+            {
+            "id": "AKT1",
+            "pieChart": [
+                { "color": 0, "percent": 100 }
+            ]
+            },
+            {
+            "id": "BAD",
+            "pieChart": [
+                { "color": 3369, "percent": 33.33 },
+                { "color": 3116, "percent": 33.34 },
+                { "color": 2942, "percent": 33.33 }
+            ]
+            },
+            {
+            "id": "BCL2L1",
+            "pieChart": [
+                { "color": 1210, "percent": 25 },
+                { "color": 1911, "percent": 25 },
+                { "color": 1097, "percent": 25 },
+                { "color": 2725, "percent": 25 }
+            ]
+            }
+        ],
+        "links": [
+            { "source": "AKT1", "target": "BAD" },
+            { "source": "BAD", "target": "BCL2L1" },
+            { "source": "BCL2L1", "target": "AKT1" },
+        ]
+    }
+
     return jsonify(res)

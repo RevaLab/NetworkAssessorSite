@@ -173,3 +173,58 @@
   ]
 }
 ```
+
+## Network
+
+* **PATH**: `/api/network`
+* **METHOD**: `POST`
+* **REQUEST**: POST `/api/network`
+
+```json
+{
+  "genes": [
+    "FLT3", "SMO", "GLA", "SGCB", "OAT", "CAPN3", "ASS1", "AGXT", "AKT1", "PTPN1", "PIAS1", "CDKN1B", "THEM4", "CCNE1", "MAP2K4", "ATG7", "ATG12", "BAD", "BCL2L1", "BADGENE"
+  ],
+  "ppiDatabase": "STRING",
+  "pathwayDatabase": "KEGG",
+  "selectedPathways": [
+    "123",
+    "3444"
+  ]
+}
+```
+* **RESPONSE BODY**:
+```json
+{
+  "nodes": [
+    {
+      "id": "AKT1",
+      "pieChart": [
+        { "color": 0, "percent": 100 }
+      ]
+    },
+    {
+      "id": "BAD",
+      "pieChart": [
+        { "color": 3369, "percent": 33.33 },
+        { "color": 3116, "percent": 33.34 },
+        { "color": 2942, "percent": 33.33 }
+      ]
+    },
+    {
+      "id": "BCL2L1",
+      "pieChart": [
+        { "color": 1210, "percent": 25 },
+        { "color": 1911, "percent": 25 },
+        { "color": 1097, "percent": 25 },
+        { "color": 2725, "percent": 25 }
+      ]
+    }
+  ],
+  "links": [
+    { "source": "AKT1", "target": "BAD" },
+    { "source": "BAD", "target": "BCL2L1" },
+    { "source": "BCL2L1", "target": "AKT1" },
+  ]
+}
+```

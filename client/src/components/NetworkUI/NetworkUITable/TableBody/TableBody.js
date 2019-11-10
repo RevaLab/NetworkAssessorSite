@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import ColorPicker from '../../ColorPicker/ColorPicker'
 import PathwayMembersModal from './PathwayMembersModal/PathwayMembersModal'
+import { useNetwork } from '../../NetworkUIContext';
 
 // component libraries
 import 'react-bulma-components/dist/react-bulma-components.min.css';
@@ -19,6 +20,12 @@ const TableBody = ({
 
   const [colorPicker, setColorPicker] = useState(null);
   const [modal, setModal] = useState(null);
+  const {
+    ui: {
+      selectedPathways
+    },
+    updateSelectedPathways
+  } = useNetwork()
 
   const handleModalClose = useCallback((e) => {
     e.stopPropagation();
@@ -63,12 +70,11 @@ const TableBody = ({
       pVal
     }) => (
       <tr key={id}>
-      {/* TODO: HANDLE CHECKBOXES */}
       <td className="col-pway-select">
-        {/* <input type="checkbox"
+        <input type="checkbox"
           onChange={e => updateSelectedPathways(id, e.target.checked)}
           checked={!!selectedPathways[id]}
-        /> */}
+        />
       </td>
       <td className="col-name">
         {name}

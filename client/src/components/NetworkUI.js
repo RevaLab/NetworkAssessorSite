@@ -4,6 +4,7 @@ import React from 'react';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import {
   Box,
+  Button,
   Columns,
   Container,
   Section,
@@ -44,9 +45,12 @@ class NetworkUi extends React.Component {
                   className="network-nav"
                 >
                   <NetworkTopNav />
-                  <Container>
+                  <Container style={{ width: '100%' }}>
                     <QueryListInfo />
                   </Container>
+                  <Button>
+                    Draw Network
+                  </Button>
                   <Container className="network-table-container">
                     <NetworkUITable />
                   </Container>
