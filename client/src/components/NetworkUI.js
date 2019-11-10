@@ -12,10 +12,9 @@ import {
 // local components
 import NetworkUITable from './NetworkUI/NetworkUITable/NetworkUITable';
 import NetworkTopNav from './NetworkUI/NetworkTopNav';
-import NetworkContainer from './NetworkUI/NetworkContainer'
 
 // context
-import { NetworkUIProvider, NetworkUIConsumer } from './NetworkUI/NetworkUIContext';
+import { NetworkUIProvider } from './NetworkUI/NetworkUIContext';
 
 // css
 import './NetworkUI.css';

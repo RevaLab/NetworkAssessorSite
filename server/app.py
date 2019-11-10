@@ -65,7 +65,7 @@ def pathways():
 @app.route('/api/table', methods=['POST'])
 def table():
     res = {
-        "pathwayRows": [
+        "tableData": [
             {
                 "id": "3379",
                 "name": "WNT ext path",
