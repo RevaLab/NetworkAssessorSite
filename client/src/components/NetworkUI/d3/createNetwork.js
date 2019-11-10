@@ -12,7 +12,7 @@ function adjustSVG(svg, parent) {
   return { width, height };
 }
 
-function createNetwork({ nodes, links }, parent, pathways) {
+function createNetwork({ nodes, links }, parent, colors) {
   const svg = d3.select("svg");
   const { width, height } = adjustSVG(svg, parent);
 
@@ -37,6 +37,13 @@ function createNetwork({ nodes, links }, parent, pathways) {
   const g = svg.append('g')
               .attr('class', 'everything')
 
+  const link = g.append("g")
+    .attr("class", "links")
+    .selectAll("line")
+    .data(links)
+    .enter().append("line")
+    .attr("stroke-width", 2);
+
   const node = g.append("g")
     .attr("class", "nodes")
     .selectAll("g.node")
@@ -50,13 +57,10 @@ function createNetwork({ nodes, links }, parent, pathways) {
       .on('end', dragEnd)
     );
 
-  console.log(pathways);
-  const color = (pathwayId) => {
-    console.log(pathwayId);
-    const pathway = pathways.byId[pathwayId.toString()];
-    return pathway ?  pathway.color : 'black';
+  const getColor = (pathwayId) => {
+    return colors[pathwayId] || 'red'
   }
-  window.color = color;
+  window.color = getColor;
   /* Draw the respective pie chart for each node */
   node.each(function (d) {
     NodePieBuilder.drawNodePie(d3.select(this), d.pieChart, {
@@ -68,26 +72,7 @@ function createNetwork({ nodes, links }, parent, pathways) {
     });
   });
 
-  const link = g.append("g")
-    .attr("class", "links")
-    .selectAll("line")
-    .data(links)
-    .enter().append("line")
-    .attr("stroke-width", 2);
-
   function tickActions() {
-    //update circle positions to reflect node updates on each tick of the simulation
-    node
-      .attr("cx", d => d.x)
-      .attr("cy", d => d.y)
-      .on("click", function(d) {
-        d3.select(this).classed("fixed", function(d) {
-          d.fx = null;
-          d.fy = null;
-          return d.fixed = false
-        });
-      })
-
     //update link positions
     //simply tells one end of the line to follow one node around
     //and the other end of the line to follow the other node around
@@ -96,6 +81,18 @@ function createNetwork({ nodes, links }, parent, pathways) {
         .attr("y1", function(d) { return d.source.y; })
         .attr("x2", function(d) { return d.target.x; })
         .attr("y2", function(d) { return d.target.y; });
+
+    //update circle positions to reflect node updates on each tick of the simulation
+    node
+      .attr("cx", d => d.x)
+      .attr("cy", d => d.y)
+      .on("click", function (d) {
+        d3.select(this).classed("fixed", function (d) {
+          d.fx = null;
+          d.fy = null;
+          return d.fixed = false
+        });
+      })
 
     d3.selectAll("circle").attr("cx", function (d) {
         return d.x;
@@ -119,7 +116,7 @@ function createNetwork({ nodes, links }, parent, pathways) {
     d3.select(this).classed("fixed", d.fixed = true);
     // Honestly I’m not sure why we check the if statement regarding d3.event.active. It seems to work without it as well, if we took away the if statement and just had simulation.alphaTarget. Let’s ignore it. Moving on now.
     if (!d3.event.active) {
-      simulation.alphaTarget(0.3).restart();
+      simulation.alphaTarget(0.4).restart();
     }
 
     d.fx = d.x;
@@ -129,11 +126,12 @@ function createNetwork({ nodes, links }, parent, pathways) {
   function dragDrag(d) {
     d.fx = d3.event.x;
     d.fy = d3.event.y;
+    // everything else stay STILL
   }
 
   function dragEnd(d) {
     if (!d3.event.active) {
-      simulation.alphaTarget(0);
+      simulation.alphaTarget(0.4);
     }
 
     if (sticky) {

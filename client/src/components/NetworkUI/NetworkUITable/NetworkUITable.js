@@ -6,46 +6,31 @@ import {
 } from 'react-bulma-components';
 
 // local compoonents
-import TableHead from './TableHead';
-import TableBody from './TableBody';
+import TableHead from './TableHead/TableHead';
+import TableBody from './TableBody/TableBody';
 
 // context
-import {
-  NetworkUIConsumer,
-} from '../NetworkUIContext';
+import { useNetwork } from '../NetworkUIContext';
+
+import './NetworkUITable.css'
 
 const NetworkUITable = () => {
+  const {
+    ui: {
+      loadState,
+    },
+    updatePathwayColor,
+    selectedTable
+  } = useNetwork()
+
   return (
     <Table>
       <TableHead />
-      <NetworkUIConsumer>
-        {
-          ({
-            pathways,
-            pathwayDatabases,
-            ppiDatabases,
-            ui: {
-              loadState,
-              selectedPathwayDatabase,
-              selectedPpiDatabase,
-              selectedPathways,
-            },
-            updateSelectedPathways,
-            updatePathwayColor,
-          }) =>
-          <TableBody
-            pathways={pathways}
-            loadState={loadState}
-            selectedPathwayDatabase={selectedPathwayDatabase}
-            pathwayDatabases={pathwayDatabases}
-            ppiDatabases={ppiDatabases}
-            selectedPpiDatabase={selectedPpiDatabase}
-            updateSelectedPathways={updateSelectedPathways}
-            selectedPathways={selectedPathways}
-            updatePathwayColor={updatePathwayColor}
-          />
-        }
-      </NetworkUIConsumer>
+        <TableBody
+        tableData={selectedTable}
+          loadState={loadState}
+          updatePathwayColor={updatePathwayColor}
+        />
     </Table>
   )
 }

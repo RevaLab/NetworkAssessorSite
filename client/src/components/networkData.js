@@ -255,6 +255,7 @@ const pathwayDatabaseMyCancerGenome = {
         "color": "#fe5d18",
         "membersLength": 12,
         "overlapLength": 5,
+        "edgesLength": 5,
         "pVal": 0.0003250272196074229
       },
       "3662": {
@@ -262,6 +263,7 @@ const pathwayDatabaseMyCancerGenome = {
         "color": "#923b3e",
         "membersLength": 5,
         "overlapLength": 8,
+        "edgesLength": 8,
         "pVal": 0.0013787906109511874
       },
       "4903": {
@@ -269,6 +271,7 @@ const pathwayDatabaseMyCancerGenome = {
         "color": "#82fd0f",
         "membersLength": 14,
         "overlapLength": 3,
+        "edgesLength": 3,
         "pVal": 0.0006057200026052585
       },
       "5290": {
@@ -276,6 +279,7 @@ const pathwayDatabaseMyCancerGenome = {
         "color": "#4c7fb8",
         "membersLength": 17,
         "overlapLength": 5,
+        "edgesLength": 5,
         "pVal": 0.0008449145721473537
       },
       "6131": {
@@ -283,6 +287,7 @@ const pathwayDatabaseMyCancerGenome = {
         "color": "#521f74",
         "membersLength": 14,
         "overlapLength": 7,
+        "edgesLength": 7,
         "pVal": 0.000026876482060089303
       },
       "6145": {
@@ -290,6 +295,7 @@ const pathwayDatabaseMyCancerGenome = {
         "color": "#ec8600",
         "membersLength": 7,
         "overlapLength": 3,
+        "edgesLength": 3,
         "pVal": 0.0009249305959767607
       },
       "6194": {
@@ -297,6 +303,7 @@ const pathwayDatabaseMyCancerGenome = {
         "color": "#2b2e2c",
         "membersLength": 9,
         "overlapLength": 1,
+        "edgesLength": 1,
         "pVal": 0.000954274430117962
       },
       "6380": {
@@ -304,6 +311,7 @@ const pathwayDatabaseMyCancerGenome = {
         "color": "#9561e2",
         "membersLength": 26,
         "overlapLength": 9,
+        "edgesLength": 9,
         "pVal": 0.00185390326478682
       },
       "6492": {
@@ -311,6 +319,7 @@ const pathwayDatabaseMyCancerGenome = {
         "color": "#273b25",
         "membersLength": 1,
         "overlapLength": 6,
+        "edgesLength": 6,
         "pVal": 0.000795553195050128
       },
       "7388": {
@@ -318,6 +327,7 @@ const pathwayDatabaseMyCancerGenome = {
         "color": "#9dfc27",
         "membersLength": 5,
         "overlapLength": 3,
+        "edgesLength": 3,
         "pVal": 0.0004654716728720567
       },
     },
@@ -374,6 +384,63 @@ const ppiDatabasesSTRING = {
   }
 }
 
+const ppiEdgesData = {
+  query: {
+    "validGenes": [
+      "FLT3",
+      "SMO",
+      "GLA",
+      "SGCB",
+      "OAT",
+      "CAPN3",
+      "ASS1",
+      "AGXT",
+      "AKT1",
+      "PTPN1",
+      "PIAS1",
+      "CDKN1B",
+      "THEM4",
+      "CCNE1",
+      "MAP2K4",
+      "ATG7",
+      "ATG12",
+      "BAD",
+      "BCL2L1"
+    ],
+    "invalidGenes": [
+      "BADGENE"
+    ]
+  },
+  ppiDatabases: {
+    "byId": {
+      "2": {
+        "name": "BioGrid",
+        "edgesLengthsByPathwayId": {
+          "547": 3,
+          "838": 4,
+        },
+        "pValsByPathwayId": {
+          "547": 0.0006363054587206767,
+          "838": 0.00145758036001902,
+        }
+      }
+    }
+  },
+  pathwayDatabases: {
+    "byId": {
+      "1": {
+        "name": "KEGG",
+      }
+    }
+  }
+}
+
+const ppiEdgesPromise = ({
+  ppiDatabase,
+  genes,
+  pathwayDatabase
+}) => delay(2000, ppiEdgesData)
+
 const delay = (t, v) => new Promise((res) => setTimeout(res.bind(null, v), t));
 const pathwayDataPromise = () => delay(100, pathwayData);
 const ppiDatabasesPromise = (id) => delay(2000, {
@@ -389,5 +456,6 @@ const pathwayDatabasePathwaysPromise = (id) => delay(2000, {
 export {
   pathwayDataPromise as pathways,
   ppiDatabasesPromise as ppiDatabases,
-  pathwayDatabasePathwaysPromise as pathwayDatabasePathways
+  pathwayDatabasePathwaysPromise as pathwayDatabasePathways,
+  ppiEdgesPromise
 }

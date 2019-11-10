@@ -26,11 +26,7 @@ const NetworkTopNav = () => {
               ({
                 queryList,
                 ui,
-                pathwayDatabases,
-                ppiDatabases,
                 handleDropdownSelect,
-                updatePpiDatabases,
-                updatePathwayDatabases,
               }) =>
               <Columns>
                 {ui.selectedPathwayDatabase &&
@@ -38,16 +34,10 @@ const NetworkTopNav = () => {
                   <Label>Pathway Database</Label>
                   <Dropdown
                     value={ui.selectedPathwayDatabase}
-                    onChange={(value) => handleDropdownSelect(
-                      'selectedPathwayDatabase',
-                      value,
-                      pathwayDatabases.byId[value].pathways ?
-                      undefined
-                      : () => updatePathwayDatabases(value, []) // send gene list
-                    )} >
-                    {pathwayDatabases.allIds.map(id =>
+                      onChange={value => handleDropdownSelect(value, 'selectedPathwayDatabase')}>
+                      {["My Cancer Genome", "KEGG", "Reactome"].map(id =>
                       <Dropdown.Item key={id} value={id}>
-                        {pathwayDatabases.byId[id].name}
+                        {id}
                       </Dropdown.Item>
                     )}
                   </Dropdown>
@@ -57,21 +47,13 @@ const NetworkTopNav = () => {
                 <Label>PPI Database</Label>
                 <Dropdown
                   value={ui.selectedPpiDatabase}
-                  onChange = {
-                    (value) => handleDropdownSelect(
-                      'selectedPpiDatabase',
-                      value,
-                      ppiDatabases.byId[value].edgesLengths ?
-                      undefined
-                      : () => updatePpiDatabases(value, [])
-                    )
-                  }
+                  onChange={value => handleDropdownSelect(value, 'selectedPpiDatabase')}
                 >
-                  {ppiDatabases.allIds.map(id =>
-                    <Dropdown.Item key={id} value={id}>
-                      {ppiDatabases.byId[id].name}
-                    </Dropdown.Item>
-                  )}
+                {["STRING", "BioGrid"].map(id =>
+                  <Dropdown.Item key={id} value={id}>
+                    {id}
+                  </Dropdown.Item>
+                )}
                 </Dropdown>
               </Columns.Column>}
               <Columns.Column>

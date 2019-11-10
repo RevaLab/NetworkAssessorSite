@@ -134,141 +134,97 @@
 }
 ```
 
-### Pathway properties from pathway databases
+## Table
 
-* **PATH**: `/api/pathway-databases/<pathway-database-id>`
-* **METHOD**: POST
-* **REQUEST**: POST `/api/pathway-databases/1`
+* **PATH**: `/api/table`
+* **METHOD**: `POST`
+* **REQUEST**: POST `/api/table`
 ```json
 {
   "genes": [
     "FLT3", "SMO", "GLA", "SGCB", "OAT", "CAPN3", "ASS1", "AGXT", "AKT1", "PTPN1", "PIAS1", "CDKN1B", "THEM4", "CCNE1", "MAP2K4", "ATG7", "ATG12", "BAD", "BCL2L1", "BADGENE"
+  ],
+  "ppiDatabase": "STRING",
+  "pathwayDatabase": "KEGG"
+}
+```
+* **RESPONSE BODY**:
+```json
+{
+  pathwayRows: [
+    {
+      id: "3379",
+      name: "WNT ext path",
+      color: "#fe5d18",
+      membersLength: 12,
+      overlapLength: 5,
+      edgesLength: 5,
+      pVal: 0.0003250272196074229
+    },
+    {
+      id: "3380",
+      name: "CALC PKC ext path",
+      color: "#923b3e",
+      membersLength: 5,
+      overlapLength: 8,
+      edgesLength: 8,
+      pVal: 0.0013787906109511874
+    }
+  ]
+}
+```
+
+## Network
+
+* **PATH**: `/api/network`
+* **METHOD**: `POST`
+* **REQUEST**: POST `/api/network`
+
+```json
+{
+  "genes": [
+    "FLT3", "SMO", "GLA", "SGCB", "OAT", "CAPN3", "ASS1", "AGXT", "AKT1", "PTPN1", "PIAS1", "CDKN1B", "THEM4", "CCNE1", "MAP2K4", "ATG7", "ATG12", "BAD", "BCL2L1", "BADGENE"
+  ],
+  "ppiDatabase": "STRING",
+  "pathwayDatabase": "KEGG",
+  "selectedPathways": [
+    "123",
+    "3444"
   ]
 }
 ```
 * **RESPONSE BODY**:
 ```json
 {
-  "query": {
-    "validGenes": [
-      "FLT3",
-      "SMO",
-      "GLA",
-      "SGCB",
-      "OAT",
-      "CAPN3",
-      "ASS1",
-      "AGXT",
-      "AKT1",
-      "PTPN1",
-      "PIAS1",
-      "CDKN1B",
-      "THEM4",
-      "CCNE1",
-      "MAP2K4",
-      "ATG7",
-      "ATG12",
-      "BAD",
-      "BCL2L1"
-    ],
-    "invalidGenes": [
-      "BADGENE"
-    ]
-  },
-  "pathways": {
-    "byId": {
-      "547": {
-        "name": "Apoptosis path",
-        "color": "#f85435",
-        "membersLength": 11,
-        "overlapLength": 9,
-      },
-      "838": {
-        "name": "TGF-B Signaling path",
-        "color": "#cfedde",
-        "membersLength": 4,
-        "overlapLength": 6,
-      },
-      ...
+  "nodes": [
+    {
+      "id": "AKT1",
+      "pieChart": [
+        { "color": 0, "percent": 100 }
+      ]
+    },
+    {
+      "id": "BAD",
+      "pieChart": [
+        { "color": 3369, "percent": 33.33 },
+        { "color": 3116, "percent": 33.34 },
+        { "color": 2942, "percent": 33.33 }
+      ]
+    },
+    {
+      "id": "BCL2L1",
+      "pieChart": [
+        { "color": 1210, "percent": 25 },
+        { "color": 1911, "percent": 25 },
+        { "color": 1097, "percent": 25 },
+        { "color": 2725, "percent": 25 }
+      ]
     }
-  },
-  "pathwayDatabases": {
-    "byId": {
-      "1": {
-        "name": "KEGG",
-        "pathways": ["547", "838", "1097", "1210", "1911", "2725", "2942", "3116", "3240", "3369"]
-      }
-    }
-  }
-}
-```
-
-### PPI edge counts + pvals (per pathway)
-
-* **PATH**: `/api/ppi-edges`
-* **METHOD**: POST
-* **REQUEST**: POST `/api/ppi-edges`
-```json
-{
-  "ppiDatabase": 2,
-  "pathwayDatabase": 1,
-  "genes": [
-    "FLT3", "SMO", "GLA", "SGCB", "OAT", "CAPN3", "ASS1", "AGXT", "AKT1", "PTPN1", "PIAS1", "CDKN1B", "THEM4", "CCNE1", "MAP2K4", "ATG7", "ATG12", "BAD", "BCL2L1", "BADGENE"
+  ],
+  "links": [
+    { "source": "AKT1", "target": "BAD" },
+    { "source": "BAD", "target": "BCL2L1" },
+    { "source": "BCL2L1", "target": "AKT1" },
   ]
 }
-```
-* **RESPONSE BODY**:
-```json
-{
-  "query": {
-    "validGenes": [
-      "FLT3",
-      "SMO",
-      "GLA",
-      "SGCB",
-      "OAT",
-      "CAPN3",
-      "ASS1",
-      "AGXT",
-      "AKT1",
-      "PTPN1",
-      "PIAS1",
-      "CDKN1B",
-      "THEM4",
-      "CCNE1",
-      "MAP2K4",
-      "ATG7",
-      "ATG12",
-      "BAD",
-      "BCL2L1"
-    ],
-    "invalidGenes": [
-      "BADGENE"
-    ]
-  },
-  "ppiDatabases": {
-    "byId": {
-      "2": {
-        "name": "BioGrid",
-        "edgesLengthsByPathwayId": {
-          "547": 3,
-          "838": 4,
-          ...
-        },
-        "pValsByPathwayId": {
-          "547": 0.0006363054587206767,
-          "838": 0.00145758036001902,
-          ...
-        }
-      }
-    }
-  },
-  "pathwayDatabases": {
-    "byId": {
-      "1": {
-        "name": "KEGG",
-      }
-    }
-  }
-};
 ```

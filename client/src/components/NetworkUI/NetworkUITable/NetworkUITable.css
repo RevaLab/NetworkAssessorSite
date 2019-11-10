@@ -1,0 +1,8 @@
+.NetworkUI table {
+  table-layout: fixed;
+  font-size: 14px;
+}
+
+.NetworkUI table th abbr {
+  cursor: help;
+}

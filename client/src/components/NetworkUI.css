@@ -26,58 +26,36 @@
   padding: .5em;
 }
 
-.NetworkUI table {
-  table-layout: fixed;
-  font-size: 14px;
-}
-
-.NetworkUI table th abbr {
-  cursor: help;
-}
-.NetworkUI td {
-  white-space: nowrap;
-  overflow: hidden;
-  text-align: center;
-}
-
-.NetworkUI table .pway-select {
+.col-pway-select {
   width: 25px;
 }
 
-.NetworkUI table td.col-name {
+.col-name {
   text-align: left;
   white-space: normal;
   text-overflow: clip;
 }
 
-.NetworkUI table .col-color {
+.col-color {
   width: 35px;
 }
 
-.NetworkUI table .col-color button {
-  vertical-align: middle;
-  padding: 0;
-  border-radius: 50%;
-  width: 1em;
-  height: 1em;
-}
-
-.NetworkUI table .col-pwaymembers {
+.col-pwaymembers {
   width: 30px;
   text-align: right;
 }
 
-.NetworkUI table .col-edges {
+.col-edges {
   width: 30px;
   text-align: right;
 }
 
-.NetworkUI table .col-overlap {
+.col-overlap {
   width: 30px;
   text-align: right;
 }
 
-.NetworkUI table .col-sig {
+.col-sig {
   width: 75px;
 }
 
@@ -95,32 +73,4 @@
   .NetworkUI .network-container {
     width: 100vw;
   }
-}
-
-.NetworkUI .compact-picker-overlay {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1;
-}
-
-.NetworkUI .compact-picker-container {
-  position: absolute;
-  z-index: 2;
-  right: 180px;
-}
-
-.NetworkUI button.as-link {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  font-size: inherit;
-  text-decoration: underline;
-}
-
-.NetworkUI button.as-link:hover {
-  background: #f5f5f5;
 }

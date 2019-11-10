@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import axios from 'axios';
 import merge from 'lodash/merge';
@@ -17,86 +17,91 @@ class NetworkUIProvider extends React.Component {
       invalidGenes: [],
     },
     ui: {
-      selectedPpiDatabase: null,
-      selectedPathwayDatabase: null,
+      selectedPpiDatabase: "STRING",
+      selectedPathwayDatabase: "My Cancer Genome",
       loadState: 'LOADING',
       selectedPathways: {},
     },
-    pathways: {
-      byId: {
-        // name
-        // color
-        // edgesLength
-        // membersLength
-        // overlapLength
-        // pVal
+    tables: {
+        "STRING": {
+          "KEGG": [],
+          "My Cancer Genome": [],
+          "Reactome": []
+        },
+        "BioGrid": {
+          "KEGG": [],
+          "My Cancer Genome": [],
+          "Reactome": []
+        }
       },
-      allIds: [1],
-    },
-    sources: {
-      byId: {
-        // name
-        // pathways
-      },
-      allIds: [],
-    },
-    pathwayDatabases: {
-      byId: {
-        // name
-        // pathways
-      },
-      // allIds: [1, 2, 3],
-    },
-    ppiDatabases: {
-      byId: {
-        // name
-      },
-      allIds: [1, 2],
+      colors: {
+        0: 'black',
+        3379: "#fe5d18",
+        3380: "#923b3e",
+        4903: "#82fd0f",
+        5290: "#4c7fb8",
+        6131: "#521f74",
+        6145: "#ec8600",
+        6194: "#2b2e2c",
+        6380: "#9561e2",
+        6492: "#273b25",
+        7388: "#9dfc27"
+      }
     }
-  }
 
-  updatePpiDatabases = async (ppiDatabaseId, geneList) => {
-    const data = await require('../networkData').ppiDatabases(ppiDatabaseId);
-
-    this.setState(state => merge(
-      {},
-      state,
-      data,
-      {
+    handleDropdownSelect = async (newSelectedDatabase, dbKey) => {
+      this.setState(state => ({
+        ...state,
         ui: {
-          loadState: 'LOADED',
+          ...state.ui,
+          [dbKey]: newSelectedDatabase
+        }
+      }))
+
+      if (dbKey === 'selectedPpiDatabase') {
+        if (this.state.tables[newSelectedDatabase][this.state.ui.selectedPathwayDatabase].length > 0) {
+          return
+        }
+      } else {
+        if (this.state.tables[this.state.ui.selectedPpiDatabase][newSelectedDatabase].length > 0) {
+          return
         }
       }
-    ))
-  }
 
-  updatePathwayDatabases = async (pathwayDbId, geneList) => {
-    const data = await require('../networkData').pathwayDatabasePathways(pathwayDbId);
-
-    this.setState(state => merge(
-      {},
-      state,
-      data,
-      {
+      this.setState(state => ({
         ui: {
-          loadState: 'LOADED',
+          ...state.ui,
+          loadState: 'LOADING',
         }
-      }
-    ))
-  }
+      }))
 
-  handleDropdownSelect = (type, val, callback) => {
-    this.setState(state => merge(
-      {},
-      state,
-      {
+      const { data } = await axios.post('http://localhost:5000/api/table', {
+        selectedPpiDatabase: this.state.ui.selectedPpiDatabase,
+        selectedPathwayDatabase: this.state.ui.selectedPathwayDatabase,
+        [dbKey]: newSelectedDatabase,
+      })
+
+      const {
+        selectedPpiDatabase,
+        selectedPathwayDatabase,
+        tableData
+      } = data
+
+      this.setState(state => ({
+        ...state,
         ui: {
-          [type]: val,
-          loadState: callback ? 'LOADING' : state.ui.loadState,
+          ...state.ui,
+          loadState: 'LOADED'
+        },
+        tables: {
+          ...state.tables,
+          [selectedPpiDatabase]: {
+            ...state.tables[selectedPpiDatabase],
+            [selectedPathwayDatabase]: tableData
+          }
         }
-      }
-    ), callback ? () => callback(val) : () => {})
-  }
+      }))
+    }
 
   updateSelectedPathways = (id, val) => {
     this.setState(state => merge(
@@ -109,75 +114,57 @@ class NetworkUIProvider extends React.Component {
           }
         }
       }
-    ), () => console.log(this.state.ui.selectedPathways))
+    ))
   }
 
   updatePathwayColor = (id, color) => {
-    this.setState(state => merge(
-      {},
-      state,
-      {
-        pathways: {
-          byId: {
-            [id]: {
-              color,
-            }
-          }
-        }
+    this.setState(state => ({
+      ...state,
+      colors: {
+        ...state.colors,
+        [id]: color
       }
-    ))
+    }))
   }
 
-  async componentDidMount() {
-    // const pathwayDbsData = await require('../networkData').pathways();
-    const { data: pathwayDbsData } = await axios.get('http://localhost:5000/api/pathways')
-    console.log(pathwayDbsData)
+  async componentDidMount() {   
+    const { data } = await axios.post('http://localhost:5000/api/table', {
+      selectedPathwayDatabase: this.state.ui.selectedPathwayDatabase,
+      selectedPpiDatabase: this.state.ui.selectedPpiDatabase
+    })
 
-    const selectedPathwayDatabase = pathwayDbsData.pathwayDatabases.allIds[0];
-    const selectedPpiDatabase = pathwayDbsData.ppiDatabases.allIds[0];
+    const {
+      selectedPpiDatabase,
+      selectedPathwayDatabase,
+      tableData
+    } = data
 
-    this.setState(state => merge(
-      {},
-      state,
-      pathwayDbsData,
-      {
-        ui: {
-          selectedPpiDatabase,
-          selectedPathwayDatabase,
+    this.setState(state => ({
+      ...state,
+      ui: {
+        ...state.ui,
+        loadState: 'LOADED'
+      },
+      tables: {
+        ...state.tables,
+        [selectedPpiDatabase]: {
+          ...state.tables[selectedPpiDatabase],
+          [selectedPathwayDatabase]: tableData
         }
       }
-    ));
-
-    const [
-      ppiDatabaseData,
-      pathwaysData,
-    ] = await Promise.all([
-      require('../networkData').ppiDatabases(selectedPpiDatabase),
-      require('../networkData').pathwayDatabasePathways(selectedPathwayDatabase)
-    ]);
-
-    this.setState(state => merge(
-      {},
-      state,
-      ppiDatabaseData,
-      pathwaysData,
-      {
-        ui: {
-          loadState: 'LOADED',
-        }
-      }
-    ))
+    }))
   }
 
   render() {
+    const { selectedPpiDatabase, selectedPathwayDatabase } = this.state.ui
+
     return (
       <Provider value={{
         ...this.state,
+        selectedTable: this.state.tables[selectedPpiDatabase][selectedPathwayDatabase],
         handleDropdownSelect: this.handleDropdownSelect,
         updateSelectedPathways: this.updateSelectedPathways,
-        updatePathwayColor: this.updatePathwayColor,
-        updatePpiDatabases: this.updatePpiDatabases,
-        updatePathwayDatabases: this.updatePathwayDatabases,
+        updatePathwayColor: this.updatePathwayColor
       }}>
         {this.props.children}
       </Provider>
@@ -185,9 +172,12 @@ class NetworkUIProvider extends React.Component {
   }
 }
 
+const useNetwork = () => useContext(NetworkUIContext)
+
 export {
   NetworkUIProvider,
   Consumer as NetworkUIConsumer,
+  useNetwork
 };
 
 export default NetworkUIContext;
