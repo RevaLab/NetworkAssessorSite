@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import axios from 'axios';
 import merge from 'lodash/merge';
@@ -155,8 +155,7 @@ class NetworkUIProvider extends React.Component {
         ...this.state,
         handleDropdownSelect: this.handleDropdownSelect,
         updateSelectedPathways: this.updateSelectedPathways,
-        updatePathwayColor: this.updatePathwayColor,
-        ppiDatabases: ["STRING", "BioGrid"]
+        updatePathwayColor: this.updatePathwayColor
       }}>
         {this.props.children}
       </Provider>
@@ -164,9 +163,12 @@ class NetworkUIProvider extends React.Component {
   }
 }
 
+const useNetwork = () => useContext(NetworkUIContext)
+
 export {
   NetworkUIProvider,
   Consumer as NetworkUIConsumer,
+  useNetwork
 };
 
 export default NetworkUIContext;

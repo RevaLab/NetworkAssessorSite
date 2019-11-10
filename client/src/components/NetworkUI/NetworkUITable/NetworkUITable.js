@@ -10,37 +10,29 @@ import TableHead from './TableHead/TableHead';
 import TableBody from './TableBody/TableBody';
 
 // context
-import { NetworkUIConsumer } from '../NetworkUIContext';
+import { useNetwork } from '../NetworkUIContext';
 
 import './NetworkUITable.css'
 
 const NetworkUITable = () => {
+  const {
+    ui: {
+      loadState,
+      selectedPathwayDatabase,
+      selectedPpiDatabase,
+    },
+    updatePathwayColor,
+    tables
+  } = useNetwork()
+
   return (
     <Table>
       <TableHead />
-      <NetworkUIConsumer>
-        {
-          ({
-            // pathways,
-            // pathwayDatabases,
-            // ppiDatabases,
-            ui: {
-              loadState,
-              selectedPathwayDatabase,
-              selectedPpiDatabase,
-              // selectedPathways,
-            },
-            // updateSelectedPathways,
-            updatePathwayColor,
-            tables
-          }) =>
-          <TableBody
-            tableData={tables[selectedPpiDatabase][selectedPathwayDatabase]}
-            loadState={loadState}
-            updatePathwayColor={updatePathwayColor}
-          />
-        }
-      </NetworkUIConsumer>
+        <TableBody
+          tableData={tables[selectedPpiDatabase][selectedPathwayDatabase]}
+          loadState={loadState}
+          updatePathwayColor={updatePathwayColor}
+        />
     </Table>
   )
 }
