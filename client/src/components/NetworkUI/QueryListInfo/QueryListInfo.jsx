@@ -16,7 +16,7 @@ export const QueryListInfo = () => {
   const color = colors[0]
 
   return (
-    <Table>
+    <Table style={{ width: 'auto' }}>
       <tbody>
         <tr>
           <td>

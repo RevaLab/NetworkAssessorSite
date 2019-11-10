@@ -116,7 +116,7 @@ function createNetwork({ nodes, links }, parent, colors) {
     d3.select(this).classed("fixed", d.fixed = true);
     // Honestly I’m not sure why we check the if statement regarding d3.event.active. It seems to work without it as well, if we took away the if statement and just had simulation.alphaTarget. Let’s ignore it. Moving on now.
     if (!d3.event.active) {
-      simulation.alphaTarget(0.3).restart();
+      simulation.alphaTarget(0.4).restart();
     }
 
     d.fx = d.x;
@@ -126,11 +126,12 @@ function createNetwork({ nodes, links }, parent, colors) {
   function dragDrag(d) {
     d.fx = d3.event.x;
     d.fy = d3.event.y;
+    // everything else stay STILL
   }
 
   function dragEnd(d) {
     if (!d3.event.active) {
-      simulation.alphaTarget(0);
+      simulation.alphaTarget(0.4);
     }
 
     if (sticky) {
