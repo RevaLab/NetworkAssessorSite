@@ -26,9 +26,12 @@ mycursor = mydb.cursor()
 def run_sql_test():
     print(mycursor)
     mycursor.execute("SELECT * FROM network_assessor.gene")
-    for row in mycursor:
-        print(row)
-    return jsonify({"i": "work"})
+    print(mycursor)
+    res = {
+        row[0]: row[1]
+        for row in mycursor
+    }
+    return jsonify(res)
 
 
 @app.route('/api/go-terms', methods=['GET','POST'])
@@ -85,97 +88,181 @@ def pathways():
     }
     return jsonify(res)
 
-@app.route('/api/table', methods=['POST'])
+
+@app.route('/api/table', methods=['POST', 'GET'])
 def table():
-    selectedPathwayDatabase = request.json['selectedPathwayDatabase']
-    selectedPpiDatabase = request.json['selectedPpiDatabase']
+    selectedPathwayDatabase = 'My Cancer Genome'
+    selectedPpiDatabase = 'BioGrid'
+    # input: selectedPathwayDatabase
+    # output: array of objects with id and names
+    pathway_sources = {
+        'My Cancer Genome': 2,
+    }
+
+    # genes => gene ids
+    genes = ['FLT3', 'SMO', 'GLA', 'SGCB', 'OAT', 'CAPN3', 'ASS1', 'AGXT', 'AKT1', 'PTPN1', 'PIAS1', 'CDKN1B', 'THEM4', 'CCNE1', 'MAP2K4', 'ATG7', 'ATG12', 'BAD', 'BCL2L1']
+    genes_for_sql_query = ['"{}"'.format(gene) for gene in genes]
+    mycursor.execute(
+        "SELECT id FROM network_assessor.gene WHERE symbol IN ({});".format(", ".join(genes_for_sql_query))
+    )
+    gene_ids = {g[0] for g in mycursor.fetchall()}
+    genes_ids_for_sql_query = ['"{}"'.format(gene) for gene in gene_ids]
+
+    # pathway source => pathway members
+    pathway_member_query = """
+        SELECT pw_id, gene_id, name 
+        FROM pathway_member 
+        JOIN pathway ON pathway.id = pw_id 
+        WHERE source={};
+    """.format(pathway_sources[selectedPathwayDatabase])
+
+    mycursor.execute(pathway_member_query)
+    pathway_members = mycursor.fetchall()
+
+    pw_members_dict = {}
+
+    for pw_id, gene, name in pathway_members:
+        if pw_id not in pw_members_dict:
+            pw_members_dict[pw_id] = {
+                'genes': set(),
+                'name': name,
+            }
+        pw_members_dict[pw_id]['genes'].add(gene)
+
+    # gene ids => edge lengths
+    edge_length_query = """
+        SELECT pw_id, SUM(neighbor_count)
+        FROM neighbor_count_biogrid_my_cancer_genome
+        WHERE gene_id in ({}) GROUP BY pw_id;
+    """.format(",".join(genes_ids_for_sql_query))
+
+    mycursor.execute(edge_length_query)
+    edge_lengths = dict(mycursor.fetchall())
+
+    len_gs = len(genes)
+
+    # edge lengths => p_val
+    k_pw_v_pval = {}
+    for pw, edge_length in edge_lengths.items():
+        query = """
+            SELECT pw_id, p_val FROM network_assessor.p_val_biogrid_my_cancer_genome
+            WHERE len_gs = {}
+            AND edge_count = {}
+            AND pw_id = {};
+        """.format(len_gs, str(edge_length), pw)
+        mycursor.execute(query)
+        res = mycursor.fetchall()
+        if len(res):
+            pw_id, p_val = res[0]
+            k_pw_v_pval[pw_id] = p_val
+        else:
+            k_pw_v_pval[pw] = -10000
+
+    tableData = [{
+            "id": pw_id,
+            "name": pw_data['name'],
+            "membersLength": len(pw_data['genes']),
+            "overlapLength": len(pw_data['genes'].intersection(gene_ids)),
+            "edgesLength": int(edge_lengths[pw_id]),
+            "pVal": k_pw_v_pval[pw_id]
+        }
+        for pw_id, pw_data in pw_members_dict.items()
+    ]
+
     res = {
         "selectedPpiDatabase": selectedPpiDatabase,
         "selectedPathwayDatabase": selectedPathwayDatabase,
-        "tableData": [
-            {
-                "id": "3379",
-                "name": "WNT ext path",
-                "membersLength": 12,
-                "overlapLength": 5,
-                "edgesLength": 5,
-                "pVal": 0.0003250272196074229
-            },
-            {
-                "id": "3380",
-                "name": "CALC PKC ext path",
-                "membersLength": 5,
-                "overlapLength": 8,
-                "edgesLength": 8,
-                "pVal": 0.0013787906109511874
-            },
-            {
-                "id": "4903",
-                "name": "Jack Stat ext path",
-                "membersLength": 14,
-                "overlapLength": 3,
-                "edgesLength": 3,
-                "pVal": 0.0006057200026052585
-            },
-            {
-                "id": "5290",
-                "name": "Mitogen Activated Protein-MAP Kinase Signaling path",
-                "membersLength": 17,
-                "overlapLength": 5,
-                "edgesLength": 5,
-                "pVal": 0.0008449145721473537
-            },
-            {
-                "id": "6131",
-                "name": "Receptor Tyrosine KinaseORGrowth Factor Signaling path",
-                "membersLength": 14,
-                "overlapLength": 7,
-                "edgesLength": 7,
-                "pVal": 0.000026876482060089303
-            },
-            {
-                "id": "6145",
-                "name": "Protein Degradation Ubiquitination path",
-                "membersLength": 7,
-                "overlapLength": 3,
-                "edgesLength": 3,
-                "pVal": 0.0009249305959767607
-            },
-            {
-                "id": "6194",
-                "name": "Kinase Fusions path",
-                "membersLength": 9,
-                "overlapLength": 1,
-                "edgesLength": 1,
-                "pVal": 0.000954274430117962
-            },
-            {
-                "id": "6380",
-                "name": "AKT ext path",
-                "membersLength": 26,
-                "overlapLength": 9,
-                "edgesLength": 9,
-                "pVal": 0.00185390326478682
-            },
-            {
-                "id": "6492",
-                "name": "G-Protein Signaling path",
-                "membersLength": 1,
-                "overlapLength": 6,
-                "edgesLength": 6,
-                "pVal": 0.000795553195050128
-            },
-            {
-                "id": "7388",
-                "name": "Hormone Signaling path",
-                "membersLength": 5,
-                "overlapLength": 3,
-                "edgesLength": 3,
-                "pVal": 0.0004654716728720567
-            }
-        ]
+        "tableData": tableData,
     }
+
+    # res = {
+    #     "selectedPpiDatabase": selectedPpiDatabase,
+    #     "selectedPathwayDatabase": selectedPathwayDatabase,
+    #     "tableData": [
+    #         {
+    #             "id": "3379",
+    #             "name": "WNT ext path",
+    #             "membersLength": 12,
+    #             "overlapLength": 5,
+    #             "edgesLength": 5,
+    #             "pVal": 0.0003250272196074229
+    #         },
+    #         {
+    #             "id": "3380",
+    #             "name": "CALC PKC ext path",
+    #             "membersLength": 5,
+    #             "overlapLength": 8,
+    #             "edgesLength": 8,
+    #             "pVal": 0.0013787906109511874
+    #         },
+    #         {
+    #             "id": "4903",
+    #             "name": "Jack Stat ext path",
+    #             "membersLength": 14,
+    #             "overlapLength": 3,
+    #             "edgesLength": 3,
+    #             "pVal": 0.0006057200026052585
+    #         },
+    #         {
+    #             "id": "5290",
+    #             "name": "Mitogen Activated Protein-MAP Kinase Signaling path",
+    #             "membersLength": 17,
+    #             "overlapLength": 5,
+    #             "edgesLength": 5,
+    #             "pVal": 0.0008449145721473537
+    #         },
+    #         {
+    #             "id": "6131",
+    #             "name": "Receptor Tyrosine KinaseORGrowth Factor Signaling path",
+    #             "membersLength": 14,
+    #             "overlapLength": 7,
+    #             "edgesLength": 7,
+    #             "pVal": 0.000026876482060089303
+    #         },
+    #         {
+    #             "id": "6145",
+    #             "name": "Protein Degradation Ubiquitination path",
+    #             "membersLength": 7,
+    #             "overlapLength": 3,
+    #             "edgesLength": 3,
+    #             "pVal": 0.0009249305959767607
+    #         },
+    #         {
+    #             "id": "6194",
+    #             "name": "Kinase Fusions path",
+    #             "membersLength": 9,
+    #             "overlapLength": 1,
+    #             "edgesLength": 1,
+    #             "pVal": 0.000954274430117962
+    #         },
+    #         {
+    #             "id": "6380",
+    #             "name": "AKT ext path",
+    #             "membersLength": 26,
+    #             "overlapLength": 9,
+    #             "edgesLength": 9,
+    #             "pVal": 0.00185390326478682
+    #         },
+    #         {
+    #             "id": "6492",
+    #             "name": "G-Protein Signaling path",
+    #             "membersLength": 1,
+    #             "overlapLength": 6,
+    #             "edgesLength": 6,
+    #             "pVal": 0.000795553195050128
+    #         },
+    #         {
+    #             "id": "7388",
+    #             "name": "Hormone Signaling path",
+    #             "membersLength": 5,
+    #             "overlapLength": 3,
+    #             "edgesLength": 3,
+    #             "pVal": 0.0004654716728720567
+    #         }
+    #     ]
+    # }
     return jsonify(res)
+
 
 @app.route('/api/network', methods=['POST'])
 def network():
