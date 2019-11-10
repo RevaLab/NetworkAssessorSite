@@ -8,17 +8,18 @@ import { Box } from 'react-bulma-components';
 import { useNetwork } from './NetworkUIContext';
 
 const NetworkGraph = () => {
-  const { ui: { loadState }, selectedTables } = useNetwork()
+  const { ui: { loadState }, colors } = useNetwork()
 
   const graph = {
     "nodes": [
       {
         "id": "AKT1",
         "pieChart" : [
-          { "color": 547, "percent": 40 },
-          { "color": 838, "percent": 20 },
-          { "color": 1097, "percent": 20 },
-          { "color": 1210, "percent": 20 }
+          { "color": 0, "percent": 100 }
+          // { "color": 547, "percent": 40 },
+          // { "color": 838, "percent": 20 },
+          // { "color": 1097, "percent": 20 },
+          // { "color": 1210, "percent": 20 }
         ]
       },
       {
@@ -50,7 +51,7 @@ const NetworkGraph = () => {
     if (loadState !== 'LOADED') return;
 
     const parent = document.querySelector('#network');
-    const { svg } = createNetwork(graph, parent, selectedTables);
+    const { svg } = createNetwork(graph, parent, colors);
 
     const resize = debounce(function () {
           console.log('adjust')

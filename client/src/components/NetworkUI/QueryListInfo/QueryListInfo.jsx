@@ -7,10 +7,13 @@ import {
   Table,
 } from 'react-bulma-components';
 import ColorPicker from '../ColorPicker/ColorPicker';
+import { useNetwork } from '../NetworkUIContext';
 
 export const QueryListInfo = () => {
   const [colorPicker, setColorPicker] = useState(false)
-  const [color, setColor] = useState('black')
+  const { updatePathwayColor, colors } = useNetwork()
+
+  const color = colors[0]
 
   return (
     <Table>
@@ -28,7 +31,7 @@ export const QueryListInfo = () => {
               <ColorPicker
                 setColorPicker={setColorPicker}
                 color={color}
-                onChangeComplete={color => setColor(color.hex)}
+                onChangeComplete={color => updatePathwayColor(0, color.hex)}
               />
             )}
           </td>

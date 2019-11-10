@@ -12,7 +12,7 @@ function adjustSVG(svg, parent) {
   return { width, height };
 }
 
-function createNetwork({ nodes, links }, parent, pathways) {
+function createNetwork({ nodes, links }, parent, colors) {
   const svg = d3.select("svg");
   const { width, height } = adjustSVG(svg, parent);
 
@@ -57,12 +57,10 @@ function createNetwork({ nodes, links }, parent, pathways) {
       .on('end', dragEnd)
     );
 
-  const color = (pathwayId) => {
-    // const pathway = pathways.byId[pathwayId.toString()];
-    // return pathway ?  pathway.color : 'black';
-    return 'black'
+  const getColor = (pathwayId) => {
+    return colors[pathwayId] || 'red'
   }
-  window.color = color;
+  window.color = getColor;
   /* Draw the respective pie chart for each node */
   node.each(function (d) {
     NodePieBuilder.drawNodePie(d3.select(this), d.pieChart, {

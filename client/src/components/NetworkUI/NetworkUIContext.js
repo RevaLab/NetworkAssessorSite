@@ -33,6 +33,9 @@ class NetworkUIProvider extends React.Component {
           "My Cancer Genome": [],
           "Reactome": []
         }
+      },
+      colors: {
+        0: 'black'
       }
     }
 
@@ -62,7 +65,6 @@ class NetworkUIProvider extends React.Component {
         }
       }))
 
-      console.log("MADE A REQUEST")
       const { data } = await axios.post('http://localhost:5000/api/table', {
         selectedPpiDatabase: this.state.ui.selectedPpiDatabase,
         selectedPathwayDatabase: this.state.ui.selectedPathwayDatabase,
@@ -106,19 +108,13 @@ class NetworkUIProvider extends React.Component {
   }
 
   updatePathwayColor = (id, color) => {
-    this.setState(state => merge(
-      {},
-      state,
-      {
-        pathways: {
-          byId: {
-            [id]: {
-              color,
-            }
-          }
-        }
+    this.setState(state => ({
+      ...state,
+      colors: {
+        ...state.colors,
+        [id]: color
       }
-    ))
+    }))
   }
 
   async componentDidMount() {   
