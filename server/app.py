@@ -66,7 +66,7 @@ def pathways():
 def table():
     # print(request.keys())
     selectedPathwayDatabase = request.json['selectedPathwayDatabase']
-    selectedPpiDatabase = "STRING"
+    selectedPpiDatabase = request.json['selectedPpiDatabase']
     # selectedPathwayDatabase = "My Cancer Genome"
     res = {
         "selectedPpiDatabase": selectedPpiDatabase,

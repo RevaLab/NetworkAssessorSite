@@ -28,7 +28,7 @@ class NetworkUIProvider extends React.Component {
           "My Cancer Genome": [],
           "Reactome": []
         },
-        "BIOGRID": {
+        "BioGrid": {
           "KEGG": [],
           "My Cancer Genome": [],
           "Reactome": []
@@ -36,18 +36,20 @@ class NetworkUIProvider extends React.Component {
       }
     }
 
-    handleDropdownSelectPathway = async (newSelectedDatabase) => {
+    handleDropdownSelect = async (newSelectedDatabase, dbKey) => {
       this.setState(state => ({
         ...state,
         ui: {
           ...state.ui,
           loadState: 'LOADING',
-          selectedPathwayDatabase: newSelectedDatabase
+          [dbKey]: newSelectedDatabase
         }
       }))
 
       const { data } = await axios.post('http://localhost:5000/api/table', {
-        selectedPathwayDatabase: newSelectedDatabase,
+        selectedPpiDatabase: this.state.ui.selectedPpiDatabase,
+        selectedPathwayDatabase: this.state.ui.selectedPathwayDatabase,
+        [dbKey]: newSelectedDatabase,
       })
 
       const {
@@ -70,10 +72,6 @@ class NetworkUIProvider extends React.Component {
           }
         }
       }))
-    }
-
-    handleDropdownSelectPpi = (value) => {
-
     }
 
   updateSelectedPathways = (id, val) => {
@@ -108,7 +106,8 @@ class NetworkUIProvider extends React.Component {
 
   async componentDidMount() {   
     const { data } = await axios.post('http://localhost:5000/api/table', {
-      selectedPathwayDatabase: this.state.ui.selectedPathwayDatabase
+      selectedPathwayDatabase: this.state.ui.selectedPathwayDatabase,
+      selectedPpiDatabase: this.state.ui.selectedPpiDatabase
     })
 
     const {
@@ -137,8 +136,7 @@ class NetworkUIProvider extends React.Component {
     return (
       <Provider value={{
         ...this.state,
-        handleDropdownSelectPathway: this.handleDropdownSelectPathway,
-        handleDropdownSelectPpi: this.handleDropdownSelectPpi,
+        handleDropdownSelect: this.handleDropdownSelect,
         updateSelectedPathways: this.updateSelectedPathways,
         updatePathwayColor: this.updatePathwayColor,
         ppiDatabases: ["STRING", "BioGrid"]
