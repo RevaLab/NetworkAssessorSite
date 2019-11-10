@@ -26,31 +26,21 @@ const NetworkTopNav = () => {
               ({
                 queryList,
                 ui,
-                pathwayDatabases,
-                ppiDatabases,
-                handleDropdownSelect,
-                updatePpiDatabases,
-                updatePathwayDatabases,
+                handleDropdownSelect
               }) =>
               <Columns>
                 {ui.selectedPathwayDatabase &&
                 <Columns.Column>
                   <Label>Pathway Database</Label>
-                  {/* <Dropdown
+                  <Dropdown
                     value={ui.selectedPathwayDatabase}
-                    onChange={(value) => handleDropdownSelect(
-                      'selectedPathwayDatabase',
-                      value,
-                      pathwayDatabases.byId[value].pathways ?
-                      undefined
-                      : () => updatePathwayDatabases(value, []) // send gene list
-                    )} >
-                    {pathwayDatabases.allIds.map(id =>
+                    onChange={handleDropdownSelect} >
+                      {["My Cancer Genome", "KEGG", "Reactome"].map(id =>
                       <Dropdown.Item key={id} value={id}>
-                        {pathwayDatabases.byId[id].name}
+                        {id}
                       </Dropdown.Item>
                     )}
-                  </Dropdown> */}
+                  </Dropdown>
                 </Columns.Column>}
               {ui.selectedPpiDatabase &&
               <Columns.Column>

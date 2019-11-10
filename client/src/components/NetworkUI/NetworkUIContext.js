@@ -36,19 +36,15 @@ class NetworkUIProvider extends React.Component {
       }
     }
 
-
-  handleDropdownSelect = (type, val, callback) => {
-    this.setState(state => merge(
-      {},
-      state,
-      {
+    handleDropdownSelect = (value) => {
+      this.setState(state => ({
+        ...state,
         ui: {
-          [type]: val,
-          loadState: callback ? 'LOADING' : state.ui.loadState,
+          ...state.ui,
+          selectedPathwayDatabase: value
         }
-      }
-    ), callback ? () => callback(val) : () => {})
-  }
+      }))
+    }
 
   updateSelectedPathways = (id, val) => {
     this.setState(state => merge(
@@ -80,29 +76,7 @@ class NetworkUIProvider extends React.Component {
     ))
   }
 
-  async componentDidMount() {
-    // const { data: pathwayDbsData } = await axios.get('http://localhost:5000/api/pathways')
-
-    const databases = {
-      pathwayDatabases: ["My Cancer Genome", "KEGG", "Reactome"],
-      ppiDatabases: ["STRING", "BioGrid"]
-    }
-    
-    // const selectedPathwayDatabase = databases.pathwayDatabases[0];
-    // const selectedPpiDatabase = databases.ppiDatabases[0];
-
-    // this.setState(state => merge(
-    //   {},
-    //   state,
-    //   pathwayDbsData,
-    //   {
-    //     ui: {
-    //       selectedPpiDatabase,
-    //       selectedPathwayDatabase,
-    //     }
-    //   }
-    // ));
-
+  async componentDidMount() {   
     const { data } = await axios.post('http://localhost:5000/api/table', {})
 
     const {
@@ -120,6 +94,7 @@ class NetworkUIProvider extends React.Component {
       tables: {
         ...state.tables,
         [selectedPpiDatabase]: {
+          ...state.tables[selectedPpiDatabase],
           [selectedPathwayDatabase]: tableData
         }
       }
@@ -132,7 +107,8 @@ class NetworkUIProvider extends React.Component {
         ...this.state,
         handleDropdownSelect: this.handleDropdownSelect,
         updateSelectedPathways: this.updateSelectedPathways,
-        updatePathwayColor: this.updatePathwayColor
+        updatePathwayColor: this.updatePathwayColor,
+        ppiDatabases: ["STRING", "BioGrid"]
       }}>
         {this.props.children}
       </Provider>
