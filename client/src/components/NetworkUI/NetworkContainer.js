@@ -13,7 +13,7 @@ const NetworkGraph = () => {
   const graph = {
     "nodes": [
       {
-        "id": "a", "group": 1,
+        "id": "AKT1",
         "pieChart" : [
           { "color": 547, "percent": 40 },
           { "color": 838, "percent": 20 },
@@ -22,7 +22,7 @@ const NetworkGraph = () => {
         ]
       },
       {
-        "id": "b", "group": 2,
+        "id": "BAD",
         "pieChart" : [
           { "color": 3369, "percent": 33.33 },
           { "color": 3116, "percent": 33.34 },
@@ -30,68 +30,19 @@ const NetworkGraph = () => {
         ]
       },
       {
-        "id": "c", "group": 3,
+        "id": "BCL2L1",
         "pieChart" : [
           { "color": 1210, "percent": 25 },
           { "color": 1911, "percent": 25 },
           { "color": 1097, "percent": 25 },
           { "color": 2725, "percent": 25 }
         ]
-      },
-      {
-        "id": "d", "group": 4,
-        "pieChart" : [
-          { "color": 1, "percent": 33.33 },
-          { "color": 3, "percent": 33.33 },
-          { "color": 4, "percent": 33.34 }
-        ]
-      },
-      {
-        "id": "e", "group": 1,
-        "pieChart" : [
-          { "color": 1, "percent": 100 }
-        ]
-      },
-      {
-        "id": "f", "group": 1,
-        "pieChart" : [
-          { "color": 1, "percent": 100 }
-        ]
-      },
-      {
-        "id": "g", "group": 2,
-        "pieChart" : [
-          { "color": 2, "percent": 50 },
-          { "color": 3, "percent": 50 }
-        ]
-      },
-      {
-        "id": "h", "group": 3,
-        "pieChart" : [
-          { "color": 2, "percent": 50 },
-          { "color": 3, "percent": 50 }
-        ]
-      },
-      {
-        "id": "i", "group": 4,
-        "pieChart" : [
-          { "color": 4, "percent": 100 }
-        ]
       }
     ],
     "links": [
-      {"source": "a", "target": "b", "value": 5},
-      {"source": "a", "target": "c", "value": 5},
-      {"source": "a", "target": "d", "value": 5},
-      {"source": "a", "target": "e", "value": 5},
-      {"source": "a", "target": "f", "value": 5},
-      {"source": "b", "target": "c", "value": 5},
-      {"source": "b", "target": "g", "value": 5},
-      {"source": "c", "target": "d", "value": 5},
-      {"source": "c", "target": "h", "value": 5},
-      {"source": "d", "target": "i", "value": 5},
-      {"source": "e", "target": "f", "value": 5},
-      {"source": "h", "target": "g", "value": 5}
+      {"source": "AKT1", "target": "BAD"},
+      {"source": "BAD", "target": "BCL2L1"},
+      {"source": "BCL2L1", "target": "AKT1"},
     ]
   }
 

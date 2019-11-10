@@ -13,9 +13,10 @@ import {
 import NetworkUITable from './NetworkUI/NetworkUITable/NetworkUITable';
 import NetworkTopNav from './NetworkUI/NetworkTopNav';
 import NetworkContainer from './NetworkUI/NetworkContainer'
+import { QueryListInfo } from './NetworkUI/QueryListInfo/QueryListInfo';
 
 // context
-import { NetworkUIProvider, NetworkUIConsumer } from './NetworkUI/NetworkUIContext';
+import { NetworkUIProvider } from './NetworkUI/NetworkUIContext';
 
 // css
 import './NetworkUI.css';
@@ -43,6 +44,9 @@ class NetworkUi extends React.Component {
                   className="network-nav"
                 >
                   <NetworkTopNav />
+                  <Container>
+                    <QueryListInfo />
+                  </Container>
                   <Container className="network-table-container">
                     <NetworkUITable />
                   </Container>

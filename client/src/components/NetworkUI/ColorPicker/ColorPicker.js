@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from 'react'
 import { CompactPicker } from 'react-color';
 
-const ColorPicker = ({ color, pathwayId, setColorPicker, updatePathwayColor }) => {
+const ColorPicker = ({ color, pathwayId, setColorPicker, onChangeComplete }) => {
   const handleClose = useCallback((e) => {
     if (e.target === e.currentTarget) {
       e.stopPropagation();
@@ -31,7 +31,7 @@ const ColorPicker = ({ color, pathwayId, setColorPicker, updatePathwayColor }) =
       <div className="compact-picker-container">
         <CompactPicker
           color={color}
-          onChangeComplete={(newColor) => updatePathwayColor(pathwayId, newColor.hex)}
+          onChangeComplete={onChangeComplete}
         />
       </div>
     </div>

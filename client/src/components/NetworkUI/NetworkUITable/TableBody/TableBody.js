@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import ColorPicker from './ColorPicker/ColorPicker'
+import ColorPicker from '../../ColorPicker/ColorPicker'
 import PathwayMembersModal from './PathwayMembersModal/PathwayMembersModal'
 
 // component libraries
@@ -81,9 +81,8 @@ const TableBody = ({
         {id === colorPicker && (
           <ColorPicker
             setColorPicker={setColorPicker}
-            updatePathwayColor={updatePathwayColor}
+            onChangeComplete={(newColor) => updatePathwayColor(id, newColor.hex)}
             color={color}
-            pathwayId={id}
           />
         )}
       </td>
