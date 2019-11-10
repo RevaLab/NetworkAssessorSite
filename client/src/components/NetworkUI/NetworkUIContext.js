@@ -35,7 +35,17 @@ class NetworkUIProvider extends React.Component {
         }
       },
       colors: {
-        0: 'black'
+        0: 'black',
+        3379: "#fe5d18",
+        3380: "#923b3e",
+        4903: "#82fd0f",
+        5290: "#4c7fb8",
+        6131: "#521f74",
+        6145: "#ec8600",
+        6194: "#2b2e2c",
+        6380: "#9561e2",
+        6492: "#273b25",
+        7388: "#9dfc27"
       }
     }
 

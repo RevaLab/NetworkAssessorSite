@@ -24,7 +24,8 @@ const TableBody = ({
     ui: {
       selectedPathways
     },
-    updateSelectedPathways
+    updateSelectedPathways,
+    colors
   } = useNetwork()
 
   const handleModalClose = useCallback((e) => {
@@ -63,7 +64,6 @@ const TableBody = ({
     tableData.map(({
       id,
       name,
-      color,
       membersLength,
       overlapLength,
       edgesLength,
@@ -82,13 +82,13 @@ const TableBody = ({
       <td className="col-color">
         <Button 
           onClick={() => { setColorPicker(id) }}
-          style={{ backgroundColor: color }}>
+              style={{ backgroundColor: colors[id] }}>
         </Button>
         {id === colorPicker && (
           <ColorPicker
             setColorPicker={setColorPicker}
             onChangeComplete={(newColor) => updatePathwayColor(id, newColor.hex)}
-            color={color}
+            color={colors[id]}
           />
         )}
       </td>
