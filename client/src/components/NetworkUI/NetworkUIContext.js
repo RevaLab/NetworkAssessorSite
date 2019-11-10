@@ -81,29 +81,35 @@ class NetworkUIProvider extends React.Component {
   }
 
   async componentDidMount() {
-    const { data: pathwayDbsData } = await axios.get('http://localhost:5000/api/pathways')
+    // const { data: pathwayDbsData } = await axios.get('http://localhost:5000/api/pathways')
 
     const databases = {
       pathwayDatabases: ["My Cancer Genome", "KEGG", "Reactome"],
       ppiDatabases: ["STRING", "BioGrid"]
     }
     
-    const selectedPathwayDatabase = databases.pathwayDatabases[0];
-    const selectedPpiDatabase = databases.ppiDatabases[0];
+    // const selectedPathwayDatabase = databases.pathwayDatabases[0];
+    // const selectedPpiDatabase = databases.ppiDatabases[0];
 
-    this.setState(state => merge(
-      {},
-      state,
-      pathwayDbsData,
-      {
-        ui: {
-          selectedPpiDatabase,
-          selectedPathwayDatabase,
-        }
-      }
-    ));
+    // this.setState(state => merge(
+    //   {},
+    //   state,
+    //   pathwayDbsData,
+    //   {
+    //     ui: {
+    //       selectedPpiDatabase,
+    //       selectedPathwayDatabase,
+    //     }
+    //   }
+    // ));
 
-    const { data: { tableData } } = await axios.post('http://localhost:5000/api/table', {})
+    const { data } = await axios.post('http://localhost:5000/api/table', {})
+
+    const {
+      selectedPpiDatabase,
+      selectedPathwayDatabase,
+      tableData
+    } = data
 
     this.setState(state => ({
       ...state,
@@ -113,8 +119,8 @@ class NetworkUIProvider extends React.Component {
       },
       tables: {
         ...state.tables,
-        "STRING": {
-          "My Cancer Genome": tableData
+        [selectedPpiDatabase]: {
+          [selectedPathwayDatabase]: tableData
         }
       }
     }))

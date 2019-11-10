@@ -64,7 +64,11 @@ def pathways():
 
 @app.route('/api/table', methods=['POST'])
 def table():
+    selectedPpiDatabase = "STRING"
+    selectedPathwayDatabase = "My Cancer Genome"
     res = {
+        "selectedPpiDatabase": selectedPpiDatabase,
+        "selectedPathwayDatabase": selectedPathwayDatabase,
         "tableData": [
             {
                 "id": "3379",

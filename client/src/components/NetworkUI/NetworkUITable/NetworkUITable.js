@@ -34,6 +34,7 @@ const NetworkUITable = () => {
             updatePathwayColor,
             tables
           }) =>
+          console.log(tables, selectedPpiDatabase, selectedPathwayDatabase) ||
           <TableBody
             tableData={tables[selectedPpiDatabase][selectedPathwayDatabase]}
             loadState={loadState}
