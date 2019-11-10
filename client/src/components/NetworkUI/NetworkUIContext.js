@@ -150,9 +150,12 @@ class NetworkUIProvider extends React.Component {
   }
 
   render() {
+    const { selectedPpiDatabase, selectedPathwayDatabase } = this.state.ui
+
     return (
       <Provider value={{
         ...this.state,
+        selectedTable: this.state.tables[selectedPpiDatabase][selectedPathwayDatabase],
         handleDropdownSelect: this.handleDropdownSelect,
         updateSelectedPathways: this.updateSelectedPathways,
         updatePathwayColor: this.updatePathwayColor

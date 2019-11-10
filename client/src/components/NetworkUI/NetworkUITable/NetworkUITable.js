@@ -18,18 +18,16 @@ const NetworkUITable = () => {
   const {
     ui: {
       loadState,
-      selectedPathwayDatabase,
-      selectedPpiDatabase,
     },
     updatePathwayColor,
-    tables
+    selectedTable
   } = useNetwork()
 
   return (
     <Table>
       <TableHead />
         <TableBody
-          tableData={tables[selectedPpiDatabase][selectedPathwayDatabase]}
+        tableData={selectedTable}
           loadState={loadState}
           updatePathwayColor={updatePathwayColor}
         />

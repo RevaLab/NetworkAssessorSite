@@ -12,9 +12,10 @@ import {
 // local components
 import NetworkUITable from './NetworkUI/NetworkUITable/NetworkUITable';
 import NetworkTopNav from './NetworkUI/NetworkTopNav';
+import NetworkContainer from './NetworkUI/NetworkContainer'
 
 // context
-import { NetworkUIProvider } from './NetworkUI/NetworkUIContext';
+import { NetworkUIProvider, NetworkUIConsumer } from './NetworkUI/NetworkUIContext';
 
 // css
 import './NetworkUI.css';
@@ -47,16 +48,9 @@ class NetworkUi extends React.Component {
                   </Container>
                 </Box>
             </Columns.Column>
-            {/* <Columns.Column style={{margin: '0 auto'}}>
-              <NetworkUIConsumer>
-                {({ pathways, ui: { loadState } }) =>
-                  <NetworkContainer
-                    pathways={pathways}
-                    loadState={loadState}
-                  />
-                }
-              </NetworkUIConsumer>
-            </Columns.Column> */}
+            <Columns.Column style={{margin: '0 auto'}}>
+              <NetworkContainer />
+            </Columns.Column>
           </Columns>
         </Section>
       </NetworkUIProvider>

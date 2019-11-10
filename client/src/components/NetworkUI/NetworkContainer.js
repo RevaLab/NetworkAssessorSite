@@ -5,8 +5,10 @@ import debounce from 'lodash/debounce';
 // component libraries
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import { Box } from 'react-bulma-components';
+import { useNetwork } from './NetworkUIContext';
 
-const NetworkGraph = ({ pathways, loadState }) => {
+const NetworkGraph = () => {
+  const { ui: { loadState }, selectedTables } = useNetwork()
 
   const graph = {
     "nodes": [
@@ -97,7 +99,7 @@ const NetworkGraph = ({ pathways, loadState }) => {
     if (loadState !== 'LOADED') return;
 
     const parent = document.querySelector('#network');
-    const { svg } = createNetwork(graph, parent, pathways);
+    const { svg } = createNetwork(graph, parent, selectedTables);
 
     const resize = debounce(function () {
           console.log('adjust')

@@ -37,6 +37,13 @@ function createNetwork({ nodes, links }, parent, pathways) {
   const g = svg.append('g')
               .attr('class', 'everything')
 
+  const link = g.append("g")
+    .attr("class", "links")
+    .selectAll("line")
+    .data(links)
+    .enter().append("line")
+    .attr("stroke-width", 2);
+
   const node = g.append("g")
     .attr("class", "nodes")
     .selectAll("g.node")
@@ -50,11 +57,10 @@ function createNetwork({ nodes, links }, parent, pathways) {
       .on('end', dragEnd)
     );
 
-  console.log(pathways);
   const color = (pathwayId) => {
-    console.log(pathwayId);
-    const pathway = pathways.byId[pathwayId.toString()];
-    return pathway ?  pathway.color : 'black';
+    // const pathway = pathways.byId[pathwayId.toString()];
+    // return pathway ?  pathway.color : 'black';
+    return 'black'
   }
   window.color = color;
   /* Draw the respective pie chart for each node */
@@ -68,26 +74,7 @@ function createNetwork({ nodes, links }, parent, pathways) {
     });
   });
 
-  const link = g.append("g")
-    .attr("class", "links")
-    .selectAll("line")
-    .data(links)
-    .enter().append("line")
-    .attr("stroke-width", 2);
-
   function tickActions() {
-    //update circle positions to reflect node updates on each tick of the simulation
-    node
-      .attr("cx", d => d.x)
-      .attr("cy", d => d.y)
-      .on("click", function(d) {
-        d3.select(this).classed("fixed", function(d) {
-          d.fx = null;
-          d.fy = null;
-          return d.fixed = false
-        });
-      })
-
     //update link positions
     //simply tells one end of the line to follow one node around
     //and the other end of the line to follow the other node around
@@ -96,6 +83,18 @@ function createNetwork({ nodes, links }, parent, pathways) {
         .attr("y1", function(d) { return d.source.y; })
         .attr("x2", function(d) { return d.target.x; })
         .attr("y2", function(d) { return d.target.y; });
+
+    //update circle positions to reflect node updates on each tick of the simulation
+    node
+      .attr("cx", d => d.x)
+      .attr("cy", d => d.y)
+      .on("click", function (d) {
+        d3.select(this).classed("fixed", function (d) {
+          d.fx = null;
+          d.fy = null;
+          return d.fixed = false
+        });
+      })
 
     d3.selectAll("circle").attr("cx", function (d) {
         return d.x;
