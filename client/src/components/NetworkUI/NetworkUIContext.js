@@ -17,13 +17,24 @@ class NetworkUIProvider extends React.Component {
       invalidGenes: [],
     },
     ui: {
-      selectedPpiDatabase: null,
-      selectedPathwayDatabase: null,
+      selectedPpiDatabase: "STRING",
+      selectedPathwayDatabase: "My Cancer Genome",
       loadState: 'LOADING',
       selectedPathways: {},
     },
-    tableData: []
-  }
+    tables: {
+        "STRING": {
+          "KEGG": [],
+          "My Cancer Genome": [],
+          "Reactome": []
+        },
+        "BIOGRID": {
+          "KEGG": [],
+          "My Cancer Genome": [],
+          "Reactome": []
+        }
+      }
+    }
 
 
   handleDropdownSelect = (type, val, callback) => {
@@ -71,9 +82,14 @@ class NetworkUIProvider extends React.Component {
 
   async componentDidMount() {
     const { data: pathwayDbsData } = await axios.get('http://localhost:5000/api/pathways')
+
+    const databases = {
+      pathwayDatabases: ["My Cancer Genome", "KEGG", "Reactome"],
+      ppiDatabases: ["STRING", "BioGrid"]
+    }
     
-    const selectedPathwayDatabase = pathwayDbsData.pathwayDatabases.allIds[0];
-    const selectedPpiDatabase = pathwayDbsData.ppiDatabases.allIds[0];
+    const selectedPathwayDatabase = databases.pathwayDatabases[0];
+    const selectedPpiDatabase = databases.ppiDatabases[0];
 
     this.setState(state => merge(
       {},
@@ -95,7 +111,12 @@ class NetworkUIProvider extends React.Component {
         ...state.ui,
         loadState: 'LOADED'
       },
-      tableData
+      tables: {
+        ...state.tables,
+        "STRING": {
+          "My Cancer Genome": tableData
+        }
+      }
     }))
   }
 

@@ -36,7 +36,7 @@ const NetworkTopNav = () => {
                 {ui.selectedPathwayDatabase &&
                 <Columns.Column>
                   <Label>Pathway Database</Label>
-                  <Dropdown
+                  {/* <Dropdown
                     value={ui.selectedPathwayDatabase}
                     onChange={(value) => handleDropdownSelect(
                       'selectedPathwayDatabase',
@@ -50,12 +50,12 @@ const NetworkTopNav = () => {
                         {pathwayDatabases.byId[id].name}
                       </Dropdown.Item>
                     )}
-                  </Dropdown>
+                  </Dropdown> */}
                 </Columns.Column>}
               {ui.selectedPpiDatabase &&
               <Columns.Column>
                 <Label>PPI Database</Label>
-                <Dropdown
+                {/* <Dropdown
                   value={ui.selectedPpiDatabase}
                   onChange = {
                     (value) => handleDropdownSelect(
@@ -72,7 +72,7 @@ const NetworkTopNav = () => {
                       {ppiDatabases.byId[id].name}
                     </Dropdown.Item>
                   )}
-                </Dropdown>
+                </Dropdown> */}
               </Columns.Column>}
               <Columns.Column>
                 <Button onClick={() => setModal(true)}>

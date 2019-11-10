@@ -26,16 +26,16 @@ const NetworkUITable = () => {
             // ppiDatabases,
             ui: {
               loadState,
-              // selectedPathwayDatabase,
-              // selectedPpiDatabase,
+              selectedPathwayDatabase,
+              selectedPpiDatabase,
               // selectedPathways,
             },
             // updateSelectedPathways,
             updatePathwayColor,
-            tableData
+            tables
           }) =>
           <TableBody
-            tableData={tableData}
+            tableData={tables[selectedPpiDatabase][selectedPathwayDatabase]}
             loadState={loadState}
             updatePathwayColor={updatePathwayColor}
           />
