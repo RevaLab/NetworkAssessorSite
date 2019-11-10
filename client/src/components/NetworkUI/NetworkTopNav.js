@@ -26,7 +26,7 @@ const NetworkTopNav = () => {
               ({
                 queryList,
                 ui,
-                handleDropdownSelect
+                handleDropdownSelectPathway
               }) =>
               <Columns>
                 {ui.selectedPathwayDatabase &&
@@ -34,7 +34,7 @@ const NetworkTopNav = () => {
                   <Label>Pathway Database</Label>
                   <Dropdown
                     value={ui.selectedPathwayDatabase}
-                    onChange={handleDropdownSelect} >
+                    onChange={handleDropdownSelectPathway} >
                       {["My Cancer Genome", "KEGG", "Reactome"].map(id =>
                       <Dropdown.Item key={id} value={id}>
                         {id}

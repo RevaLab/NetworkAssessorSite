@@ -36,14 +36,44 @@ class NetworkUIProvider extends React.Component {
       }
     }
 
-    handleDropdownSelect = (value) => {
+    handleDropdownSelectPathway = async (newSelectedDatabase) => {
       this.setState(state => ({
         ...state,
         ui: {
           ...state.ui,
-          selectedPathwayDatabase: value
+          loadState: 'LOADING',
+          selectedPathwayDatabase: newSelectedDatabase
         }
       }))
+
+      const { data } = await axios.post('http://localhost:5000/api/table', {
+        selectedPathwayDatabase: newSelectedDatabase,
+      })
+
+      const {
+        selectedPpiDatabase,
+        selectedPathwayDatabase,
+        tableData
+      } = data
+
+      this.setState(state => ({
+        ...state,
+        ui: {
+          ...state.ui,
+          loadState: 'LOADED'
+        },
+        tables: {
+          ...state.tables,
+          [selectedPpiDatabase]: {
+            ...state.tables[selectedPpiDatabase],
+            [selectedPathwayDatabase]: tableData
+          }
+        }
+      }))
+    }
+
+    handleDropdownSelectPpi = (value) => {
+
     }
 
   updateSelectedPathways = (id, val) => {
@@ -77,7 +107,9 @@ class NetworkUIProvider extends React.Component {
   }
 
   async componentDidMount() {   
-    const { data } = await axios.post('http://localhost:5000/api/table', {})
+    const { data } = await axios.post('http://localhost:5000/api/table', {
+      selectedPathwayDatabase: this.state.ui.selectedPathwayDatabase
+    })
 
     const {
       selectedPpiDatabase,
@@ -105,7 +137,8 @@ class NetworkUIProvider extends React.Component {
     return (
       <Provider value={{
         ...this.state,
-        handleDropdownSelect: this.handleDropdownSelect,
+        handleDropdownSelectPathway: this.handleDropdownSelectPathway,
+        handleDropdownSelectPpi: this.handleDropdownSelectPpi,
         updateSelectedPathways: this.updateSelectedPathways,
         updatePathwayColor: this.updatePathwayColor,
         ppiDatabases: ["STRING", "BioGrid"]
