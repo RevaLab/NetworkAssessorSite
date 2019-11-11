@@ -12,7 +12,7 @@ import QueryUI from './components/QueryUI/QueryUI'
 import Footer from './components/Footer'
 
 import NetworkUI from './components/NetworkUI/NetworkUI'
-import { QueryUIProvider } from './components/QueryUI/QueryUIContext'
+import { QueryUIProvider } from './components/QueryUI/QueryUIContext/QueryUIContext'
 
 function AppRouter() {
   return (
