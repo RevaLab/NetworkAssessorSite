@@ -1,36 +1,36 @@
-import React, { useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useCallback } from 'react'
+import { useHistory } from 'react-router-dom'
 
 // component libraries
-import 'react-bulma-components/dist/react-bulma-components.min.css';
+import 'react-bulma-components/dist/react-bulma-components.min.css'
 import {
   Button,
   Columns,
   Container,
   Form,
   Section,
-} from 'react-bulma-components';
-import Switch from 'react-bulma-switch/full';
+} from 'react-bulma-components'
+import Switch from 'react-bulma-switch/full'
 
 // context
-import { useQueryUI } from './QueryUIContext';
+import { useQueryUI } from './QueryUIContext/QueryUIContext'
 
 // local components
-import QueryList from './QueryList/QueryList';
-import FilteredList from './FilteredList/FilteredList';
-import GeneFilterTool from './GeneFilterTool/GeneFilterTool';
+import QueryList from './QueryList/QueryList'
+import FilteredList from './FilteredList/FilteredList'
+import GeneFilterTool from './GeneFilterTool/GeneFilterTool'
 
 // css
-import './QueryUI.css';
+import './QueryUI.css'
 
 // destructure component definitions
-const { Field, Control } = Form;
+const { Field, Control } = Form
 
 const QueryUI = () => {
   const history = useHistory()
 
   const handleClick = useCallback(() => {
-    history.push('/network');
+    history.push('/network')
   }, [history])
 
   const {
@@ -91,7 +91,7 @@ const QueryUI = () => {
         </Section>
       }
     </Container>
-  );
+  )
 }
 
-export default QueryUI;
+export default QueryUI

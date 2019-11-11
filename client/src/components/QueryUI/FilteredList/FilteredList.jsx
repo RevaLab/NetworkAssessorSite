@@ -1,14 +1,14 @@
-import React from 'react';
+import React from 'react'
 
-import 'react-bulma-components/dist/react-bulma-components.min.css';
+import 'react-bulma-components/dist/react-bulma-components.min.css'
 import {
   Form,
-} from 'react-bulma-components';
+} from 'react-bulma-components'
 
 // context
-import { QueryUIConsumer } from '../QueryUIContext';
+import { QueryUIConsumer } from '../QueryUIContext/QueryUIContext'
 
-const { Field, Control, Label, Textarea } = Form;
+const { Field, Control, Label, Textarea } = Form
 
 const FilteredList = () =>{
   return (
@@ -39,4 +39,4 @@ const FilteredList = () =>{
   )
 }
 
-export default FilteredList;
+export default FilteredList

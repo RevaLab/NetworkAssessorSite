@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 
 import {
   Heading,
   Hero,
-} from 'react-bulma-components';
+} from 'react-bulma-components'
 import network from '../img/icons8-network-64.png'
 
 export default () => {
@@ -19,5 +19,5 @@ export default () => {
         </Heading>
       </Hero.Body>
     </Hero>
-  );
+  )
 }

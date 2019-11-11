@@ -1,26 +1,26 @@
-import React from 'react';
+import React from 'react'
 
 // component libraries
-import 'react-bulma-components/dist/react-bulma-components.min.css';
+import 'react-bulma-components/dist/react-bulma-components.min.css'
 import {
   Box,
   Button,
   Columns,
   Container,
   Section,
-} from 'react-bulma-components';
+} from 'react-bulma-components'
 
 // local components
-import NetworkUITable from './NetworkUI/NetworkUITable/NetworkUITable';
-import NetworkTopNav from './NetworkUI/NetworkTopNav';
-import NetworkContainer from './NetworkUI/NetworkContainer'
-import { QueryListInfo } from './NetworkUI/QueryListInfo/QueryListInfo';
+import NetworkUITable from './NetworkUITable/NetworkUITable'
+import NetworkTopNav from './NetworkTopNav/NetworkTopNav'
+import NetworkContainer from './NetworkContainer/NetworkContainer'
+import { QueryListInfo } from './QueryListInfo/QueryListInfo'
 
 // context
-import { NetworkUIProvider } from './NetworkUI/NetworkUIContext';
+import { NetworkUIProvider } from './NetworkUIContext/NetworkUIContext'
 
 // css
-import './NetworkUI.css';
+import './NetworkUI.css'
 
 class NetworkUi extends React.Component {
   state = {
@@ -62,8 +62,8 @@ class NetworkUi extends React.Component {
           </Columns>
         </Section>
       </NetworkUIProvider>
-    );
+    )
   }
 }
 
-export default NetworkUi;
+export default NetworkUi

@@ -1,16 +1,16 @@
-import React from 'react';
+import React from 'react'
 
-import 'react-bulma-components/dist/react-bulma-components.min.css';
+import 'react-bulma-components/dist/react-bulma-components.min.css'
 import {
   Table,
-} from 'react-bulma-components';
+} from 'react-bulma-components'
 
 // local compoonents
-import TableHead from './TableHead/TableHead';
-import TableBody from './TableBody/TableBody';
+import TableHead from './TableHead/TableHead'
+import TableBody from './TableBody/TableBody'
 
 // context
-import { useNetwork } from '../NetworkUIContext';
+import { useNetwork } from '../NetworkUIContext/NetworkUIContext'
 
 import './NetworkUITable.css'
 
@@ -35,4 +35,4 @@ const NetworkUITable = () => {
   )
 }
 
-export default NetworkUITable;
+export default NetworkUITable

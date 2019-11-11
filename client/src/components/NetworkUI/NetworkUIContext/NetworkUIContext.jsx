@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext } from 'react'
 
-import axios from 'axios';
-import merge from 'lodash/merge';
+import axios from 'axios'
+import merge from 'lodash/merge'
 
 let NetworkUIContext
 const {
   Provider,
   Consumer
-} = NetworkUIContext = React.createContext();
+} = NetworkUIContext = React.createContext()
 
 
 class NetworkUIProvider extends React.Component {
@@ -178,6 +178,6 @@ export {
   NetworkUIProvider,
   Consumer as NetworkUIConsumer,
   useNetwork
-};
+}
 
-export default NetworkUIContext;
+export default NetworkUIContext

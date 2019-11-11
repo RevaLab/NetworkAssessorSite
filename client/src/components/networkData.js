@@ -34,7 +34,7 @@ const pathwayData = {
     },
     allIds: [1, 2],
   },
-};
+}
 
 const ppiDatabaseBioGrid = {
   ppiDatabases: {
@@ -441,17 +441,17 @@ const ppiEdgesPromise = ({
   pathwayDatabase
 }) => delay(2000, ppiEdgesData)
 
-const delay = (t, v) => new Promise((res) => setTimeout(res.bind(null, v), t));
-const pathwayDataPromise = () => delay(100, pathwayData);
+const delay = (t, v) => new Promise((res) => setTimeout(res.bind(null, v), t))
+const pathwayDataPromise = () => delay(100, pathwayData)
 const ppiDatabasesPromise = (id) => delay(2000, {
   1: ppiDatabasesSTRING,
   2: ppiDatabaseBioGrid,
-}[id]);
+}[id])
 const pathwayDatabasePathwaysPromise = (id) => delay(2000, {
   1: pathwayDatabaseKEGG,
   2: pathwayDatabaseMyCancerGenome,
   3: pathwayDatabaseReactome,
-}[id]);
+}[id])
 
 export {
   pathwayDataPromise as pathways,

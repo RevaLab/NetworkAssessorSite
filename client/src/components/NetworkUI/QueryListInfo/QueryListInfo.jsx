@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 
 
-import 'react-bulma-components/dist/react-bulma-components.min.css';
+import 'react-bulma-components/dist/react-bulma-components.min.css'
 import {
   Button,
   Table,
-} from 'react-bulma-components';
-import ColorPicker from '../ColorPicker/ColorPicker';
-import { useNetwork } from '../NetworkUIContext';
+} from 'react-bulma-components'
+import ColorPicker from '../ColorPicker/ColorPicker'
+import { useNetwork } from '../NetworkUIContext/NetworkUIContext'
 
 export const QueryListInfo = () => {
   const [colorPicker, setColorPicker] = useState(false)

@@ -1,18 +1,18 @@
-import React from 'react';
+import React from 'react'
 import {
   BrowserRouter as Router,
   Route,
-} from "react-router-dom";
+} from "react-router-dom"
 
 //css
-import './App.css';
+import './App.css'
 
-import Header from './components/Header';
-import QueryUI from './components/QueryUI/QueryUI';
-import Footer from './components/Footer';
+import Header from './components/Header'
+import QueryUI from './components/QueryUI/QueryUI'
+import Footer from './components/Footer'
 
-import NetworkUI from './components/NetworkUI';
-import { QueryUIProvider } from './components/QueryUI/QueryUIContext';
+import NetworkUI from './components/NetworkUI/NetworkUI'
+import { QueryUIProvider } from './components/QueryUI/QueryUIContext'
 
 function AppRouter() {
   return (
@@ -29,4 +29,4 @@ function AppRouter() {
   )
 }
 
-export default AppRouter;
+export default AppRouter
