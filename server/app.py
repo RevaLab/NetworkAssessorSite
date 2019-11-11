@@ -1,3 +1,4 @@
+import os
 import json
 
 from flask import Flask, request, jsonify
@@ -9,30 +10,15 @@ import go as go
 app = Flask(__name__)
 CORS(app)
 
-mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    passwd="password",
-    database="network_assessor",
-)
+if (os.environ.get('DISABLE_SQL') !='true'):
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        passwd="password",
+        database="network_assessor",
+    )
 
-print("hello world")
-print(mydb)
-
-mycursor = mydb.cursor()
-
-
-@app.route('/sql-test', methods=['GET'])
-def run_sql_test():
-    print(mycursor)
-    mycursor.execute("SELECT * FROM network_assessor.gene")
-    print(mycursor)
-    res = {
-        row[0]: row[1]
-        for row in mycursor
-    }
-    return jsonify(res)
-
+    mycursor = mydb.cursor()
 
 @app.route('/api/go-terms', methods=['GET','POST'])
 def go_terms():
