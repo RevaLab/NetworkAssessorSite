@@ -1,154 +1,154 @@
-import React, { useContext } from 'react';
-import merge from 'lodash/merge';
+import React, { useReducer, useState, useContext, useCallback, useEffect, useMemo } from 'react'
 import axios from 'axios'
 
-const QueryUIContext = React.createContext();
+const QueryUIContext = React.createContext()
 const { Provider, Consumer } = QueryUIContext
 
-class QueryUIProvider extends React.Component {
-  state = {
-    ui: {
-      queryGenesValue: '',
-      filteredGenesValue: '',
-      queryGenes: [],
-      filteredGenes: [],
-      filtering: false,
-      loadState: 'LOADING',
-      selectedTerms: [],
-    },
-    ontologies: {
-      byId: {},
-      allIds: [],
-    },
-    goTerms: {
-      byId: {},
-      allIds: [],
+const genesFromSelectedGoTerms = (selectedTerms, goTerms) => {
+  const geneSet = new Set(selectedTerms.flatMap(term => goTerms.byId[term].genes))
+  return Array.from(geneSet)
+}
+
+const geneTextToArray = (str) => {
+  return str.split('\n').map(str => str.trim()).filter(el => el)
+}
+
+const QueryUIProvider = ({ children }) => {
+  const [ui, setUi] = useReducer(
+  (state, newState) => {
+    const nextState = {
+      ...state,
+      ...newState,
+      queryGenes: newState.queryGenesValue !== undefined ? geneTextToArray(newState.queryGenesValue) : state.queryGenes,
+      filteredGenes: newState.filteredGenesValue !== undefined ? geneTextToArray(newState.filteredGenesValue) : state.filteredGenes,
     }
-  }
 
-  geneTextToArray = str => str.split('\n').map(str => str.trim()).filter(el => el);
+    return nextState
+  }, 
+  {
+    queryGenesValue: '',
+    filteredGenesValue: '',
+    queryGenes: [],
+    filteredGenes: [],
+    selectedTerms: [],
+    filtering: false,
+    loadState: 'LOADING',
+  })
 
-  onQueryChange = evt => {
+  const [ontologies, setOntologies] = useState({
+    byId: {},
+    allIds: []
+  })
+
+  const [goTerms, setGoTerms] = useState({
+    byId: {},
+    allIds: []
+  })
+
+  const onQueryChange = useCallback(evt => {
     const value = evt.target.value
-    this.setState(state => ({
-      ui: {
-        ...state.ui,
-        queryGenesValue: value,
-        queryGenes: this.geneTextToArray(value),
-      }
-    }));
-  };
+    setUi({ queryGenesValue: value })
+  }, [])
 
-  onFilteredChange = evt => {
+  const onFilteredChange = useCallback(evt => {
     const value = evt.target.value
-    this.setState(state => ({
-      ui: {
-        ...state.ui,
-        filteredGenes: this.geneTextToArray(value),
-        filteredGenesValue: value,
-      }
-    }));
-  }
+    setUi({ filteredGenesValue: value })
+  }, [])
 
-  toggleFiltering = (e) => {
-    // checked must be 'cached' outside of the setState function 
-    // because the event will not persist asynchronously
-    const checked = e.target.checked;
-    this.setState(state => ({
-      ui: {
-        ...state.ui,
-        filtering: checked,
-        filteredGenesValue: '',
-        filteredGenes: [],
-        selectedTerms: []
-      }
-    }))
-  }
+  const toggleFiltering = useCallback(evt => {
+    const checked = evt.target.checked
+    setUi({
+      filtering: checked,
+      filteredGenesValue: '',
+      selectedTerms: []
+    })
+  }, [])
 
-  handleExample = () => {
-    const exampleGenes = ["FLT3", "SMO", "GLA", "SGCB", "OAT", "CAPN3", "ASS1", "AGXT", "AKT1", "PTPN1", "PIAS1", "CDKN1B", "THEM4", "CCNE1", "MAP2K4", "ATG7", "ATG12", "BAD", "BCL2L1", ];
+  const handleExample = useCallback(() => {
+    const exampleGenes = ["FLT3", "SMO", "GLA", "SGCB", "OAT", "CAPN3", "ASS1", "AGXT", "AKT1", "PTPN1", "PIAS1", "CDKN1B", "THEM4", "CCNE1", "MAP2K4", "ATG7", "ATG12", "BAD", "BCL2L1"]
+    
+    setUi({
+      queryGenesValue: exampleGenes.join('\n')
+    })
+  }, [])
 
-    this.setState(state => ({
-      ui: merge({}, state.ui, {
-        ...state.ui,
-        loadState: 'LOADING',
-        queryGenesValue: exampleGenes.join('\n'),
-        queryGenes: exampleGenes,
-      }),
-    }), this.fetchOntologies)
-  }
+  const fetchOntologies = useCallback(() => {
+    const fetchOntologies = async () => {
+      const { data: { ontologies, goTerms } } = await axios.post('http://localhost:5000/api/go-terms', { genes: ui.queryGenes })
+      const allGoTerms = Object.values(ontologies.byId).reduce((acc, { goTerms }) => [...acc, ...goTerms], [])
 
-  fetchOntologies = async () => {
-    const { data: { ontologies, goTerms }} = await axios.post('http://localhost:5000/api/go-terms', { genes: this.state.ui.queryGenes })
-
-    const allGoTerms = Object.values(ontologies.byId).reduce((acc, { goTerms }) => [...acc, ...goTerms], [])
-
-    const createNewState = state => merge({}, state, {
-      ontologies: {
-        byId: merge(ontologies.byId, {
+      setOntologies({
+        byId: {
+          ...ontologies.byId,
           all: {
             name: 'All',
-            goTerms: allGoTerms,
-          },
-        }),
-        allIds: ['all', ...ontologies.allIds],
-      },
-      goTerms,
-      ui: {
-        loadState: 'LOADED',
-      }
-    });
-
-    this.setState(createNewState);
-  }
-
-  genesFromSelectedGoTerms = (selectedTerms, goTerms) => {
-    const geneSet = new Set(selectedTerms.flatMap(term => goTerms.byId[term].genes));
-    return Array.from(geneSet);
-  }
-
-  addSelectedTerms = (...newTerms) => {
-    const selectedTerms = [...this.state.ui.selectedTerms, ...newTerms];
-    const filteredGenes = this.genesFromSelectedGoTerms(selectedTerms, this.state.goTerms);
-
-    this.setState(state => ({
-      ui: merge({}, state.ui, {
-        selectedTerms,
-        filteredGenes,
-        filteredGenesValue: filteredGenes.join('\n'),
+            goTerms: allGoTerms
+          }
+        },
+        allIds: ['all', ...ontologies.allIds]
       })
-    }))
-  }
 
-  removeSelectedTerm = deleteTerm => {
-    const selectedTerms = this.state.ui.selectedTerms.filter(term => term !== deleteTerm);
-    const filteredGenes = this.genesFromSelectedGoTerms(selectedTerms, this.state.goTerms);
+      setGoTerms(goTerms)
 
-    this.setState(state => ({
-      ui: {
-        ...state.ui,
-        selectedTerms,
-        filteredGenes,
-        filteredGenesValue: filteredGenes.join('\n'),
-      }
-    }))
-  }
+      setUi({ loadState: 'LOADED' })
+    }
 
-  render() {
-    return (
-      <Provider value={{
-        ...this.state,
-        onQueryChange: this.onQueryChange,
-        onFilteredChange: this.onFilteredChange,
-        toggleFiltering: this.toggleFiltering,
-        handleExample: this.handleExample,
-        addSelectedTerms: this.addSelectedTerms,
-        removeSelectedTerm: this.removeSelectedTerm,
-      }}>
-        {this.props.children}
-      </Provider>
-    )
-  }
+    fetchOntologies()
+  }, [ui.queryGenes])
+
+  useEffect(() => {
+    if (ui.filtering) {
+      fetchOntologies()
+    }
+  }, [fetchOntologies, ui.filtering])
+
+  const addSelectedTerms = useCallback((...newTerms) => {
+    const selectedTerms = [...ui.selectedTerms, ...newTerms]
+    const filteredGenes = genesFromSelectedGoTerms(selectedTerms, goTerms)
+
+    setUi({
+      selectedTerms,
+      filteredGenesValue: filteredGenes.join('\n'),
+    })
+  }, [goTerms, ui.selectedTerms])
+
+  const removeSelectedTerm = useCallback(deleteTerm => {
+    const selectedTerms = ui.selectedTerms.filter(term => term !== deleteTerm)
+    const filteredGenes = genesFromSelectedGoTerms(selectedTerms, goTerms)
+
+    setUi({
+      selectedTerms,
+      filteredGenesValue: filteredGenes.join('\n'),
+    })
+  }, [goTerms, ui.selectedTerms])
+
+  const contextValues = useMemo(() => ({
+    ui,
+    ontologies,
+    goTerms,
+    onQueryChange,
+    onFilteredChange,
+    toggleFiltering,
+    handleExample,
+    addSelectedTerms,
+    removeSelectedTerm,
+  }), [
+    ui,
+    ontologies,
+    goTerms,
+    onQueryChange,
+    onFilteredChange,
+    toggleFiltering,
+    handleExample,
+    addSelectedTerms,
+    removeSelectedTerm,
+  ])
+
+  return (
+    <Provider value={contextValues}>
+      {children}
+    </Provider>
+  )
 }
 
 const useQueryUI = () => useContext(QueryUIContext)
@@ -158,4 +158,4 @@ export {
   QueryUIContext,
   QueryUIProvider,
   Consumer as QueryUIConsumer
-};
+}
