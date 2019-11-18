@@ -17,7 +17,7 @@ class NetworkUIProvider extends React.Component {
       invalidGenes: [],
     },
     ui: {
-      selectedPpiDatabase: "STRING",
+      selectedPpiDatabase: "BioGrid",
       selectedPathwayDatabase: "My Cancer Genome",
       loadState: 'LOADING',
       selectedPathways: {},
