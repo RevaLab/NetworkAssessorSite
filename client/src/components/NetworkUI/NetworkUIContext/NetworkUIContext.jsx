@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 
 import axios from 'axios'
 import merge from 'lodash/merge'
-import { useQueryUI } from '../../QueryUI/QueryUIContext/QueryUIContext'
 
 let NetworkUIContext
 const {
@@ -69,6 +68,7 @@ class NetworkUIProvider extends React.Component {
       }))
 
       const { data } = await axios.post('http://localhost:5000/api/table', {
+        genes: this.props.genes,
         selectedPpiDatabase: this.state.ui.selectedPpiDatabase,
         selectedPathwayDatabase: this.state.ui.selectedPathwayDatabase,
         [dbKey]: newSelectedDatabase,

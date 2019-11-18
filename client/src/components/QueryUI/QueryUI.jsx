@@ -37,9 +37,14 @@ const QueryUI = () => {
     ui: {
       filtering,
       queryGenes,
+      filteredGenes
     },
     toggleFiltering,
   } = useQueryUI()
+
+  const disabled = filtering ? filteredGenes.length === 0 : queryGenes.length === 0
+  const disabledText = `Add genes to ${filtering ? 'filtered' : ''} query list`
+  const submitText = `Submit ${filtering ? 'Filtered Query List' : 'Unfiltered Query List'}`
 
   return (
     <Container className="QueryUI">
@@ -73,13 +78,13 @@ const QueryUI = () => {
             </Columns.Column>
             <Columns.Column>
               <Button
-                disabled={queryGenes.length === 0}
+                disabled={disabled}
                 fullwidth
                 type="submit"
                 color="success"
                 onClick={handleClick}
               >
-                Submit
+                {disabled ? disabledText : submitText}
               </Button>
             </Columns.Column>
           </Columns>

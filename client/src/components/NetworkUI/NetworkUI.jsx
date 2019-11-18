@@ -27,7 +27,7 @@ const NetworkUI = () => {
   const [isOpen, setOpen] = useState(true)
   const toggleOpen = useCallback(() => {
     setOpen(!isOpen)
-  })
+  }, [isOpen])
 
   return (
     <QueryUIConsumer>
