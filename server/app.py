@@ -11,7 +11,6 @@ app = Flask(__name__)
 CORS(app)
 
 
-# if (os.environ.get('DISABLE_SQL') !='true'):
 def get_db():
     return  mysql.connector.connect(
     host="localhost",
@@ -19,6 +18,7 @@ def get_db():
     passwd="password",
     database="network_assessor",
 )
+
 
 def check_key(d, k):
     if k in d:
@@ -168,24 +168,7 @@ def table():
         if edge_lengths[pw] == edge_length:  # check every time if pathway value edges is in my dict 1: 5
             k_pw_v_pval[pw] = str(p_val)  # if equal, assign to p_val
 
-    ##TODO: FIX TO DICTIONARY
-    # k_pw_v_pval = {}
-    # for pw, edge_length in edge_lengths.items():
-    #     query = """
-    #         SELECT pw_id, p_val FROM network_assessor.{}
-    #         WHERE len_gs = {}
-    #         AND edge_count = {}
-    #         AND pw_id = {};
-    #     """.format(p_val_table, len_gs, str(edge_length), pw)
-    #     mycursor.execute(query)
-    #     res = mycursor.fetchall()
-    #     if len(res):
-    #         pw_id, p_val = res[0]
-    #         k_pw_v_pval[pw_id] = p_val
-    #     else:
-    #         k_pw_v_pval[pw] = -10000
-
-    tableData = [{
+    table_data = [{
             "id": pw_id,
             "name": pw_data['name'],
             "membersLength": len(pw_data['genes']),
@@ -199,7 +182,7 @@ def table():
     res = {
         "selectedPpiDatabase": selectedPpiDatabase,
         "selectedPathwayDatabase": selectedPathwayDatabase,
-        "tableData": tableData,
+        "tableData": table_data,
     }
 
     return jsonify(res)
