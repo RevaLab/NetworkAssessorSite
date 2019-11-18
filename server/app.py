@@ -272,7 +272,7 @@ def network():
             "id": "AKT1",
             "pieChart": [
                 { "color": 0, "percent": 50 },
-                { "color": 6380, "percent": 50 }
+                { "color": 324, "percent": 50 }
             ]
             },
             {
