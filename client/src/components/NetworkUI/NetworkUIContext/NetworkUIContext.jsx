@@ -17,6 +17,21 @@ class NetworkUIProvider extends React.Component {
       validGenes: [],
       invalidGenes: [],
     },
+    callTracker: {
+      // pathwaydb
+      Reactome: {
+        BioGrid: false,
+        STRING: false,
+      },
+      KEGG: {
+        BioGrid: false,
+        STRING: false,
+      },
+      "My Cancer Genome": {
+        BioGrid: false,
+        STRING: false,
+      },
+    },
     ui: {
       selectedPpiDatabase: "BioGrid",
       selectedPathwayDatabase: "My Cancer Genome",
@@ -42,44 +57,39 @@ class NetworkUIProvider extends React.Component {
 
     getColor = () => '#'+Math.floor(Math.random()*16777215).toString(16)
 
-    handleDropdownSelect = async (newSelectedDatabase, dbKey) => {
-      this.setState(state => ({
-        ...state,
-        ui: {
-          ...state.ui,
-          [dbKey]: newSelectedDatabase
-        }
-      }))
+    handleFetchTable = async (newQuery = {}, setLoading = true) => {
+      const selectedPathwayDatabase = newQuery.selectedPathwayDatabase || this.state.ui.selectedPathwayDatabase
+      const selectedPpiDatabase = newQuery.selectedPpiDatabase || this.state.ui.selectedPpiDatabase
 
-      if (dbKey === 'selectedPpiDatabase') {
-        if (this.state.tables[newSelectedDatabase][this.state.ui.selectedPathwayDatabase].length > 0) {
-          return
-        }
-      } else {
-        if (this.state.tables[this.state.ui.selectedPpiDatabase][newSelectedDatabase].length > 0) {
-          return
-        }
+      if (this.state.callTracker[selectedPathwayDatabase][selectedPpiDatabase]) {
+        return
+      }
+
+      if (setLoading) {
+        this.setState(state => ({
+          ui: {
+            ...state.ui,
+            loadState: 'LOADING',
+          }
+        }))
       }
 
       this.setState(state => ({
-        ui: {
-          ...state.ui,
-          loadState: 'LOADING',
-        }
+        callTracker: merge({}, state.callTracker, {
+          [selectedPathwayDatabase]: {
+             [selectedPpiDatabase]: true
+          }
+        })
       }))
 
       const { data } = await axios.post('http://localhost:5000/api/table', {
         genes: this.props.genes,
         selectedPpiDatabase: this.state.ui.selectedPpiDatabase,
         selectedPathwayDatabase: this.state.ui.selectedPathwayDatabase,
-        [dbKey]: newSelectedDatabase,
+        ...newQuery,
       })
 
-      const {
-        selectedPpiDatabase,
-        selectedPathwayDatabase,
-        tableData
-      } = data
+      const { tableData } = data
 
       this.setState(state => ({
         ...state,
@@ -99,6 +109,41 @@ class NetworkUIProvider extends React.Component {
           ...state.colors
         }
       }))
+    }
+
+    handleDropdownSelect = async (newSelectedDatabase, dbKey) => {
+      this.setState(state => ({
+        ...state,
+        ui: {
+          ...state.ui,
+          [dbKey]: newSelectedDatabase
+        }
+      }))
+
+      const setLoadingUI = () => {
+        this.setState(state => ({
+          ui: {
+            ...state.ui,
+            loadState: 'LOADING',
+          }
+        }))
+      }
+
+      if (dbKey === 'selectedPpiDatabase') {
+        if (this.state.tables[newSelectedDatabase][this.state.ui.selectedPathwayDatabase].length > 0) {
+          return
+        } else {
+          setLoadingUI()
+        }
+      } else {
+        if (this.state.tables[this.state.ui.selectedPpiDatabase][newSelectedDatabase].length > 0) {
+          return
+        } else {
+          setLoadingUI()
+        }
+      }
+
+      this.handleFetchTable({ [dbKey]: newSelectedDatabase })
     }
 
   updateSelectedPathways = (id, val) => {
@@ -126,36 +171,12 @@ class NetworkUIProvider extends React.Component {
   }
 
   async componentDidMount() {
-    const { data } = await axios.post('http://localhost:5000/api/table', {
-      genes: this.props.genes,
-      selectedPathwayDatabase: this.state.ui.selectedPathwayDatabase,
-      selectedPpiDatabase: this.state.ui.selectedPpiDatabase
-    })
+    await this.handleFetchTable()
 
-    const {
-      selectedPpiDatabase,
-      selectedPathwayDatabase,
-      tableData
-    } = data
-
-    this.setState(state => ({
-      ...state,
-      ui: {
-        ...state.ui,
-        loadState: 'LOADED'
-      },
-      tables: {
-        ...state.tables,
-        [selectedPpiDatabase]: {
-          ...state.tables[selectedPpiDatabase],
-          [selectedPathwayDatabase]: tableData
-        }
-      },
-      colors: {
-        ...Object.fromEntries(tableData.map(({ id }) => [id, this.getColor()])),
-        ...state.colors
-      }
-    }))
+    await Promise.all([
+      this.handleFetchTable({ selectedPathwayDatabase: 'Reactome' }, false),
+      this.handleFetchTable({ selectedPathwayDatabase: 'KEGG' }, false)
+    ])
   }
 
   render() {
