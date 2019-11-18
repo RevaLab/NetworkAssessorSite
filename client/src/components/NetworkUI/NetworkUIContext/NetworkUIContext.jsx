@@ -39,6 +39,8 @@ class NetworkUIProvider extends React.Component {
       }
     }
 
+    getColor = () => '#'+Math.floor(Math.random()*16777215).toString(16)
+
     handleDropdownSelect = async (newSelectedDatabase, dbKey) => {
       this.setState(state => ({
         ...state,
@@ -89,6 +91,10 @@ class NetworkUIProvider extends React.Component {
             ...state.tables[selectedPpiDatabase],
             [selectedPathwayDatabase]: tableData
           }
+        },
+        colors: {
+          ...Object.fromEntries(tableData.map(({ id }) => [id, this.getColor()])),
+          ...state.colors
         }
       }))
     }
@@ -129,8 +135,6 @@ class NetworkUIProvider extends React.Component {
       tableData
     } = data
 
-    const getColor = () => '#'+Math.floor(Math.random()*16777215).toString(16)
-
     this.setState(state => ({
       ...state,
       ui: {
@@ -145,7 +149,7 @@ class NetworkUIProvider extends React.Component {
         }
       },
       colors: {
-        ...Object.fromEntries(tableData.map(({ id }) => [id, getColor()])),
+        ...Object.fromEntries(tableData.map(({ id }) => [id, this.getColor()])),
         ...state.colors
       }
     }))
