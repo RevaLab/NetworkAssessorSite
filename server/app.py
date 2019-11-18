@@ -10,15 +10,22 @@ import go as go
 app = Flask(__name__)
 CORS(app)
 
-if (os.environ.get('DISABLE_SQL') !='true'):
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        passwd="password",
-        database="network_assessor",
-    )
 
-    mycursor = mydb.cursor()
+# if (os.environ.get('DISABLE_SQL') !='true'):
+def get_db():
+    return  mysql.connector.connect(
+    host="localhost",
+    user="root",
+    passwd="password",
+    database="network_assessor",
+)
+
+def check_key(d, k):
+    if k in d:
+        return str(d[k])
+    else:
+        return -1000
+
 
 @app.route('/api/go-terms', methods=['GET','POST'])
 def go_terms():
@@ -42,6 +49,7 @@ def go_terms():
     }
 
     return jsonify(res)
+
 
 @app.route('/api/pathways', methods=['GET'])
 def pathways():
@@ -77,15 +85,19 @@ def pathways():
 
 @app.route('/api/table', methods=['POST', 'GET'])
 def table():
-    selectedPathwayDatabase = 'My Cancer Genome'
+    # selectedPathwayDatabase = request.json['selectedPathwayDatabase']
+    # selectedPpiDatabase = request.json['selectedPpiDatabase']
     selectedPpiDatabase = 'BioGrid'
-    # input: selectedPathwayDatabase
-    # output: array of objects with id and names
+    selectedPathwayDatabase = 'KEGG'
+
+    mydb = get_db()
+    mycursor = mydb.cursor(buffered=True)
+
     pathway_sources = {
+        'KEGG': 1,
         'My Cancer Genome': 2,
     }
 
-    # genes => gene ids
     genes = ['FLT3', 'SMO', 'GLA', 'SGCB', 'OAT', 'CAPN3', 'ASS1', 'AGXT', 'AKT1', 'PTPN1', 'PIAS1', 'CDKN1B', 'THEM4', 'CCNE1', 'MAP2K4', 'ATG7', 'ATG12', 'BAD', 'BCL2L1']
     genes_for_sql_query = ['"{}"'.format(gene) for gene in genes]
     mycursor.execute(
@@ -114,43 +126,72 @@ def table():
                 'name': name,
             }
         pw_members_dict[pw_id]['genes'].add(gene)
+    ppi_name_map = {
+        'BioGrid': 'biogrid',
+        'STRING': 'string',
+    }
+    pathway_name_map = {
+        'My Cancer Genome': 'my_cancer_genome',
+        'KEGG': 'kegg'
+    }
+
+    neighbor_count_table = 'neighbor_count_{}_{}'.format(
+        ppi_name_map[selectedPpiDatabase],
+        pathway_name_map[selectedPathwayDatabase]
+    )
+
+    p_val_table = 'p_val_{}_{}'.format(
+        ppi_name_map[selectedPpiDatabase],
+        pathway_name_map[selectedPathwayDatabase]
+    )
 
     # gene ids => edge lengths
     edge_length_query = """
         SELECT pw_id, SUM(neighbor_count)
-        FROM neighbor_count_biogrid_my_cancer_genome
+        FROM {}
         WHERE gene_id in ({}) GROUP BY pw_id;
-    """.format(",".join(genes_ids_for_sql_query))
+    """.format(neighbor_count_table, ",".join(genes_ids_for_sql_query))
 
     mycursor.execute(edge_length_query)
     edge_lengths = dict(mycursor.fetchall())
 
     len_gs = len(genes)
 
-    # edge lengths => p_val
+    subtable_query = """
+            SELECT pw_id, p_val, edge_count FROM network_assessor.{}
+            WHERE len_gs = {}""".format(p_val_table, len_gs)
+    mycursor.execute(subtable_query)
+    subtable = mycursor.fetchall()
+
     k_pw_v_pval = {}
-    for pw, edge_length in edge_lengths.items():
-        query = """
-            SELECT pw_id, p_val FROM network_assessor.p_val_biogrid_my_cancer_genome
-            WHERE len_gs = {}
-            AND edge_count = {}
-            AND pw_id = {};
-        """.format(len_gs, str(edge_length), pw)
-        mycursor.execute(query)
-        res = mycursor.fetchall()
-        if len(res):
-            pw_id, p_val = res[0]
-            k_pw_v_pval[pw_id] = p_val
-        else:
-            k_pw_v_pval[pw] = -10000
+    for pw, p_val, edge_length in subtable:
+        if edge_lengths[pw] == edge_length:  # check every time if pathway value edges is in my dict 1: 5
+            k_pw_v_pval[pw] = str(p_val)  # if equal, assign to p_val
+
+    ##TODO: FIX TO DICTIONARY
+    # k_pw_v_pval = {}
+    # for pw, edge_length in edge_lengths.items():
+    #     query = """
+    #         SELECT pw_id, p_val FROM network_assessor.{}
+    #         WHERE len_gs = {}
+    #         AND edge_count = {}
+    #         AND pw_id = {};
+    #     """.format(p_val_table, len_gs, str(edge_length), pw)
+    #     mycursor.execute(query)
+    #     res = mycursor.fetchall()
+    #     if len(res):
+    #         pw_id, p_val = res[0]
+    #         k_pw_v_pval[pw_id] = p_val
+    #     else:
+    #         k_pw_v_pval[pw] = -10000
 
     tableData = [{
             "id": pw_id,
             "name": pw_data['name'],
             "membersLength": len(pw_data['genes']),
             "overlapLength": len(pw_data['genes'].intersection(gene_ids)),
-            "edgesLength": int(edge_lengths[pw_id]),
-            "pVal": k_pw_v_pval[pw_id]
+            "edgesLength": check_key(edge_lengths, pw_id),
+            "pVal": check_key(k_pw_v_pval, pw_id),
         }
         for pw_id, pw_data in pw_members_dict.items()
     ]
@@ -161,20 +202,6 @@ def table():
         "tableData": tableData,
     }
 
-    # res = {
-    #     "selectedPpiDatabase": selectedPpiDatabase,
-    #     "selectedPathwayDatabase": selectedPathwayDatabase,
-    #     "tableData": [
-    #         {
-    #             "id": "3379",
-    #             "name": "WNT ext path",
-    #             "membersLength": 12,
-    #             "overlapLength": 5,
-    #             "edgesLength": 5,
-    #             "pVal": 0.0003250272196074229
-    #         },
-    #     ]
-    # }
     return jsonify(res)
 
 
