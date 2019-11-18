@@ -22,7 +22,7 @@ def get_db():
 
 def check_key(d, k):
     if k in d:
-        return str(d[k])
+        return float(d[k])
     else:
         return -1000
 
@@ -85,10 +85,10 @@ def pathways():
 
 @app.route('/api/table', methods=['POST', 'GET'])
 def table():
-    # selectedPathwayDatabase = request.json['selectedPathwayDatabase']
-    # selectedPpiDatabase = request.json['selectedPpiDatabase']
-    selectedPpiDatabase = 'BioGrid'
-    selectedPathwayDatabase = 'KEGG'
+    selectedPathwayDatabase = request.json['selectedPathwayDatabase']
+    selectedPpiDatabase = request.json['selectedPpiDatabase']
+    # selectedPpiDatabase = 'BioGrid'
+    # selectedPathwayDatabase = 'KEGG'
 
     mydb = get_db()
     mycursor = mydb.cursor(buffered=True)
