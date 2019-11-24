@@ -51,38 +51,6 @@ def go_terms():
     return jsonify(res)
 
 
-@app.route('/api/pathways', methods=['GET'])
-def pathways():
-    res = {
-        "pathwayDatabases": {
-            "byId": {
-                "1": {
-                    "name": 'KEGG',
-                },
-                "2": {
-                    "name": 'My Cancer Genome',
-                },
-                "3": {
-                    "name": 'Reactome',
-                }
-            },
-            "allIds": [2, 1, 3],
-        },
-        "ppiDatabases": {
-            "byId": {
-                "1": {
-                    "name": 'STRING',
-                },
-                "2": {
-                    "name": 'BioGrid',
-                },
-            },
-            "allIds": [1, 2],
-        }
-    }
-    return jsonify(res)
-
-
 @app.route('/api/table', methods=['POST', 'GET'])
 def table():
     selected_pathway_db = request.json['selectedPathwayDatabase']
