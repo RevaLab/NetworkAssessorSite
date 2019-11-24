@@ -95,6 +95,7 @@ def table():
     pathway_sources = {
         'KEGG': 1,
         'My Cancer Genome': 2,
+        'Reactome': 3
     }
 
     genes_for_sql_query = ['"{}"'.format(gene) for gene in genes]
@@ -130,7 +131,8 @@ def table():
     }
     pathway_name_map = {
         'My Cancer Genome': 'my_cancer_genome',
-        'KEGG': 'kegg'
+        'KEGG': 'kegg',
+        'Reactome': 'reactome',
     }
 
     neighbor_count_table = 'neighbor_count_{}_{}'.format(
