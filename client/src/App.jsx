@@ -21,8 +21,8 @@ function AppRouter() {
         <Header />
         <QueryUIProvider>
           <Route path="/" exact component={QueryUI} />
+          <Route path="/network/" component={NetworkUI} />
         </QueryUIProvider>
-        <Route path="/network/" component={NetworkUI} />
         <Footer />
       </div>
     </Router>

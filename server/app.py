@@ -11,7 +11,6 @@ app = Flask(__name__)
 CORS(app)
 
 
-# if (os.environ.get('DISABLE_SQL') !='true'):
 def get_db():
     return  mysql.connector.connect(
     host="localhost",
@@ -20,9 +19,10 @@ def get_db():
     database="network_assessor",
 )
 
+
 def check_key(d, k):
     if k in d:
-        return float(d[k])
+        return str(d[k])
     else:
         return -1000
 
@@ -85,10 +85,9 @@ def pathways():
 
 @app.route('/api/table', methods=['POST', 'GET'])
 def table():
-    selectedPathwayDatabase = request.json['selectedPathwayDatabase']
-    selectedPpiDatabase = request.json['selectedPpiDatabase']
-    # selectedPpiDatabase = 'BioGrid'
-    # selectedPathwayDatabase = 'KEGG'
+    selected_pathway_db = request.json['selectedPathwayDatabase']
+    selected_ppi_db = request.json['selectedPpiDatabase']
+    genes = request.json['genes']
 
     mydb = get_db()
     mycursor = mydb.cursor(buffered=True)
@@ -98,7 +97,6 @@ def table():
         'My Cancer Genome': 2,
     }
 
-    genes = ['FLT3', 'SMO', 'GLA', 'SGCB', 'OAT', 'CAPN3', 'ASS1', 'AGXT', 'AKT1', 'PTPN1', 'PIAS1', 'CDKN1B', 'THEM4', 'CCNE1', 'MAP2K4', 'ATG7', 'ATG12', 'BAD', 'BCL2L1']
     genes_for_sql_query = ['"{}"'.format(gene) for gene in genes]
     mycursor.execute(
         "SELECT id FROM network_assessor.gene WHERE symbol IN ({});".format(", ".join(genes_for_sql_query))
@@ -112,7 +110,7 @@ def table():
         FROM pathway_member 
         JOIN pathway ON pathway.id = pw_id 
         WHERE source={};
-    """.format(pathway_sources[selectedPathwayDatabase])
+    """.format(pathway_sources[selected_pathway_db])
 
     mycursor.execute(pathway_member_query)
     pathway_members = mycursor.fetchall()
@@ -136,13 +134,13 @@ def table():
     }
 
     neighbor_count_table = 'neighbor_count_{}_{}'.format(
-        ppi_name_map[selectedPpiDatabase],
-        pathway_name_map[selectedPathwayDatabase]
+        ppi_name_map[selected_ppi_db],
+        pathway_name_map[selected_pathway_db]
     )
 
     p_val_table = 'p_val_{}_{}'.format(
-        ppi_name_map[selectedPpiDatabase],
-        pathway_name_map[selectedPathwayDatabase]
+        ppi_name_map[selected_ppi_db],
+        pathway_name_map[selected_pathway_db]
     )
 
     # gene ids => edge lengths
@@ -168,24 +166,7 @@ def table():
         if edge_lengths[pw] == edge_length:  # check every time if pathway value edges is in my dict 1: 5
             k_pw_v_pval[pw] = str(p_val)  # if equal, assign to p_val
 
-    ##TODO: FIX TO DICTIONARY
-    # k_pw_v_pval = {}
-    # for pw, edge_length in edge_lengths.items():
-    #     query = """
-    #         SELECT pw_id, p_val FROM network_assessor.{}
-    #         WHERE len_gs = {}
-    #         AND edge_count = {}
-    #         AND pw_id = {};
-    #     """.format(p_val_table, len_gs, str(edge_length), pw)
-    #     mycursor.execute(query)
-    #     res = mycursor.fetchall()
-    #     if len(res):
-    #         pw_id, p_val = res[0]
-    #         k_pw_v_pval[pw_id] = p_val
-    #     else:
-    #         k_pw_v_pval[pw] = -10000
-
-    tableData = [{
+    table_data = [{
             "id": pw_id,
             "name": pw_data['name'],
             "membersLength": len(pw_data['genes']),
@@ -197,9 +178,9 @@ def table():
     ]
 
     res = {
-        "selectedPpiDatabase": selectedPpiDatabase,
-        "selectedPathwayDatabase": selectedPathwayDatabase,
-        "tableData": tableData,
+        "selectedPpiDatabase": selected_ppi_db,
+        "selectedPathwayDatabase": selected_pathway_db,
+        "tableData": table_data,
     }
 
     return jsonify(res)

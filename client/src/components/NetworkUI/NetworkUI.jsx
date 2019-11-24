@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 
 // component libraries
 import 'react-bulma-components/dist/react-bulma-components.min.css'
@@ -11,6 +11,7 @@ import {
 } from 'react-bulma-components'
 
 // local components
+import { QueryUIConsumer } from '../QueryUI/QueryUIContext/QueryUIContext'
 import NetworkUITable from './NetworkUITable/NetworkUITable'
 import NetworkTopNav from './NetworkTopNav/NetworkTopNav'
 import NetworkContainer from './NetworkContainer/NetworkContainer'
@@ -22,24 +23,20 @@ import { NetworkUIProvider } from './NetworkUIContext/NetworkUIContext'
 // css
 import './NetworkUI.css'
 
-class NetworkUi extends React.Component {
-  state = {
-    isOpen: true,
-  }
+const NetworkUI = () => {
+  const [isOpen, setOpen] = useState(true)
+  const toggleOpen = useCallback(() => {
+    setOpen(!isOpen)
+  }, [isOpen])
 
-  toggleOpen = () => {
-    this.setState(state => ({
-      isOpen: !state.isOpen,
-    }))
-  }
-
-  render() {
-    return (
-      <NetworkUIProvider>
-        <Section className="NetworkUI">
-          <button onClick={this.toggleOpen}>toggle</button>
-          <Columns gapless multiline={false}>
-            <Columns.Column style={{ display: this.state.isOpen ? 'inherit' : 'none'  }}>
+  return (
+    <QueryUIConsumer>
+      {({ ui: { filteredGenes, queryGenes } }) => (
+        <NetworkUIProvider genes={filteredGenes.length ? filteredGenes : queryGenes}>
+          <Section className="NetworkUI">
+            <button onClick={toggleOpen}>toggle</button>
+            <Columns gapless multiline={false}>
+              <Columns.Column style={{ display: isOpen ? 'inherit' : 'none'  }}>
                 <Box
                   renderAs="nav"
                   className="network-nav"
@@ -55,15 +52,16 @@ class NetworkUi extends React.Component {
                     <NetworkUITable />
                   </Container>
                 </Box>
-            </Columns.Column>
-            <Columns.Column style={{margin: '0 auto'}}>
-              <NetworkContainer />
-            </Columns.Column>
-          </Columns>
-        </Section>
-      </NetworkUIProvider>
-    )
-  }
+              </Columns.Column>
+              <Columns.Column style={{margin: '0 auto'}}>
+                <NetworkContainer />
+              </Columns.Column>
+            </Columns>
+          </Section>
+        </NetworkUIProvider>
+      )}
+    </QueryUIConsumer>
+  )
 }
 
-export default NetworkUi
+export default NetworkUI
