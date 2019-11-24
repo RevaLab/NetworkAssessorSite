@@ -1,32 +1,32 @@
-import React from 'react';
+import React from 'react'
 
 // component libraries
-import 'react-bulma-components/dist/react-bulma-components.min.css';
+import 'react-bulma-components/dist/react-bulma-components.min.css'
 import {
   Button,
   Content,
   Heading,
   Modal,
   Table,
-} from 'react-bulma-components';
+} from 'react-bulma-components'
 
 // context
-import { QueryUIConsumer } from '../QueryUIContext';
+import { QueryUIConsumer } from '../../QueryUIContext/QueryUIContext'
 
 // css
 
 const TableBody = ({ goTerms, selectedTerms, handleClick }) => {
 
-  const selectedTermsSet = new Set(selectedTerms);
+  const selectedTermsSet = new Set(selectedTerms)
 
   const sortedGoTerms = goTerms.allIds.slice().sort((a, b) => {
     const difference = goTerms.byId[b].genes.length - goTerms.byId[a].genes.length
     if (selectedTermsSet.has(a) && selectedTermsSet.has(b)) {
-      return difference;
+      return difference
     } else if (selectedTermsSet.has(a)) {
-      return -1;
+      return -1
     } else if (selectedTermsSet.has(b)) {
-      return 1;
+      return 1
     } else {
       return difference
     }
@@ -111,8 +111,8 @@ export default class GeneFilterTable extends React.Component {
   onClose = () => this.setState({ modal: null })
 
   render() {
-    const { goTerms } = this.props;
-    const { handleClick, onClose } = this;
+    const { goTerms } = this.props
+    const { handleClick, onClose } = this
 
     return (
       <QueryUIConsumer>

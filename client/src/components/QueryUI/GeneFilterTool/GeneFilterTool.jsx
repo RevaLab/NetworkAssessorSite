@@ -1,17 +1,17 @@
-import React from 'react';
+import React from 'react'
 
 // component libraries
-import 'react-bulma-components/dist/react-bulma-components.min.css';
+import 'react-bulma-components/dist/react-bulma-components.min.css'
 import {
   Container,
   Loader,
-} from 'react-bulma-components';
+} from 'react-bulma-components'
 
 // local components
-import GeneFilterContainer from './GeneFilterContainer';
+import GeneFilterContainer from './GeneFilterContainer/GeneFilterContainer'
 
 // context
-import { QueryUIConsumer } from '../QueryUIContext';
+import { QueryUIConsumer } from '../QueryUIContext/QueryUIContext'
 
 // css
 import './GeneFilterTool.css'
@@ -53,7 +53,7 @@ const GeneFilterTool = () => {
           </Container>
         }
       </QueryUIConsumer>
-    );
+    )
 }
 
-export default GeneFilterTool;
+export default GeneFilterTool

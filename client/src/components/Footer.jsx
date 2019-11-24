@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 
-import { Footer } from 'react-bulma-components';
+import { Footer } from 'react-bulma-components'
 
 export default () => {
   return (

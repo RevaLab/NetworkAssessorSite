@@ -1,14 +1,14 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react'
 import ColorPicker from '../../ColorPicker/ColorPicker'
 import PathwayMembersModal from './PathwayMembersModal/PathwayMembersModal'
-import { useNetwork } from '../../NetworkUIContext';
+import { useNetwork } from '../../NetworkUIContext/NetworkUIContext'
 
 // component libraries
-import 'react-bulma-components/dist/react-bulma-components.min.css';
+import 'react-bulma-components/dist/react-bulma-components.min.css'
 import {
   Button,
   Loader,
-} from 'react-bulma-components';
+} from 'react-bulma-components'
 
 import './TableBody.css'
 
@@ -18,8 +18,8 @@ const TableBody = ({
     updatePathwayColor,
   }) => {
 
-  const [colorPicker, setColorPicker] = useState(null);
-  const [modal, setModal] = useState(null);
+  const [colorPicker, setColorPicker] = useState(null)
+  const [modal, setModal] = useState(null)
   const {
     ui: {
       selectedPathways
@@ -29,7 +29,7 @@ const TableBody = ({
   } = useNetwork()
 
   const handleModalClose = useCallback((e) => {
-    e.stopPropagation();
+    e.stopPropagation()
     setModal(null)
   }, [setModal])
 
@@ -121,4 +121,4 @@ const TableBody = ({
   )
 }
 
-export default TableBody;
+export default TableBody

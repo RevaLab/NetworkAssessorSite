@@ -1,17 +1,17 @@
-import React from 'react';
+import React from 'react'
 
 // component libraries
-import 'react-bulma-components/dist/react-bulma-components.min.css';
+import 'react-bulma-components/dist/react-bulma-components.min.css'
 import {
   Box,
   Form,
   Tabs,
-} from 'react-bulma-components';
+} from 'react-bulma-components'
 
 // local components
-import GeneFilterTable from './GeneFilterTable';
+import GeneFilterTable from '../GeneFilterTable/GeneFilterTable'
 
-const { Field, Control, Input } = Form;
+const { Field, Control, Input } = Form
 
 const OntologyTabs = ({ ontologies, activeTab, handleTabClick }) => (
   <Tabs>
@@ -25,7 +25,7 @@ const OntologyTabs = ({ ontologies, activeTab, handleTabClick }) => (
       </Tabs.Tab>
     ))}
   </Tabs>
-);
+)
 
 class GeneFilterContainer extends React.Component {
   state = {
@@ -37,7 +37,7 @@ class GeneFilterContainer extends React.Component {
     this.setState({
       activeTab: id,
       search: '',
-    });
+    })
   }
 
   handleSearchChange = e => {
@@ -47,21 +47,21 @@ class GeneFilterContainer extends React.Component {
   }
 
   filterTerms() {
-    const { allIds: goTermsIds, byId: goTermsById } = this.props.goTerms;
+    const { allIds: goTermsIds, byId: goTermsById } = this.props.goTerms
     const { byId: ontologiesById } = this.props.ontologies
 
-    const activeGoTermsSet = new Set(ontologiesById[this.state.activeTab].goTerms);
+    const activeGoTermsSet = new Set(ontologiesById[this.state.activeTab].goTerms)
 
     const filteredTerms = goTermsIds
       .filter((term) => {
-        const searches = this.state.search.toLowerCase().split(' ');
+        const searches = this.state.search.toLowerCase().split(' ')
 
         // filter if matches both search and is preset in the correct ontology list
         return activeGoTermsSet.has(term) &&
           searches.every(search => goTermsById[term].name.toLowerCase().includes(search))
       })
 
-      return filteredTerms;
+      return filteredTerms
   }
 
   render() {
@@ -94,4 +94,4 @@ class GeneFilterContainer extends React.Component {
   }
 }
 
-export default GeneFilterContainer;
+export default GeneFilterContainer

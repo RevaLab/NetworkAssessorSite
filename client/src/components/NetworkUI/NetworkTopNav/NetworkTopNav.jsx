@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
 // component libraries
-import 'react-bulma-components/dist/react-bulma-components.min.css';
+import 'react-bulma-components/dist/react-bulma-components.min.css'
 import {
   Button,
   Content,
@@ -10,14 +10,14 @@ import {
   Dropdown,
   Form,
   Modal,
-} from 'react-bulma-components';
+} from 'react-bulma-components'
 
-import { NetworkUIConsumer } from './NetworkUIContext';
+import { NetworkUIConsumer } from '../NetworkUIContext/NetworkUIContext'
 
-const { Label } = Form;
+const { Label } = Form
 
 const NetworkTopNav = () => {
-    const [modal, setModal] = useState(null);
+    const [modal, setModal] = useState(null)
 
     return (
       <Container className="network-topnav-container">
@@ -95,4 +95,4 @@ const NetworkTopNav = () => {
     )
 }
 
-export default NetworkTopNav;
+export default NetworkTopNav

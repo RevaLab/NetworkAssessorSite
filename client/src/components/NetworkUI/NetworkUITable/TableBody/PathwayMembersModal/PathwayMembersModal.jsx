@@ -1,11 +1,11 @@
 import React from 'react'
 
-import 'react-bulma-components/dist/react-bulma-components.min.css';
+import 'react-bulma-components/dist/react-bulma-components.min.css'
 import {
   Content,
   Heading,
   Modal,
-} from 'react-bulma-components';
+} from 'react-bulma-components'
 
 const PathwayMembersModal = ({ membersLength, name, onClose }) => {
   return (

@@ -1,3 +1,4 @@
+import os
 import json
 
 from flask import Flask, request, jsonify
@@ -9,29 +10,21 @@ import go as go
 app = Flask(__name__)
 CORS(app)
 
-mydb = mysql.connector.connect(
+
+# if (os.environ.get('DISABLE_SQL') !='true'):
+def get_db():
+    return  mysql.connector.connect(
     host="localhost",
     user="root",
     passwd="password",
     database="network_assessor",
 )
 
-print("hello world")
-print(mydb)
-
-mycursor = mydb.cursor()
-
-
-@app.route('/sql-test', methods=['GET'])
-def run_sql_test():
-    print(mycursor)
-    mycursor.execute("SELECT * FROM network_assessor.gene")
-    print(mycursor)
-    res = {
-        row[0]: row[1]
-        for row in mycursor
-    }
-    return jsonify(res)
+def check_key(d, k):
+    if k in d:
+        return float(d[k])
+    else:
+        return -1000
 
 
 @app.route('/api/go-terms', methods=['GET','POST'])
@@ -56,6 +49,7 @@ def go_terms():
     }
 
     return jsonify(res)
+
 
 @app.route('/api/pathways', methods=['GET'])
 def pathways():
@@ -91,15 +85,19 @@ def pathways():
 
 @app.route('/api/table', methods=['POST', 'GET'])
 def table():
-    selectedPathwayDatabase = 'My Cancer Genome'
-    selectedPpiDatabase = 'BioGrid'
-    # input: selectedPathwayDatabase
-    # output: array of objects with id and names
+    selectedPathwayDatabase = request.json['selectedPathwayDatabase']
+    selectedPpiDatabase = request.json['selectedPpiDatabase']
+    # selectedPpiDatabase = 'BioGrid'
+    # selectedPathwayDatabase = 'KEGG'
+
+    mydb = get_db()
+    mycursor = mydb.cursor(buffered=True)
+
     pathway_sources = {
+        'KEGG': 1,
         'My Cancer Genome': 2,
     }
 
-    # genes => gene ids
     genes = ['FLT3', 'SMO', 'GLA', 'SGCB', 'OAT', 'CAPN3', 'ASS1', 'AGXT', 'AKT1', 'PTPN1', 'PIAS1', 'CDKN1B', 'THEM4', 'CCNE1', 'MAP2K4', 'ATG7', 'ATG12', 'BAD', 'BCL2L1']
     genes_for_sql_query = ['"{}"'.format(gene) for gene in genes]
     mycursor.execute(
@@ -128,43 +126,72 @@ def table():
                 'name': name,
             }
         pw_members_dict[pw_id]['genes'].add(gene)
+    ppi_name_map = {
+        'BioGrid': 'biogrid',
+        'STRING': 'string',
+    }
+    pathway_name_map = {
+        'My Cancer Genome': 'my_cancer_genome',
+        'KEGG': 'kegg'
+    }
+
+    neighbor_count_table = 'neighbor_count_{}_{}'.format(
+        ppi_name_map[selectedPpiDatabase],
+        pathway_name_map[selectedPathwayDatabase]
+    )
+
+    p_val_table = 'p_val_{}_{}'.format(
+        ppi_name_map[selectedPpiDatabase],
+        pathway_name_map[selectedPathwayDatabase]
+    )
 
     # gene ids => edge lengths
     edge_length_query = """
         SELECT pw_id, SUM(neighbor_count)
-        FROM neighbor_count_biogrid_my_cancer_genome
+        FROM {}
         WHERE gene_id in ({}) GROUP BY pw_id;
-    """.format(",".join(genes_ids_for_sql_query))
+    """.format(neighbor_count_table, ",".join(genes_ids_for_sql_query))
 
     mycursor.execute(edge_length_query)
     edge_lengths = dict(mycursor.fetchall())
 
     len_gs = len(genes)
 
-    # edge lengths => p_val
+    subtable_query = """
+            SELECT pw_id, p_val, edge_count FROM network_assessor.{}
+            WHERE len_gs = {}""".format(p_val_table, len_gs)
+    mycursor.execute(subtable_query)
+    subtable = mycursor.fetchall()
+
     k_pw_v_pval = {}
-    for pw, edge_length in edge_lengths.items():
-        query = """
-            SELECT pw_id, p_val FROM network_assessor.p_val_biogrid_my_cancer_genome
-            WHERE len_gs = {}
-            AND edge_count = {}
-            AND pw_id = {};
-        """.format(len_gs, str(edge_length), pw)
-        mycursor.execute(query)
-        res = mycursor.fetchall()
-        if len(res):
-            pw_id, p_val = res[0]
-            k_pw_v_pval[pw_id] = p_val
-        else:
-            k_pw_v_pval[pw] = -10000
+    for pw, p_val, edge_length in subtable:
+        if edge_lengths[pw] == edge_length:  # check every time if pathway value edges is in my dict 1: 5
+            k_pw_v_pval[pw] = str(p_val)  # if equal, assign to p_val
+
+    ##TODO: FIX TO DICTIONARY
+    # k_pw_v_pval = {}
+    # for pw, edge_length in edge_lengths.items():
+    #     query = """
+    #         SELECT pw_id, p_val FROM network_assessor.{}
+    #         WHERE len_gs = {}
+    #         AND edge_count = {}
+    #         AND pw_id = {};
+    #     """.format(p_val_table, len_gs, str(edge_length), pw)
+    #     mycursor.execute(query)
+    #     res = mycursor.fetchall()
+    #     if len(res):
+    #         pw_id, p_val = res[0]
+    #         k_pw_v_pval[pw_id] = p_val
+    #     else:
+    #         k_pw_v_pval[pw] = -10000
 
     tableData = [{
             "id": pw_id,
             "name": pw_data['name'],
             "membersLength": len(pw_data['genes']),
             "overlapLength": len(pw_data['genes'].intersection(gene_ids)),
-            "edgesLength": int(edge_lengths[pw_id]),
-            "pVal": k_pw_v_pval[pw_id]
+            "edgesLength": check_key(edge_lengths, pw_id),
+            "pVal": check_key(k_pw_v_pval, pw_id),
         }
         for pw_id, pw_data in pw_members_dict.items()
     ]
@@ -175,92 +202,6 @@ def table():
         "tableData": tableData,
     }
 
-    # res = {
-    #     "selectedPpiDatabase": selectedPpiDatabase,
-    #     "selectedPathwayDatabase": selectedPathwayDatabase,
-    #     "tableData": [
-    #         {
-    #             "id": "3379",
-    #             "name": "WNT ext path",
-    #             "membersLength": 12,
-    #             "overlapLength": 5,
-    #             "edgesLength": 5,
-    #             "pVal": 0.0003250272196074229
-    #         },
-    #         {
-    #             "id": "3380",
-    #             "name": "CALC PKC ext path",
-    #             "membersLength": 5,
-    #             "overlapLength": 8,
-    #             "edgesLength": 8,
-    #             "pVal": 0.0013787906109511874
-    #         },
-    #         {
-    #             "id": "4903",
-    #             "name": "Jack Stat ext path",
-    #             "membersLength": 14,
-    #             "overlapLength": 3,
-    #             "edgesLength": 3,
-    #             "pVal": 0.0006057200026052585
-    #         },
-    #         {
-    #             "id": "5290",
-    #             "name": "Mitogen Activated Protein-MAP Kinase Signaling path",
-    #             "membersLength": 17,
-    #             "overlapLength": 5,
-    #             "edgesLength": 5,
-    #             "pVal": 0.0008449145721473537
-    #         },
-    #         {
-    #             "id": "6131",
-    #             "name": "Receptor Tyrosine KinaseORGrowth Factor Signaling path",
-    #             "membersLength": 14,
-    #             "overlapLength": 7,
-    #             "edgesLength": 7,
-    #             "pVal": 0.000026876482060089303
-    #         },
-    #         {
-    #             "id": "6145",
-    #             "name": "Protein Degradation Ubiquitination path",
-    #             "membersLength": 7,
-    #             "overlapLength": 3,
-    #             "edgesLength": 3,
-    #             "pVal": 0.0009249305959767607
-    #         },
-    #         {
-    #             "id": "6194",
-    #             "name": "Kinase Fusions path",
-    #             "membersLength": 9,
-    #             "overlapLength": 1,
-    #             "edgesLength": 1,
-    #             "pVal": 0.000954274430117962
-    #         },
-    #         {
-    #             "id": "6380",
-    #             "name": "AKT ext path",
-    #             "membersLength": 26,
-    #             "overlapLength": 9,
-    #             "edgesLength": 9,
-    #             "pVal": 0.00185390326478682
-    #         },
-    #         {
-    #             "id": "6492",
-    #             "name": "G-Protein Signaling path",
-    #             "membersLength": 1,
-    #             "overlapLength": 6,
-    #             "edgesLength": 6,
-    #             "pVal": 0.000795553195050128
-    #         },
-    #         {
-    #             "id": "7388",
-    #             "name": "Hormone Signaling path",
-    #             "membersLength": 5,
-    #             "overlapLength": 3,
-    #             "edgesLength": 3,
-    #             "pVal": 0.0004654716728720567
-    #         }
-    #     ]
-    # }
     return jsonify(res)
 
 
