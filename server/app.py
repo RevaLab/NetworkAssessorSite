@@ -85,10 +85,9 @@ def pathways():
 
 @app.route('/api/table', methods=['POST', 'GET'])
 def table():
-    selectedPathwayDatabase = request.json['selectedPathwayDatabase']
-    selectedPpiDatabase = request.json['selectedPpiDatabase']
-    # selectedPpiDatabase = 'BioGrid'
-    # selectedPathwayDatabase = 'KEGG'
+    selected_pathway_db = request.json['selectedPathwayDatabase']
+    selected_ppi_db = request.json['selectedPpiDatabase']
+    genes = request.json['genes']
 
     mydb = get_db()
     mycursor = mydb.cursor(buffered=True)
@@ -98,7 +97,6 @@ def table():
         'My Cancer Genome': 2,
     }
 
-    genes = ['FLT3', 'SMO', 'GLA', 'SGCB', 'OAT', 'CAPN3', 'ASS1', 'AGXT', 'AKT1', 'PTPN1', 'PIAS1', 'CDKN1B', 'THEM4', 'CCNE1', 'MAP2K4', 'ATG7', 'ATG12', 'BAD', 'BCL2L1']
     genes_for_sql_query = ['"{}"'.format(gene) for gene in genes]
     mycursor.execute(
         "SELECT id FROM network_assessor.gene WHERE symbol IN ({});".format(", ".join(genes_for_sql_query))
@@ -112,7 +110,7 @@ def table():
         FROM pathway_member 
         JOIN pathway ON pathway.id = pw_id 
         WHERE source={};
-    """.format(pathway_sources[selectedPathwayDatabase])
+    """.format(pathway_sources[selected_pathway_db])
 
     mycursor.execute(pathway_member_query)
     pathway_members = mycursor.fetchall()
@@ -136,13 +134,13 @@ def table():
     }
 
     neighbor_count_table = 'neighbor_count_{}_{}'.format(
-        ppi_name_map[selectedPpiDatabase],
-        pathway_name_map[selectedPathwayDatabase]
+        ppi_name_map[selected_ppi_db],
+        pathway_name_map[selected_pathway_db]
     )
 
     p_val_table = 'p_val_{}_{}'.format(
-        ppi_name_map[selectedPpiDatabase],
-        pathway_name_map[selectedPathwayDatabase]
+        ppi_name_map[selected_ppi_db],
+        pathway_name_map[selected_pathway_db]
     )
 
     # gene ids => edge lengths
@@ -180,8 +178,8 @@ def table():
     ]
 
     res = {
-        "selectedPpiDatabase": selectedPpiDatabase,
-        "selectedPathwayDatabase": selectedPathwayDatabase,
+        "selectedPpiDatabase": selected_ppi_db,
+        "selectedPathwayDatabase": selected_pathway_db,
         "tableData": table_data,
     }
 
