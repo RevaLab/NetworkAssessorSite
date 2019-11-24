@@ -22,7 +22,7 @@ def get_db():
 
 def check_key(d, k):
     if k in d:
-        return float(d[k])
+        return str(d[k])
     else:
         return -1000
 
