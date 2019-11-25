@@ -16,9 +16,7 @@ import './NetworkUITable.css'
 
 const NetworkUITable = () => {
   const {
-    ui: {
-      loadState,
-    },
+    selectedTableLoadState,
     updatePathwayColor,
     selectedTable
   } = useNetwork()
@@ -28,7 +26,7 @@ const NetworkUITable = () => {
       <TableHead />
         <TableBody
         tableData={selectedTable}
-          loadState={loadState}
+        loadState={selectedTableLoadState}
           updatePathwayColor={updatePathwayColor}
         />
     </Table>

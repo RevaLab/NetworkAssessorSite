@@ -201,7 +201,15 @@ def network():
     return jsonify(res)
 
 def mock_table(request):
-    sleep(2)
+    selected_pathway_db = request.json['selectedPathwayDatabase']
+
+    pathway_sources_delays = {
+        'KEGG': 15,
+        'My Cancer Genome': 3,
+        'Reactome': 25
+    }
+
+    sleep(pathway_sources_delays[selected_pathway_db])
     return jsonify({
         "tableData": [
             {

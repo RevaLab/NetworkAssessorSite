@@ -34,7 +34,7 @@ const NetworkTopNav = () => {
                   <Label>Pathway Database</Label>
                   <Dropdown
                     value={ui.selectedPathwayDatabase}
-                      onChange={value => handleDropdownSelect(value, 'selectedPathwayDatabase')}>
+                      onChange={value => handleDropdownSelect({ selectedPathwayDatabase: value })}>
                       {["My Cancer Genome", "KEGG", "Reactome"].map(id =>
                       <Dropdown.Item key={id} value={id}>
                         {id}
@@ -47,7 +47,7 @@ const NetworkTopNav = () => {
                 <Label>PPI Database</Label>
                 <Dropdown
                   value={ui.selectedPpiDatabase}
-                  onChange={value => handleDropdownSelect(value, 'selectedPpiDatabase')}
+                  onChange={value => handleDropdownSelect({ selectedPpiDatabase: value })}
                 >
                 {["STRING", "BioGrid"].map(id =>
                   <Dropdown.Item key={id} value={id}>
