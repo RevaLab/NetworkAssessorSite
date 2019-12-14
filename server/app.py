@@ -15,7 +15,7 @@ CORS(app)
 
 
 def get_db():
-    return  mysql.connector.connect(
+    return mysql.connector.connect(
     host="localhost",
     user="root",
     passwd="password",
@@ -164,6 +164,7 @@ def table():
 
 @app.route('/api/network', methods=['POST'])
 def network():
+    genes = ["AKT1", "BAD", "BCL2A1"]
     res = {
         "nodes": [
             {
@@ -197,8 +198,16 @@ def network():
             { "source": "BCL2L1", "target": "AKT1" },
         ]
     }
-
     return jsonify(res)
+
+
+def links(gene_list, g):
+    gene_list = set(gene_list).intersection(g.nodes)
+    return [{
+        "source": gene,
+        "target": neighbor
+    } for gene in gene_list for neighbor in set(g.neighbors(gene)).intersection(gene_list)]
+
 
 def mock_table(request):
     selected_pathway_db = request.json['selectedPathwayDatabase']
