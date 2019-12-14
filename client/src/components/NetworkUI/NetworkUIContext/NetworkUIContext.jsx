@@ -107,17 +107,17 @@ class NetworkUIProvider extends React.Component {
     }))
   }
 
-  handleDropdownSelect = async (newQuery) => {
+  handleDropdownSelect = (newQuery) => {
     const selectedPathwayDatabase = newQuery.selectedPathwayDatabase || this.state.ui.selectedPathwayDatabase
     const selectedPpiDatabase = newQuery.selectedPpiDatabase || this.state.ui.selectedPpiDatabase
 
-    this.setState({
+    this.setState(state => ({
       ui: {
-        ...this.state.ui,
+        ...state.ui,
         selectedPpiDatabase,
         selectedPathwayDatabase
       },
-    })
+    }))
 
     this.handleFetchTable({ selectedPathwayDatabase, selectedPpiDatabase })
   }

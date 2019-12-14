@@ -39,7 +39,7 @@ const QueryList = () => {
           <Label>
             Query List
           </Label>
-          <span>Unfiltered List: {queryGenes.length} Genes</span>
+          <span>Unfiltered List: {queryGenes.length} Unique Genes</span>
           <Control>
             <Textarea
               placeholder="Enter Query Gene List"

@@ -21,6 +21,12 @@ export FLASK_ENV=development
 flask run
 ```
 
+## Local development without a DB
+
+```
+USE_MOCKS=true flask run
+```
+
 ### JavaScript Frontend
 
 Install dependencies

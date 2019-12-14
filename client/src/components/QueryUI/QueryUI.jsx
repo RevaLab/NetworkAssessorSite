@@ -28,11 +28,6 @@ const { Field, Control } = Form
 
 const QueryUI = () => {
   const history = useHistory()
-
-  const handleClick = useCallback(() => {
-    history.push('/network')
-  }, [history])
-
   const {
     ui: {
       filtering,
@@ -42,9 +37,20 @@ const QueryUI = () => {
     toggleFiltering,
   } = useQueryUI()
 
+  const handleClick = useCallback(() => {
+    const genes = filteredGenes.length ? filteredGenes : queryGenes
+    if (genes.length > 500) {
+      window.alert('Please enter up to 500 genes')
+      return
+    }
+
+    history.push('/network')
+  }, [history, queryGenes, filteredGenes])
+
+
   const disabled = filtering ? filteredGenes.length === 0 : queryGenes.length === 0
   const disabledText = `Add genes to ${filtering ? 'filtered' : ''} query list`
-  const submitText = `Submit ${filtering ? 'Filtered Query List' : 'Unfiltered Query List'}`
+  const submitText = `Submit ${filtering ? 'Filtered Query List' : 'Unfiltered Query List'} (max. 500 genes)`
 
   return (
     <Container className="QueryUI">

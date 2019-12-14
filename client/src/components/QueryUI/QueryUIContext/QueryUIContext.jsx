@@ -10,7 +10,11 @@ const genesFromSelectedGoTerms = (selectedTerms, goTerms) => {
 }
 
 const geneTextToArray = (str) => {
-  return str.split('\n').map(str => str.trim()).filter(el => el)
+  return Array.from(
+    new Set(
+      str.split('\n').map(str => str.trim()).filter(el => el)
+    )
+  )
 }
 
 const QueryUIProvider = ({ children }) => {

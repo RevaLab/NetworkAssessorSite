@@ -24,7 +24,7 @@ const FilteredList = () =>{
         <Label>
           Filtered Query List
         </Label>
-        <span>Filtered List: {filteredGenes.length} Genes</span>
+        <span>Filtered List: {filteredGenes.length} Unique Genes</span>
         <Control>
           <Textarea
             placeholder="Use GO Term selectors below, or modify here"
