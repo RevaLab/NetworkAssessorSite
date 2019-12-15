@@ -16,6 +16,7 @@ function colorNetwork(node, colors) {
   const getColor = (pathwayId) => {
     return colors[pathwayId] || 'red'
   }
+
   window.color = getColor
   /* Draw the respective pie chart for each node */
   node.each(function (d) {
@@ -30,6 +31,7 @@ function colorNetwork(node, colors) {
 }
 
 function createNetwork({ nodes, links }, parent) {
+  console.log('calling created network')
   const svg = d3.select("svg")
   const { width, height } = adjustSVG(svg, parent)
 

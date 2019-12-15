@@ -18,6 +18,10 @@ function getOptionOrDefault(key, options, defaultOptions) {
   return defaultOptions[key];
 }
 
+function checkParentNodeExists(nodeElement) {
+  return nodeElement.select('#parent-pie').size() > 0
+}
+
 function drawParentCircle(nodeElement, options) {
   var outerStrokeWidth = getOptionOrDefault('outerStrokeWidth', options);
   var radius = getOptionOrDefault('radius', options);
@@ -81,19 +85,24 @@ function drawTitleText(nodeElement, options) {
 
 var NodePieBuilder = {
   drawNodePie: function (nodeElement, percentages, options) {
-    drawParentCircle(nodeElement, options);
+    const parentNodeExists = checkParentNodeExists(nodeElement)
+
+    if (!parentNodeExists) {
+      drawParentCircle(nodeElement, options);
+
+      var showPieChartBorder = getOptionOrDefault('showPieChartBorder', options);
+      if (showPieChartBorder) {
+        drawPieChartBorder(nodeElement, options);
+      }
+  
+      var showLabelText = getOptionOrDefault('showLabelText', options);
+      if (showLabelText) {
+        drawTitleText(nodeElement, options);
+      }
+    }
+
 
     if (!percentages) return;
     drawPieChart(nodeElement, percentages, options);
-
-    var showPieChartBorder = getOptionOrDefault('showPieChartBorder', options);
-    if (showPieChartBorder) {
-      drawPieChartBorder(nodeElement, options);
-    }
-
-    var showLabelText = getOptionOrDefault('showLabelText', options);
-    if (showLabelText) {
-      drawTitleText(nodeElement, options);
-    }
   }
 };

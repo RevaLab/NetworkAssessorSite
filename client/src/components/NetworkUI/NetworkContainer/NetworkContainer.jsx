@@ -23,7 +23,7 @@ const NetworkGraph = () => {
 
   useEffect(() => {
     if (networkLoadState !== 'LOADED') return
-
+    
     const parent = document.querySelector('#network')
     if (!graph) {
       return
@@ -46,7 +46,6 @@ const NetworkGraph = () => {
   useEffect(() => {
     const node = nodeRef.current
     if (!node) return
-
     colorNetwork(node, colors)
   }, [colors])
 
