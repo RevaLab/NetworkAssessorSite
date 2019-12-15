@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import createNetwork, { adjustSVG } from '../d3/createNetwork'
 import debounce from 'lodash/debounce'
-import axios from 'axios'
 
 // component libraries
 import 'react-bulma-components/dist/react-bulma-components.min.css'
@@ -9,20 +8,20 @@ import { Box } from 'react-bulma-components'
 import { useNetwork } from '../NetworkUIContext/NetworkUIContext'
 
 const NetworkGraph = () => {
-  const { ui: { loadState }, colors } = useNetwork()
+  const { ui: { networkLoadState }, colors, fetchNetwork } = useNetwork()
   const [graph, setGraph] = useState(null)
 
   useEffect(() => {
     const getData = async () => {
-      const { data } = await axios.post('http://localhost:5000/api/network', {})
+      const data = await fetchNetwork()
       setGraph(data)
     }
   
     getData()
-  }, [])
+  }, [fetchNetwork])
 
   useEffect(() => {
-    if (loadState !== 'LOADED') return
+    if (networkLoadState !== 'LOADED') return
 
     const parent = document.querySelector('#network')
     if (!graph) {
@@ -40,7 +39,7 @@ const NetworkGraph = () => {
       window.removeEventListener('resize', resize)
       Array.from(svg.node().children).forEach(child => child.remove())
     }
-  })
+  }, [colors, graph, networkLoadState])
 
   return (
     <Box renderAs="main"

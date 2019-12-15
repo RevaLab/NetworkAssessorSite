@@ -18,6 +18,7 @@ class NetworkUIProvider extends React.Component {
       invalidGenes: [],
     },
     ui: {
+      networkLoadState: null,
       selectedPpiDatabase: "BioGrid",
       selectedPathwayDatabase: "My Cancer Genome",
       loadStatesByPathwayDB: {
@@ -107,6 +108,25 @@ class NetworkUIProvider extends React.Component {
     }))
   }
 
+  fetchNetwork = async () => {
+    this.setState(state => ({
+      ui: {
+        ...state.ui,
+        networkLoadState: 'LOADING'
+      }
+    }))
+
+    const { data } = await axios.post('http://localhost:5000/api/network', {})
+    this.setState(state => ({
+      ui: {
+        ...state.ui,
+        networkLoadState: 'LOADED'
+      }
+    }))
+
+    return data
+  }
+
   handleDropdownSelect = (newQuery) => {
     const selectedPathwayDatabase = newQuery.selectedPathwayDatabase || this.state.ui.selectedPathwayDatabase
     const selectedPpiDatabase = newQuery.selectedPpiDatabase || this.state.ui.selectedPpiDatabase
@@ -163,7 +183,8 @@ class NetworkUIProvider extends React.Component {
           selectedTableLoadState: this.state.ui.loadStatesByPathwayDB[selectedPathwayDatabase][selectedPpiDatabase],
           handleDropdownSelect: this.handleDropdownSelect,
           updateSelectedPathways: this.updateSelectedPathways,
-          updatePathwayColor: this.updatePathwayColor
+          updatePathwayColor: this.updatePathwayColor,
+          fetchNetwork: this.fetchNetwork
         }}>
           {this.props.children}
         </Provider>
