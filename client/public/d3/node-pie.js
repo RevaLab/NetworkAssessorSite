@@ -56,20 +56,29 @@ function drawPieChart(nodeElement, percentages, options) {
   var halfRadius = radius / 2;
   var halfCircumference = 2 * Math.PI * halfRadius;
 
-  var percentToDraw = 0;
-  for (var p in percentages) {
-    percentToDraw += percentages[p].percent;
+  if (nodeElement.select('[id^=pie-fill-]').size() <= 0) {
+    percentages.forEach((p, idx) => {
+      nodeElement
+        .insert('circle', '#parent-pie + *')
+        .attr('id', `pie-fill-${idx}`)
+    })
+  }
 
-    nodeElement.insert('circle', '#parent-pie + *')
-      .attr("r", halfRadius)
+  let percentToDraw = 0;
+  percentages.forEach((p, idx) => {
+    percentToDraw += p.percent;
+
+    nodeElement
+      .select(`#pie-fill-${idx}`)
+      .attr("r", halfRadius) 
       .attr("fill", 'transparent')
-      .style('stroke', color(percentages[p].color))
+      .style('stroke', color(p.color))
       .style('stroke-width', radius)
       .style('stroke-dasharray',
         halfCircumference * percentToDraw / 100 +
         ' ' +
         halfCircumference);
-  }
+  })
 }
 
 function drawTitleText(nodeElement, options) {
