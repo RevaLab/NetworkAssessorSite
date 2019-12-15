@@ -12,7 +12,24 @@ function adjustSVG(svg, parent) {
   return { width, height }
 }
 
-function createNetwork({ nodes, links }, parent, colors) {
+function colorNetwork(node, colors) {
+  const getColor = (pathwayId) => {
+    return colors[pathwayId] || 'red'
+  }
+  window.color = getColor
+  /* Draw the respective pie chart for each node */
+  node.each(function (d) {
+    NodePieBuilder.drawNodePie(d3.select(this), d.pieChart, {
+      parentNodeColor: null,
+      outerStrokeWidth: 12,
+      showLabelText: true,
+      labelText: d.id,
+      labelColor: 'black',
+    })
+  })
+}
+
+function createNetwork({ nodes, links }, parent) {
   const svg = d3.select("svg")
   const { width, height } = adjustSVG(svg, parent)
 
@@ -57,20 +74,21 @@ function createNetwork({ nodes, links }, parent, colors) {
       .on('end', dragEnd)
     )
 
-  const getColor = (pathwayId) => {
-    return colors[pathwayId] || 'red'
-  }
-  window.color = getColor
-  /* Draw the respective pie chart for each node */
-  node.each(function (d) {
-    NodePieBuilder.drawNodePie(d3.select(this), d.pieChart, {
-      parentNodeColor: null,
-      outerStrokeWidth: 12,
-      showLabelText: true,
-      labelText: d.id,
-      labelColor: 'black',
-    })
-  })
+  // coloring
+  // const getColor = (pathwayId) => {
+  //   return colors[pathwayId] || 'red'
+  // }
+  // window.color = getColor
+  // /* Draw the respective pie chart for each node */
+  // node.each(function (d) {
+  //   NodePieBuilder.drawNodePie(d3.select(this), d.pieChart, {
+  //     parentNodeColor: null,
+  //     outerStrokeWidth: 12,
+  //     showLabelText: true,
+  //     labelText: d.id,
+  //     labelColor: 'black',
+  //   })
+  // })
 
   function tickActions() {
     //update link positions
@@ -153,15 +171,12 @@ function createNetwork({ nodes, links }, parent, colors) {
     g.attr("transform", d3.event.transform)
   }
 
-  return { svg }
+  return { svg, node }
 }
-
-// const cytoscape = require('./cytoscapeNetwork');
-// window.cytoscape = cytoscape;
-// console.log(cytoscape);
 
 export default createNetwork
 
 export {
   adjustSVG,
+  colorNetwork
 }

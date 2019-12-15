@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import createNetwork, { adjustSVG } from '../d3/createNetwork'
+import React, { useState, useEffect, useRef } from 'react'
+import createNetwork, { adjustSVG, colorNetwork } from '../d3/createNetwork'
 import debounce from 'lodash/debounce'
 
 // component libraries
@@ -10,6 +10,7 @@ import { useNetwork } from '../NetworkUIContext/NetworkUIContext'
 const NetworkGraph = () => {
   const { ui: { networkLoadState }, colors, fetchNetwork } = useNetwork()
   const [graph, setGraph] = useState(null)
+  const nodeRef = useRef(null)
 
   useEffect(() => {
     const getData = async () => {
@@ -27,10 +28,11 @@ const NetworkGraph = () => {
     if (!graph) {
       return
     }
-    const { svg } = createNetwork(graph, parent, colors)
+    const { svg, node } = createNetwork(graph, parent)
+    nodeRef.current = node
 
     const resize = debounce(function () {
-          adjustSVG(svg, parent)
+      adjustSVG(svg, parent)
     }, 500)
 
     window.addEventListener('resize', resize)
@@ -39,7 +41,14 @@ const NetworkGraph = () => {
       window.removeEventListener('resize', resize)
       Array.from(svg.node().children).forEach(child => child.remove())
     }
-  }, [colors, graph, networkLoadState])
+  }, [graph, networkLoadState])
+
+  useEffect(() => {
+    const node = nodeRef.current
+    if (!node) return
+
+    colorNetwork(node, colors)
+  }, [colors])
 
   return (
     <Box renderAs="main"

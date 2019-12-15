@@ -1,5 +1,6 @@
 import os
 import json
+import pickle
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -22,6 +23,10 @@ def get_db():
     database="network_assessor",
 )
 
+current_dir = os.path.dirname(os.path.realpath(__file__))
+graphs = {
+    'biogrid': pickle.load(open(os.path.join(current_dir, './biogrid.pkl'), 'rb'))
+}
 
 def check_key(d, k):
     if k in d:
@@ -164,42 +169,58 @@ def table():
 
 @app.route('/api/network', methods=['POST'])
 def network():
-    genes = ["AKT1", "BAD", "BCL2A1"]
+    print(current_dir)
+    genes = request.json['genes']
+    ppi_db = graphs[request.json['db']]
     res = {
-        "nodes": [
-            {
-            "id": "AKT1",
-            "pieChart": [
-                { "color": 0, "percent": 50 },
-                { "color": 324, "percent": 50 }
-            ]
-            },
-            {
-            "id": "BAD",
-            "pieChart": [
-                { "color": 3369, "percent": 33.33 },
-                { "color": 3116, "percent": 33.34 },
-                { "color": 2942, "percent": 33.33 }
-            ]
-            },
-            {
-            "id": "BCL2L1",
-            "pieChart": [
-                { "color": 1210, "percent": 25 },
-                { "color": 1911, "percent": 25 },
-                { "color": 1097, "percent": 25 },
-                { "color": 2725, "percent": 25 }
-            ]
-            }
-        ],
-        "links": [
-            { "source": "AKT1", "target": "BAD" },
-            { "source": "BAD", "target": "BCL2L1" },
-            { "source": "BCL2L1", "target": "AKT1" },
-        ]
+        "nodes": nodes(genes),
+        "links": links(genes, ppi_db)
     }
+    print(res)
+    # res = {
+    #     "nodes": [
+    #         {
+    #         "id": "AKT1",
+    #         "pieChart": [
+    #             { "color": 0, "percent": 50 },
+    #             { "color": 324, "percent": 50 }
+    #         ]
+    #         },
+    #         {
+    #         "id": "BAD",
+    #         "pieChart": [
+    #             { "color": 3369, "percent": 33.33 },
+    #             { "color": 3116, "percent": 33.34 },
+    #             { "color": 2942, "percent": 33.33 }
+    #         ]
+    #         },
+    #         {
+    #         "id": "BCL2L1",
+    #         "pieChart": [
+    #             { "color": 1210, "percent": 25 },
+    #             { "color": 1911, "percent": 25 },
+    #             { "color": 1097, "percent": 25 },
+    #             { "color": 2725, "percent": 25 }
+    #         ]
+    #         }
+    #     ],
+    #     "links": [
+    #         { "source": "AKT1", "target": "BAD" },
+    #         { "source": "BAD", "target": "BCL2L1" },
+    #         { "source": "BCL2L1", "target": "AKT1" },
+    #     ]
+    # }
     return jsonify(res)
 
+def nodes(gene_list):
+    return [
+        {
+            "id": gene,
+            "pieChart": [{
+                "color": 0, "percent": 100
+            }]
+        } for gene in gene_list
+    ]
 
 def links(gene_list, g):
     gene_list = set(gene_list).intersection(g.nodes)

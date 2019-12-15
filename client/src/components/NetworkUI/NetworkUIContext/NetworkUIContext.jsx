@@ -116,7 +116,11 @@ class NetworkUIProvider extends React.Component {
       }
     }))
 
-    const { data } = await axios.post('http://localhost:5000/api/network', {})
+    const { data } = await axios.post('http://localhost:5000/api/network', {
+      genes: this.props.genes,
+      db: 'biogrid'
+    })
+
     this.setState(state => ({
       ui: {
         ...state.ui,
