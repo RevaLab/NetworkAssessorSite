@@ -46,8 +46,6 @@ const NetworkGraph = () => {
   useEffect(() => {
     const node = nodeRef.current
     if (!node) return
-
-    console.log(colors)
     colorNetwork(node, colors)
   }, [colors])
 

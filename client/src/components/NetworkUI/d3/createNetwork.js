@@ -30,8 +30,8 @@ function colorNetwork(node, colors) {
   })
 }
 
+const ALPHA_TARGET = 0.4
 function createNetwork({ nodes, links }, parent) {
-  console.log('calling created network')
   const svg = d3.select("svg")
   const { width, height } = adjustSVG(svg, parent)
 
@@ -44,7 +44,7 @@ function createNetwork({ nodes, links }, parent) {
     .force(
       "charge_force",
       d3.forceManyBody()
-        .strength(-400)
+        .strength(-60)
     )
     .force(
       "center_force",
@@ -75,24 +75,21 @@ function createNetwork({ nodes, links }, parent) {
       .on('drag', dragDrag)
       .on('end', dragEnd)
     )
+    .each(function (d) {
+      d.fixed = true
+    })
 
-  // coloring
-  // const getColor = (pathwayId) => {
-  //   return colors[pathwayId] || 'red'
-  // }
-  // window.color = getColor
-  // /* Draw the respective pie chart for each node */
-  // node.each(function (d) {
-  //   NodePieBuilder.drawNodePie(d3.select(this), d.pieChart, {
-  //     parentNodeColor: null,
-  //     outerStrokeWidth: 12,
-  //     showLabelText: true,
-  //     labelText: d.id,
-  //     labelColor: 'black',
-  //   })
-  // })
-
+  let tickCount = 0
   function tickActions() {
+    tickCount += 1
+
+    if (tickCount > 200) {
+      node.each(function (d) {
+        d.fx = d.x
+        d.fy = d.y
+      })
+    }
+
     //update link positions
     //simply tells one end of the line to follow one node around
     //and the other end of the line to follow the other node around
@@ -110,7 +107,6 @@ function createNetwork({ nodes, links }, parent) {
         d3.select(this).classed("fixed", function (d) {
           d.fx = null
           d.fy = null
-          return d.fixed = false
         })
       })
 
@@ -136,7 +132,7 @@ function createNetwork({ nodes, links }, parent) {
     d3.select(this).classed("fixed", d.fixed = true)
     // Honestly I’m not sure why we check the if statement regarding d3.event.active. It seems to work without it as well, if we took away the if statement and just had simulation.alphaTarget. Let’s ignore it. Moving on now.
     if (!d3.event.active) {
-      simulation.alphaTarget(0.4).restart()
+      simulation.alphaTarget(ALPHA_TARGET).restart()
     }
 
     d.fx = d.x
@@ -146,12 +142,11 @@ function createNetwork({ nodes, links }, parent) {
   function dragDrag(d) {
     d.fx = d3.event.x
     d.fy = d3.event.y
-    // everything else stay STILL
   }
 
   function dragEnd(d) {
     if (!d3.event.active) {
-      simulation.alphaTarget(0.4)
+      simulation.alphaTarget(ALPHA_TARGET)
     }
 
     if (sticky) {
