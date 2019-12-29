@@ -14,11 +14,11 @@ const {
 class NetworkUIProvider extends React.Component {
   state = {
     queryList: {
+      genes: this.props.genes,
       validGenes: [],
       invalidGenes: [],
     },
     ui: {
-      networkLoadState: null,
       selectedPpiDatabase: "BioGrid",
       selectedPathwayDatabase: "My Cancer Genome",
       loadStatesByPathwayDB: {
@@ -65,11 +65,13 @@ class NetworkUIProvider extends React.Component {
     this.setState(state => ({
       ui: {
         ...state.ui,
-        loadStatesByPathwayDB: merge({}, state.ui.loadStatesByPathwayDB, {
+        loadStatesByPathwayDB: {
+          ...state.ui.loadStatesByPathwayDB,
           [selectedPathwayDatabase]: {
+            ...state.ui.loadStatesByPathwayDB[selectedPathwayDatabase],
             [selectedPpiDatabase]: newState
           }
-        })
+        }
       }
     }))
   }
@@ -106,29 +108,6 @@ class NetworkUIProvider extends React.Component {
         ...state.colors
       }
     }))
-  }
-
-  fetchNetwork = async () => {
-    this.setState(state => ({
-      ui: {
-        ...state.ui,
-        networkLoadState: 'LOADING'
-      }
-    }))
-
-    const { data } = await axios.post('http://localhost:5000/api/network', {
-      genes: this.props.genes,
-      db: 'biogrid'
-    })
-
-    this.setState(state => ({
-      ui: {
-        ...state.ui,
-        networkLoadState: 'LOADED'
-      }
-    }))
-
-    return data
   }
 
   handleDropdownSelect = (newQuery) => {
@@ -188,7 +167,8 @@ class NetworkUIProvider extends React.Component {
           handleDropdownSelect: this.handleDropdownSelect,
           updateSelectedPathways: this.updateSelectedPathways,
           updatePathwayColor: this.updatePathwayColor,
-          fetchNetwork: this.fetchNetwork
+          fetchNetwork: this.fetchNetwork,
+          tableLoadState: this.state.ui.loadStatesByPathwayDB[selectedPathwayDatabase][selectedPpiDatabase]
         }}>
           {this.props.children}
         </Provider>

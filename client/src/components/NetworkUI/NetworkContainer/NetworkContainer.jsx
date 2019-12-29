@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
+import axios from 'axios'
+import throttle from 'lodash/throttle'
 import createNetwork, { adjustSVG, colorNetwork } from '../d3/createNetwork'
-import debounce from 'lodash/debounce'
 
 // component libraries
 import 'react-bulma-components/dist/react-bulma-components.min.css'
@@ -8,32 +9,31 @@ import { Box } from 'react-bulma-components'
 import { useNetwork } from '../NetworkUIContext/NetworkUIContext'
 
 const NetworkGraph = () => {
-  const { ui: { networkLoadState }, colors, fetchNetwork } = useNetwork()
-  const [graph, setGraph] = useState(null)
-  const nodeRef = useRef(null)
+  const { colors, tableLoadState, queryList: { genes } } = useNetwork()
+  const [network, setNetwork] = useState(null)
+  const [node, setNode] = useState(null)
 
-  useEffect(() => {
-    const getData = async () => {
-      const data = await fetchNetwork()
-      setGraph(data)
-    }
-  
-    getData()
+  const fetchNetwork = useCallback(async () => {
+    const { data } = await axios.post('http://localhost:5000/api/network', {
+      genes: genes,
+      db: 'biogrid'
+    })
+    setNetwork(data)
+  }, [genes])
+
+  useEffect(function fetchNetworkOnMount() {
+    fetchNetwork()
   }, [fetchNetwork])
 
-  useEffect(() => {
-    if (networkLoadState !== 'LOADED') return
-    
+  useEffect(function createNetworkFromData() {  
+    if (!network || tableLoadState !== 'LOADED') return
     const parent = document.querySelector('#network')
-    if (!graph) {
-      return
-    }
-    const { svg, node } = createNetwork(graph, parent)
-    nodeRef.current = node
+    const { svg, node } = createNetwork(network, parent)
+    setNode(node)
 
-    const resize = debounce(function () {
+    const resize = throttle(() => {
       adjustSVG(svg, parent)
-    }, 500)
+    }, 100)
 
     window.addEventListener('resize', resize)
 
@@ -41,13 +41,12 @@ const NetworkGraph = () => {
       window.removeEventListener('resize', resize)
       Array.from(svg.node().children).forEach(child => child.remove())
     }
-  }, [graph, networkLoadState])
+  }, [network, tableLoadState])
 
-  useEffect(() => {
-    const node = nodeRef.current
+  useEffect(function setNetworkColors() {
     if (!node) return
     colorNetwork(node, colors)
-  }, [colors])
+  }, [colors, node])
 
   return (
     <Box renderAs="main"
