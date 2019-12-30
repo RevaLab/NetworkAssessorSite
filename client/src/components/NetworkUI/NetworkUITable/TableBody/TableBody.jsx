@@ -5,10 +5,7 @@ import { useNetwork } from '../../NetworkUIContext/NetworkUIContext'
 
 // component libraries
 import 'react-bulma-components/dist/react-bulma-components.min.css'
-import {
-  Button,
-  Loader,
-} from 'react-bulma-components'
+import { Button, Loader } from 'react-bulma-components'
 
 import './TableBody.css'
 
@@ -21,9 +18,7 @@ const TableBody = ({
   const [colorPicker, setColorPicker] = useState(null)
   const [modal, setModal] = useState(null)
   const {
-    ui: {
-      selectedPathways
-    },
+    ui: { selectedPathways },
     updateSelectedPathways,
     colors
   } = useNetwork()
@@ -36,11 +31,6 @@ const TableBody = ({
   const handleModalSelect = useCallback((id) => {
     setModal(id)
   }, [setModal])
-
-  // const pathwaysToSort = (selectedPathwayDatabase && pathwayDatabases.byId[selectedPathwayDatabase].pathways) || [];
-  // const sorted = pathwaysToSort.concat().sort((idA, idB) =>
-  //   pathways.byId[idA].pVal - pathways.byId[idB].pVal
-  // );
 
   const loaderRow = (
     <tr className="tableRow">
@@ -59,60 +49,60 @@ const TableBody = ({
     </tr>
   )
 
+  const sortDataByPval = ({ pVal: a }, { pVal: b }) => a - b
+
   const rows =
-  loadState === 'LOADING' ? loaderRow :
-    tableData.map(({
-      id,
-      name,
-      membersLength,
-      overlapLength,
-      edgesLength,
-      pVal
-    }) => (
-      <tr key={id}>
-      <td className="col-pway-select">
-        <input type="checkbox"
-          onChange={e => updateSelectedPathways(id, e.target.checked)}
-          checked={!!selectedPathways[id]}
-        />
-      </td>
-      <td className="col-name">
-        {name}
-      </td>
-      <td className="col-color">
-        <Button 
-          onClick={() => { setColorPicker(id) }}
-              style={{ backgroundColor: colors[id] }}>
-        </Button>
-        {id === colorPicker && (
-          <ColorPicker
-            setColorPicker={setColorPicker}
-            onChangeComplete={(newColor) => updatePathwayColor(id, newColor.hex)}
-            color={colors[id]}
-          />
-        )}
-      </td>
-        <td className="col-pwaymembers" onClick={() => handleModalSelect(id)}>
-        {id === modal && (
-          <PathwayMembersModal
-            name={name}
-            membersLength={membersLength}
-            onClose={handleModalClose}
-          />
-        )}
-        <button className="as-link">{membersLength}</button>
-      </td>
-      <td className="col-edges">
-        {edgesLength}
-      </td>
-      <td className="col-overlap">
-        {overlapLength}
-      </td>
-      <td className="col-sig">
-        {pVal.toExponential(2)}
-      </td>
-    </tr>
-  ))
+    loadState === 'LOADING'
+      ? loaderRow
+      : tableData
+        .sort(sortDataByPval)
+        .map(
+          ({ id, name, membersLength, overlapLength, edgesLength, pVal }) => (
+            <tr key={id}>
+              <td className='col-pway-select'>
+                <input
+                  type='checkbox'
+                  onChange={(e) => updateSelectedPathways(id, e.target.checked)}
+                  checked={!!selectedPathways[id]}
+                />
+              </td>
+              <td className='col-name'>{name}</td>
+              <td className='col-color'>
+                <Button
+                  onClick={() => {
+                    setColorPicker(id)
+                  }}
+                  style={{ backgroundColor: colors[id] }}
+                ></Button>
+                {id === colorPicker && (
+                  <ColorPicker
+                    setColorPicker={setColorPicker}
+                    onChangeComplete={(newColor) =>
+                      updatePathwayColor(id, newColor.hex)
+                    }
+                    color={colors[id]}
+                  />
+                )}
+              </td>
+              <td
+                className='col-pwaymembers'
+                onClick={() => handleModalSelect(id)}
+              >
+                {id === modal && (
+                  <PathwayMembersModal
+                    name={name}
+                    membersLength={membersLength}
+                    onClose={handleModalClose}
+                  />
+                )}
+                <button className='as-link'>{membersLength}</button>
+              </td>
+              <td className='col-edges'>{edgesLength}</td>
+              <td className='col-overlap'>{overlapLength}</td>
+              <td className='col-sig'>{pVal.toExponential(2)}</td>
+            </tr>
+          )
+        )
 
   return (
     <tbody>
