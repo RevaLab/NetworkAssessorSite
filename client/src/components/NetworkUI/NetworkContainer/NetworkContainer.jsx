@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
 import throttle from 'lodash/throttle'
-import createNetwork, { adjustSVG, colorNetwork } from '../d3/createNetwork'
+import createNetwork, { adjustSVG, colorNetwork } from '../d3/create-network'
 
 // component libraries
 import 'react-bulma-components/dist/react-bulma-components.min.css'

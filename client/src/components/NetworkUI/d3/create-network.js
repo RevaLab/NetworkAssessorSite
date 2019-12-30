@@ -1,7 +1,7 @@
 import './d3.css'
+import { NodePieBuilder } from './node-pie'
 
 const d3 = window.d3
-const NodePieBuilder = window.NodePieBuilder
 
 function adjustSVG(svg, parent) {
   const { height, width } = d3.select(parent).node().getBoundingClientRect()
@@ -17,10 +17,9 @@ function colorNetwork(node, colors) {
     return colors[pathwayId] || 'red'
   }
 
-  window.color = getColor
   /* Draw the respective pie chart for each node */
   node.each(function (d) {
-    NodePieBuilder.drawNodePie(d3.select(this), d.pieChart, {
+    NodePieBuilder.drawNodePie(d3.select(this), d.pieChart, getColor, {
       parentNodeColor: null,
       outerStrokeWidth: 12,
       showLabelText: true,
