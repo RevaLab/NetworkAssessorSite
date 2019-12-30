@@ -19,6 +19,7 @@ class NetworkUIProvider extends React.Component {
       invalidGenes: [],
     },
     ui: {
+      pValSortingOrder: 'ASC',
       selectedPpiDatabase: "BioGrid",
       selectedPathwayDatabase: "My Cancer Genome",
       loadStatesByPathwayDB: {
@@ -155,6 +156,15 @@ class NetworkUIProvider extends React.Component {
     ])
   }
 
+  togglePValSortingOrder = () => {
+    this.setState(state => ({
+      ui: {
+        ...state.ui,
+        pValSortingOrder: state.ui.pValSortingOrder === 'ASC' ? 'DESC' : 'ASC'
+      }
+    }))
+  }
+
   render() {
     const { selectedPpiDatabase, selectedPathwayDatabase } = this.state.ui
 
@@ -168,7 +178,8 @@ class NetworkUIProvider extends React.Component {
           updateSelectedPathways: this.updateSelectedPathways,
           updatePathwayColor: this.updatePathwayColor,
           fetchNetwork: this.fetchNetwork,
-          tableLoadState: this.state.ui.loadStatesByPathwayDB[selectedPathwayDatabase][selectedPpiDatabase]
+          tableLoadState: this.state.ui.loadStatesByPathwayDB[selectedPathwayDatabase][selectedPpiDatabase],
+          togglePValSortingOrder: this.togglePValSortingOrder
         }}>
           {this.props.children}
         </Provider>

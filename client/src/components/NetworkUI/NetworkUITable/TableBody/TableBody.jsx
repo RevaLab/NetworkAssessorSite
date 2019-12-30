@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import ColorPicker from '../../ColorPicker/ColorPicker'
 import PathwayMembersModal from './PathwayMembersModal/PathwayMembersModal'
 import { useNetwork } from '../../NetworkUIContext/NetworkUIContext'
@@ -14,11 +14,10 @@ const TableBody = ({
     loadState,
     updatePathwayColor,
   }) => {
-
   const [colorPicker, setColorPicker] = useState(null)
   const [modal, setModal] = useState(null)
   const {
-    ui: { selectedPathways },
+    ui: { selectedPathways, pValSortingOrder },
     updateSelectedPathways,
     colors
   } = useNetwork()
@@ -49,14 +48,20 @@ const TableBody = ({
     </tr>
   )
 
-  const sortDataByPval = ({ pVal: a }, { pVal: b }) => a - b
+  
+  const tableDataSorted = useMemo(() => {
+    const sortDataByPval = ({ pVal: a }, { pVal: b }) => {
+      const ascAdjust = pValSortingOrder === 'ASC' ? 1 : -1
+      return ascAdjust * (a - b)
+    }
+
+    return tableData.sort(sortDataByPval)
+  }, [pValSortingOrder, tableData])
 
   const rows =
     loadState === 'LOADING'
       ? loaderRow
-      : tableData
-        .sort(sortDataByPval)
-        .map(
+      : tableDataSorted.map(
           ({ id, name, membersLength, overlapLength, edgesLength, pVal }) => (
             <tr key={id}>
               <td className='col-pway-select'>
