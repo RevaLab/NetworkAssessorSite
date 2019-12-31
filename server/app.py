@@ -4,9 +4,9 @@ import pickle
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import mysql.connector
 
 import go as go
+import table as tbl
 
 # for mocks
 from time import sleep
@@ -15,27 +15,18 @@ app = Flask(__name__)
 CORS(app)
 
 
-def get_db():
-    return mysql.connector.connect(
-    host="localhost",
-    user="root",
-    passwd="password",
-    database="network_assessor",
-)
-
 current_dir = os.path.dirname(os.path.realpath(__file__))
+
 graphs = {
-    'biogrid': pickle.load(open(os.path.join(current_dir, './biogrid.pkl'), 'rb'))
+    'biogrid': pickle.load(open(os.path.join(current_dir, 'biogrid.pkl'), 'rb'))
 }
 
-def check_key(d, k):
-    if k in d:
-        return str(d[k])
-    else:
-        return -1000
+min_max = {
+    'biogrid': pickle.load(open(os.path.join(current_dir, 'min_max_biogrid.pkl'), 'rb')),
+}
 
 
-@app.route('/api/go-terms', methods=['GET','POST'])
+@app.route('/api/go-terms', methods=['GET', 'POST'])
 def go_terms():
     if request.method != 'POST':
         return 405
@@ -64,119 +55,28 @@ def table():
     if os.environ.get('USE_MOCKS'):
         return mock_table(request)
 
-    selected_pathway_db = request.json['selectedPathwayDatabase']
-    selected_ppi_db = request.json['selectedPpiDatabase']
-    genes = request.json['genes']
-
-    mydb = get_db()
-    mycursor = mydb.cursor(buffered=True)
-
-    pathway_sources = {
-        'KEGG': 1,
-        'My Cancer Genome': 2,
-        'Reactome': 3
-    }
-
-    genes_for_sql_query = ['"{}"'.format(gene) for gene in genes]
-    mycursor.execute(
-        "SELECT id FROM network_assessor.gene WHERE symbol IN ({});".format(", ".join(genes_for_sql_query))
-    )
-    gene_ids = {g[0] for g in mycursor.fetchall()}
-    genes_ids_for_sql_query = ['"{}"'.format(gene) for gene in gene_ids]
-
-    # pathway source => pathway members
-    pathway_member_query = """
-        SELECT pw_id, gene_id, name 
-        FROM pathway_member 
-        JOIN pathway ON pathway.id = pw_id 
-        WHERE source={};
-    """.format(pathway_sources[selected_pathway_db])
-
-    mycursor.execute(pathway_member_query)
-    pathway_members = mycursor.fetchall()
-
-    pw_members_dict = {}
-
-    for pw_id, gene, name in pathway_members:
-        if pw_id not in pw_members_dict:
-            pw_members_dict[pw_id] = {
-                'genes': set(),
-                'name': name,
-            }
-        pw_members_dict[pw_id]['genes'].add(gene)
-    ppi_name_map = {
-        'BioGrid': 'biogrid',
-        'STRING': 'string',
-    }
-    pathway_name_map = {
-        'My Cancer Genome': 'my_cancer_genome',
-        'KEGG': 'kegg',
-        'Reactome': 'reactome'
-    }
-
-    neighbor_count_table = 'neighbor_count_{}_{}'.format(
-        ppi_name_map[selected_ppi_db],
-        pathway_name_map[selected_pathway_db]
-    )
-
-    p_val_table = 'p_val_{}_{}'.format(
-        ppi_name_map[selected_ppi_db],
-        pathway_name_map[selected_pathway_db]
-    )
-
-    # gene ids => edge lengths
-    edge_length_query = """
-        SELECT pw_id, SUM(neighbor_count)
-        FROM {}
-        WHERE gene_id in ({}) GROUP BY pw_id;
-    """.format(neighbor_count_table, ",".join(genes_ids_for_sql_query))
-
-    mycursor.execute(edge_length_query)
-    edge_lengths = dict(mycursor.fetchall())
-
-    len_gs = len(genes)
-
-    subtable_query = """
-            SELECT pw_id, p_val, edge_count FROM network_assessor.{}
-            WHERE len_gs = {}""".format(p_val_table, len_gs)
-    mycursor.execute(subtable_query)
-    subtable = mycursor.fetchall()
-
-    k_pw_v_pval = {}
-    for pw, p_val, edge_length in subtable:
-        if edge_lengths[pw] == edge_length:  # check every time if pathway value edges is in my dict 1: 5
-            k_pw_v_pval[pw] = str(p_val)  # if equal, assign to p_val
-
-    table_data = [{
-            "id": pw_id,
-            "name": pw_data['name'],
-            "membersLength": len(pw_data['genes']),
-            "overlapLength": len(pw_data['genes'].intersection(gene_ids)),
-            "edgesLength": check_key(edge_lengths, pw_id),
-            "pVal": check_key(k_pw_v_pval, pw_id),
-        }
-        for pw_id, pw_data in pw_members_dict.items()
-    ]
-
-    res = {
-        "selectedPpiDatabase": selected_ppi_db,
-        "selectedPathwayDatabase": selected_pathway_db,
-        "tableData": table_data,
-    }
-
-    return jsonify(res)
+    return jsonify(tbl.table(request, min_max))
 
 
 @app.route('/api/network', methods=['POST'])
 def network():
-    print(current_dir)
+    """
+    {
+        "selectedPathwayDatabase": "my_cancer_genome",
+        "db": "biogrid",
+        "genes": ["BRAF"],
+        "selectedPathways": [333, 353, 2]
+    }
+    """
     genes = request.json['genes']
     ppi_db = graphs[request.json['db']]
+    selected_pw_db = request.json['selectedPathwayDatabase']
+    selected_pathways = set(request.json['selectedPathways'])
     res = {
-        "nodes": nodes(genes),
+        "nodes": nodes(genes, ppi_db, selected_pw_db, selected_pathways),
         "links": links(genes, ppi_db)
     }
-    print(res)
+    # print(res)
     # res = {
     #     "nodes": [
     #         {
@@ -212,15 +112,25 @@ def network():
     # }
     return jsonify(res)
 
-def nodes(gene_list):
+
+def nodes(gene_list, ppi_db, selected_pathway_db, selected_pathways):
+    # selected_pathways = {353, 333}
+    # res = []
+    # for gene in gene_list:
+    #     node_pathways = ppi_db.nodes[gene][selected_pathway_db].intersection(selected_pathways)
+    #     pieChart = [{}]
     return [
         {
             "id": gene,
-            "pieChart": [{
-                "color": 0, "percent": 100
-            }]
+            "pieChart": [
+                {
+                    "color": pw, "percent": 100/len(ppi_db.nodes[gene][selected_pathway_db].intersection(selected_pathways))
+                }
+                for pw in ppi_db.nodes[gene][selected_pathway_db].intersection(selected_pathways)
+            ]
         } for gene in gene_list
     ]
+
 
 def links(gene_list, g):
     gene_list = set(gene_list).intersection(g.nodes)
