@@ -104,7 +104,7 @@ const TableBody = ({
               </td>
               <td className='col-edges'>{edgesLength}</td>
               <td className='col-overlap'>{overlapLength}</td>
-              <td className='col-sig'>{pVal.toExponential(2)}</td>
+              <td className='col-sig'>{pVal}</td>
             </tr>
           )
         )
