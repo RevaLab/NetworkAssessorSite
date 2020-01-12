@@ -130,7 +130,9 @@ class NetworkUIProvider extends React.Component {
     this.setState(state => ({
       ...state,
       ui: {
+        ...state.ui,
         selectedPathways: {
+          ...state.ui.selectedPathways,
           [id]: val,
         }
       }
@@ -145,6 +147,17 @@ class NetworkUIProvider extends React.Component {
         [id]: color
       }
     }))
+  }
+
+  fetchNetwork = async () => {
+    const { data } = await axios.post('http://localhost:5000/api/network', {
+      genes: this.state.queryList.genes,
+      selectedPathwayDatabase: 'my_cancer_genome',
+      db: 'biogrid',
+      selectedPathways: []
+    })
+
+    return data
   }
 
   async componentDidMount() {

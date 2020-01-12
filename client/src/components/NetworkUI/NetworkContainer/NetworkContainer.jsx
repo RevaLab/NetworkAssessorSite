@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import axios from 'axios'
 import throttle from 'lodash/throttle'
 import createNetwork, { adjustSVG, colorNetwork } from '../d3/create-network'
 
@@ -9,23 +8,18 @@ import { Box } from 'react-bulma-components'
 import { useNetwork } from '../NetworkUIContext/NetworkUIContext'
 
 const NetworkGraph = () => {
-  const { colors, tableLoadState, queryList: { genes } } = useNetwork()
+  const { colors, tableLoadState, fetchNetwork } = useNetwork()
   const [network, setNetwork] = useState(null)
   const [node, setNode] = useState(null)
 
-  const fetchNetwork = useCallback(async () => {
-    const { data } = await axios.post('http://localhost:5000/api/network', {
-      genes: genes,
-      selectedPathwayDatabase: 'my_cancer_genome',
-      db: 'biogrid',
-      selectedPathways: []
-    })
+  const fetchNetworkCb = useCallback(async () => {
+    const data = await fetchNetwork()
     setNetwork(data)
-  }, [genes])
+  }, [fetchNetwork])
 
   useEffect(function fetchNetworkOnMount() {
-    fetchNetwork()
-  }, [fetchNetwork])
+    fetchNetworkCb()
+  }, [fetchNetworkCb])
 
   useEffect(function createNetworkFromData() {  
     if (!network || tableLoadState !== 'LOADED') return

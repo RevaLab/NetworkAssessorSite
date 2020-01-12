@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react'
+import { NetworkUIConsumer } from '../NetworkUI/NetworkUIContext/NetworkUIContext'
 
 // component libraries
 import 'react-bulma-components/dist/react-bulma-components.min.css'
@@ -33,31 +34,37 @@ const NetworkUI = () => {
     <QueryUIConsumer>
       {({ ui: { filteredGenes, queryGenes } }) => (
         <NetworkUIProvider genes={filteredGenes.length ? filteredGenes : queryGenes}>
-          <Section className="NetworkUI">
-            <button onClick={toggleOpen}>toggle</button>
-            <Columns gapless multiline={false}>
-              <Columns.Column style={{ display: isOpen ? 'inherit' : 'none'  }}>
-                <Box
-                  renderAs="nav"
-                  className="network-nav"
-                >
-                  <NetworkTopNav />
-                  <Container style={{ width: '100%' }}>
-                    <QueryListInfo />
-                  </Container>
-                  <Button>
-                    Draw Network
-                  </Button>
-                  <Container className="network-table-container">
-                    <NetworkUITable />
-                  </Container>
-                </Box>
-              </Columns.Column>
-              <Columns.Column style={{margin: '0 auto'}}>
-                <NetworkContainer />
-              </Columns.Column>
-            </Columns>
-          </Section>
+          <NetworkUIConsumer>
+            {({ fetchNetwork }) => (
+              <Section className="NetworkUI">
+                <button onClick={toggleOpen}>toggle</button>
+                <Columns gapless multiline={false}>
+                  <Columns.Column style={{ display: isOpen ? 'inherit' : 'none'  }}>
+                    <Box
+                      renderAs="nav"
+                      className="network-nav"
+                    >
+                      <NetworkTopNav />
+                      <Container style={{ width: '100%' }}>
+                        <QueryListInfo />
+                      </Container>
+                      <Button onClick={() => {
+                        fetchNetwork()
+                      }}>
+                        Draw Network
+                      </Button>
+                      <Container className="network-table-container">
+                        <NetworkUITable />
+                      </Container>
+                    </Box>
+                  </Columns.Column>
+                  <Columns.Column style={{margin: '0 auto'}}>
+                    <NetworkContainer />
+                  </Columns.Column>
+                </Columns>
+              </Section>
+            )}
+          </NetworkUIConsumer>
         </NetworkUIProvider>
       )}
     </QueryUIConsumer>
