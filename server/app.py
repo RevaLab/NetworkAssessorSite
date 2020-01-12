@@ -71,7 +71,7 @@ def network():
     genes = request.json['genes']
     ppi_db = graphs[request.json['db']]
     selected_pw_db = request.json['selectedPathwayDatabase']
-    selected_pathways = set(request.json['selectedPathways'])
+    selected_pathways = set(int(n) for n in set(request.json['selectedPathways']))
     res = {
         "nodes": nodes(genes, ppi_db, selected_pw_db, selected_pathways, genes),
         "links": links(genes, ppi_db)
