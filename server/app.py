@@ -73,7 +73,7 @@ def network():
     selected_pw_db = request.json['selectedPathwayDatabase']
     selected_pathways = set(request.json['selectedPathways'])
     res = {
-        "nodes": nodes(genes, ppi_db, selected_pw_db, selected_pathways),
+        "nodes": nodes(genes, ppi_db, selected_pw_db, selected_pathways, genes),
         "links": links(genes, ppi_db)
     }
     # print(res)
@@ -113,23 +113,23 @@ def network():
     return jsonify(res)
 
 
-def nodes(gene_list, ppi_db, selected_pathway_db, selected_pathways):
-    # selected_pathways = {353, 333}
-    # res = []
-    # for gene in gene_list:
-    #     node_pathways = ppi_db.nodes[gene][selected_pathway_db].intersection(selected_pathways)
-    #     pieChart = [{}]
-    return [
-        {
+def nodes(gene_list, ppi_db, selected_pathway_db, selected_pathways, query_list):
+    res = []
+    for gene in gene_list:
+        pathways_with_gene = ppi_db.nodes[gene][selected_pathway_db].intersection(selected_pathways)
+        if gene in query_list:
+            pathways_with_gene.add(0)
+        node = {
             "id": gene,
             "pieChart": [
                 {
-                    "color": pw, "percent": 100/len(ppi_db.nodes[gene][selected_pathway_db].intersection(selected_pathways))
+                    "color": pw, "percent": 100/len(pathways_with_gene)
                 }
-                for pw in ppi_db.nodes[gene][selected_pathway_db].intersection(selected_pathways)
+                for pw in pathways_with_gene
             ]
-        } for gene in gene_list
-    ]
+        }
+        res.append(node)
+    return res
 
 
 def links(gene_list, g):
