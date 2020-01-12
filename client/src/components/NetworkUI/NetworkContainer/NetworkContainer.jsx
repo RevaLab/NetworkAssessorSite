@@ -16,7 +16,9 @@ const NetworkGraph = () => {
   const fetchNetwork = useCallback(async () => {
     const { data } = await axios.post('http://localhost:5000/api/network', {
       genes: genes,
-      db: 'biogrid'
+      selectedPathwayDatabase: 'my_cancer_genome',
+      db: 'biogrid',
+      selectedPathways: []
     })
     setNetwork(data)
   }, [genes])
