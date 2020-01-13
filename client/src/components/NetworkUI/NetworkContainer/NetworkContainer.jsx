@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import throttle from 'lodash/throttle'
 import createNetwork, { adjustSVG, colorNetwork } from '../d3/create-network'
 
@@ -8,18 +8,12 @@ import { Box } from 'react-bulma-components'
 import { useNetwork } from '../NetworkUIContext/NetworkUIContext'
 
 const NetworkGraph = () => {
-  const { colors, tableLoadState, fetchNetwork } = useNetwork()
-  const [network, setNetwork] = useState(null)
+  const { colors, tableLoadState, fetchNetwork, network } = useNetwork()
   const [node, setNode] = useState(null)
 
-  const fetchNetworkCb = useCallback(async () => {
-    const data = await fetchNetwork()
-    setNetwork(data)
+  useEffect(() => {
+    fetchNetwork()
   }, [fetchNetwork])
-
-  useEffect(function fetchNetworkOnMount() {
-    fetchNetworkCb()
-  }, [fetchNetworkCb])
 
   useEffect(function createNetworkFromData() {  
     if (!network || tableLoadState !== 'LOADED') return

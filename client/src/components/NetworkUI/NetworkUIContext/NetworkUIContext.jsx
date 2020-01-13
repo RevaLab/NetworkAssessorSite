@@ -57,7 +57,8 @@ class NetworkUIProvider extends React.Component {
     },
     colors: {
       0: 'turquoise'
-    }
+    },
+    network: null,
   }
 
   getColor = () => '#'+Math.floor(Math.random()*16777215).toString(16)
@@ -154,10 +155,12 @@ class NetworkUIProvider extends React.Component {
       genes: this.state.queryList.genes,
       selectedPathwayDatabase: 'my_cancer_genome',
       db: 'biogrid',
-      selectedPathways: []
+      selectedPathways: Object.entries(this.state.ui.selectedPathways).reduce((acc, [k, v]) => v ? [...acc, k] : acc, [])
     })
 
-    return data
+    this.setState({
+      network: data
+    })
   }
 
   async componentDidMount() {
